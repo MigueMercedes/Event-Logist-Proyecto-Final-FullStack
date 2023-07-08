@@ -1,56 +1,59 @@
 import User from "../models/User.js";
 import passport from "passport";
 
-export const renderSignUpForm = (req, res) => res.render("auth/signup");
+export const renderRegistrarForm = (req, res) => res.render("auth/registrar");
 
-export const signup = async (req, res) => {
-  let errors = [];
-  const { name, email, password, confirm_password } = req.body;
-  if (password !== confirm_password) {
-    errors.push({ text: "Passwords do not match." });
-  }
+export const registrar = async (req, res) => {
+    let errors = [];
+    const { name, email, password, confirm_password } = req.body;
 
-  if (password.length < 4) {
-    errors.push({ text: "Passwords must be at least 4 characters." });
-  }
+    if (name.trim() === '') {
+        errors.push({ text: 'El nombre es obligatorio.' });
+    }
 
-  if (errors.length > 0) {
-    return res.render("auth/signup", {
-      errors,
-      name,
-      email,
-      password,
-      confirm_password,
-    });
-  }
+    if (password !== confirm_password) {
+        errors.push({ text: "Las contraseñas no coinciden." });
+    }
 
-  // Look for email coincidence
-  const userFound = await User.findOne({ email: email });
-  if (userFound) {
-    req.flash("error_msg", "The Email is already in use.");
-    return res.redirect("/auth/signup");
-  }
+    if (password.length < 6) {
+        errors.push({ text: "La contraseña tiene que tener minimo 6 caracteres." });
+    }
 
-  // Saving a New User
-  const newUser = new User({ name, email, password });
-  newUser.password = await newUser.encryptPassword(password);
-  await newUser.save();
-  req.flash("success_msg", "You are registered.");
-  res.redirect("/auth/signin");
+    if (errors.length > 0) {
+        return res.render("auth/registrar", {
+            errors,
+            name,
+            email,
+        });
+    }
+
+    // Buscar el correo
+    const userFound = await User.findOne({ email: email });
+    if (userFound) {
+        req.flash("error_msg", "El correo ya esta en uso.");
+        return res.redirect("/auth/registrar");
+    }
+
+    // Guardamos el usuario
+    const newUser = new User({ name, email, password });
+    newUser.password = await newUser.encryptPassword(password);
+    await newUser.save();
+    req.flash("success_msg", "Tu cuenta ha sido Registrada correctamente, inicia ahora...");
+    res.redirect("/auth/acceder");
 };
 
-export const renderSigninForm = (req, res) => res.render("auth/signin");
+export const renderAccederForm = (req, res) => res.render("auth/acceder");
 
-export const signin = passport.authenticate("local", {
-  successRedirect: "/notes",
-  failureRedirect: "/auth/signin",
-  failureFlash: true,
+export const acceder = passport.authenticate("local", {
+    successRedirect: "/notes",
+    failureRedirect: "/auth/acceder",
+    failureFlash: true,
 });
 
-export const logout = async (req, res, next) => {
-  await req.logout((err) => {
-    if (err) return next(err);
-    req.flash("success_msg", "You are logged out now.");
-    res.redirect("/auth/signin");
-  });
+export const salir = async (req, res, next) => {
+    await req.logout((err) => {
+        if (err) return next(err);
+        req.flash("success_msg", "You are logged out now.");
+        res.redirect("/auth/acceder");
+    });
 };

@@ -1,7 +1,7 @@
 {
-  "name": "nodejs-notes-app",
+  "name": "proyecto-final-app",
   "version": "2.0.1",
-  "description": "Notes App",
+  "description": "Proyecto Final App",
   "main": "index.js",
   "type": "module",
   "scripts": {

@@ -1,23 +1,23 @@
 import { Router } from "express";
 import {
-  renderSignUpForm,
-  signup,
-  renderSigninForm,
-  signin,
-  logout,
+    renderRegistrarForm,
+    registrar,
+    renderAccederForm,
+    acceder,
+    salir,
 } from "../controllers/auth.controllers.js";
 
 const router = Router();
 
 // Routes
-router.get("/auth/signup", renderSignUpForm);
+router.get("/auth/registrar", renderRegistrarForm);
 
-router.post("/auth/signup", signup);
+router.post("/auth/registrar", registrar);
 
-router.get("/auth/signin", renderSigninForm);
+router.get("/auth/acceder", renderAccederForm);
 
-router.post("/auth/signin", signin);
+router.post("/auth/acceder", acceder);
 
-router.get("/auth/logout", logout);
+router.get("/auth/salir", salir);
 
 export default router;

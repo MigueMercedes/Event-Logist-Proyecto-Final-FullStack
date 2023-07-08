@@ -1,11 +1,45 @@
 body {
-  background: #121212;
+    background-image: radial-gradient(farthest-corner at 40px 40px, #f35 0%, #43e 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
-.logo {
-  width: 30%;
+.btn-bg {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background: linear-gradient(to right, #43e, #f35, #43e, #f35);
+    background-size: 150% auto;
+    transition: background-position 1s ease;
+    color: white;
+    border: none;
 }
 
-.bg-black {
-  background: #090909;
+.btn-bg:hover {
+    background-position: right center;
+    color: white;
+
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    background-color: #27b8e4;
+}
+
+.text-1 {
+    color: #A947F4;
+}
+
+.text-2 {
+    color: #27b8e4;
+}
+
+a:hover {
+    background-image: linear-gradient(to right, #00dbde, #fc00ff, #00dbde, #fc00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
