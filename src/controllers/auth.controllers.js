@@ -1,8 +1,9 @@
 import User from "../models/User.js";
 import passport from "passport";
 
-export const renderRegistrarForm = (req, res) => res.render("auth/registrar");
-
+export const renderRegistrarForm = (req, res) => {
+    res.render("auth/registrar", { page: 'Registrarse' });
+}
 export const registrar = async (req, res) => {
     let errors = [];
     const { name, email, password, confirm_password } = req.body;
@@ -42,7 +43,9 @@ export const registrar = async (req, res) => {
     res.redirect("/auth/acceder");
 };
 
-export const renderAccederForm = (req, res) => res.render("auth/acceder");
+export const renderAccederForm = (req, res) => {
+    res.render("auth/acceder", { page: 'Acceder' });
+}
 
 export const acceder = passport.authenticate("local", {
     successRedirect: "/notes",

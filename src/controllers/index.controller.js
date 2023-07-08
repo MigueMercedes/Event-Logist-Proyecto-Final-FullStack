@@ -1,7 +1,6 @@
 export const renderIndex = (req, res) => {
-  res.render("index");
+    res.render("index", {
+        page: 'Inicio'
+    });
 };
 
-export const renderAbout = (req, res) => {
-  res.render("about");
-};
