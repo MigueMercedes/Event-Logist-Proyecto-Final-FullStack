@@ -18,7 +18,6 @@ body {
 .btn-bg:hover {
     background-position: right center;
     color: white;
-
 }
 
 .form-group {
@@ -37,9 +36,3 @@ body {
     color: #27b8e4;
 }
 
-a:hover {
-    background-image: linear-gradient(to right, #00dbde, #fc00ff, #00dbde, #fc00ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
