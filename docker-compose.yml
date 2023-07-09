@@ -11,7 +11,7 @@ services:
     links:
       - mongo
     volumes:
-      - .:/usr/src/app
+      - .:/src/app
     environment:
       - MONGODB_URI=mongodb://mongo/eventlogist
       - PORT=4000

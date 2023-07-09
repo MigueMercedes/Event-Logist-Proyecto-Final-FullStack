@@ -1,7 +1,9 @@
 import Proveedor from "../models/Proveedor.js";
 
 export const renderProveedorForm = (req, res) => {
-    res.render("proveedores/new-proveedor", { page: 'Nuevo Proveedor' });
+    res.render("proveedores/new-proveedor", {
+        page: 'Nuevo Proveedor'
+    });
 }
 
 export const createNewProveedor = async (req, res) => {
@@ -13,12 +15,15 @@ export const createNewProveedor = async (req, res) => {
     if (!description) {
         errors.push({ text: "Please Write a Description" });
     }
-    if (errors.length > 0)
+    if (errors.length > 0) {
         return res.render("proveedores/new-proveedor", {
             errors,
             title,
             description,
+            page: 'Error al agregar'
         });
+    }
+
 
     const newProveedor = new Proveedor({ title, description });
     newProveedor.user = req.user.id;
@@ -28,10 +33,15 @@ export const createNewProveedor = async (req, res) => {
 };
 
 export const renderProveedores = async (req, res) => {
+    const username = req.user.name;
     const proveedores = await Proveedor.find({ user: req.user.id })
         .sort({ date: "desc" })
         .lean();
-    res.render("proveedores/all-proveedores", { proveedores });
+    res.render("proveedores/all-proveedores", {
+        proveedores,
+        page: 'Proveedores',
+        username
+    });
 };
 
 export const renderEditForm = async (req, res) => {
@@ -40,11 +50,31 @@ export const renderEditForm = async (req, res) => {
         req.flash("error_msg", "Not Authorized");
         return res.redirect("/proveedores");
     }
-    res.render("proveedores/edit-proveedor", { proveedor });
+
+    res.render("proveedores/edit-proveedor", {
+        proveedor,
+        page: 'Editar proveedor'
+    });
 };
 
 export const updateProveedor = async (req, res) => {
     const { title, description } = req.body;
+    const errors = [];
+
+    if (!title) {
+        errors.push({ text: "Please Write a Title." });
+    }
+    if (!description) {
+        errors.push({ text: "Please Write a Description" });
+    }
+    if (errors.length > 0) {
+        return res.render("proveedores/edit-proveedor", {
+            errors,
+            title,
+            description,
+            page: 'Error al editar'
+        });
+    }
 
     await Proveedor.findByIdAndUpdate(req.params.id, { title, description });
     req.flash("success_msg", "Proveedor Updated Successfully");

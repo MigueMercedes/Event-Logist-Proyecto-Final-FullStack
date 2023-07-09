@@ -12,17 +12,17 @@ import { isAuthenticated } from "../helpers/auth.js";
 const router = Router();
 
 // New Proveedor
-router.get("/Proveedores/add", isAuthenticated, renderProveedorForm);
+router.get("/proveedores/add", isAuthenticated, renderProveedorForm);
 
-router.post("/Proveedores/new-Proveedor", isAuthenticated, createNewProveedor);
+router.post("/proveedores/new-Proveedor", isAuthenticated, createNewProveedor);
 
 // Get All Proveedores
-router.get("/Proveedores", isAuthenticated, renderProveedores);
+router.get("/proveedores", isAuthenticated, renderProveedores);
 
 // Edit Proveedor
-router.get("/Proveedores/edit/:id", isAuthenticated, renderEditForm);
+router.get("/proveedores/edit/:id", isAuthenticated, renderEditForm);
 
-router.put("/Proveedores/edit-Proveedor/:id", isAuthenticated, updateProveedor);
+router.put("/proveedores/edit-Proveedor/:id", isAuthenticated, updateProveedor);
 
 // Delete Proveedor
 router.delete("/Proveedores/delete/:id", isAuthenticated, deleteProveedor);

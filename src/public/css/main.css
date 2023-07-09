@@ -4,6 +4,16 @@ body {
     background-attachment: fixed;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+}
+
 .btn-bg {
     width: 100%;
     padding: 10px;
@@ -28,6 +38,10 @@ body {
     background-color: #27b8e4;
 }
 
+.text-primary {
+    color: #27b8e4 !important;
+}
+
 .text-1 {
     color: #A947F4;
 }
@@ -35,4 +49,3 @@ body {
 .text-2 {
     color: #27b8e4;
 }
-
