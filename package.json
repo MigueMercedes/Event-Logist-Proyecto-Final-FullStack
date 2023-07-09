@@ -1,7 +1,7 @@
 {
-  "name": "proyecto-final-app",
+  "name": "event-logist",
   "version": "2.0.1",
-  "description": "Proyecto Final App",
+  "description": "Event Logist - Proyecto Final",
   "main": "index.js",
   "type": "module",
   "scripts": {

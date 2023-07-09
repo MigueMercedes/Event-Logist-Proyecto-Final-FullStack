@@ -48,7 +48,7 @@ export const renderAccederForm = (req, res) => {
 }
 
 export const acceder = passport.authenticate("local", {
-    successRedirect: "/notes",
+    successRedirect: "/proveedores",
     failureRedirect: "/auth/acceder",
     failureFlash: true,
 });

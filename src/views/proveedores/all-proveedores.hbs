@@ -1,14 +1,14 @@
 <div class="row">
-  {{#each notes}}
+  {{#each proveedores}}
   <div class="col-md-3">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title d-flex justify-content-between align-items-center">
-          {{ title }} <a href="/notes/edit/{{_id}}"><i class="fas fa-edit"></i></a>
+          {{ title }} <a href="/proveedores/edit/{{_id}}"><i class="fas fa-edit"></i></a>
         </h4>
         <p>{{ description }} </p>
         <!-- DELETE REQUEST -->
-        <form action="/notes/delete/{{_id}}?_method=DELETE" method="POST">
+        <form action="/proveedores/delete/{{_id}}?_method=DELETE" method="POST">
           <input type="hidden" name="_method" value="DELETE">
           <button type="submit" class="btn btn-danger btn-block btn-sm">Delete</button>
         </form>
@@ -19,8 +19,8 @@
   <div class="card mx-auto">
     <div class="card-body">
       <h1>Hello {{user.name}}</h1>
-      <p clsss="lead">There are not Notes yet.</p>
-      <a href="/notes/add" class="btn btn-success btn-block">Create One!</a>
+      <p clsss="lead">There are not Proveedores yet.</p>
+      <a href="/proveedores/add" class="btn btn-success btn-block">Create One!</a>
     </div>
   </div>
   {{/each}}

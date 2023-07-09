@@ -12,7 +12,7 @@ import { fileURLToPath } from "url";
 import { MONGODB_URI, PORT } from "./config.js";
 
 import indexRoutes from "./routes/index.routes.js";
-import notesRoutes from "./routes/notes.routes.js";
+import proveedoresRoutes from "./routes/proveedores.routes.js";
 import userRoutes from "./routes/auth.routes.js";
 import "./config/passport.js";
 
@@ -63,7 +63,7 @@ app.use((req, res, next) => {
 // routes
 app.use(indexRoutes);
 app.use(userRoutes);
-app.use(notesRoutes);
+app.use(proveedoresRoutes);
 
 // static files
 app.use(express.static(join(__dirname, "public")));

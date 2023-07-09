@@ -4,5 +4,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const currentYear = () => {
     const copyright = document.querySelector('#currentYear');
-    copyright.textContent = `${new Date().getFullYear()} | Proyecto Final.`
+    copyright.textContent = `${new Date().getFullYear()} | Event Logist.`
 }
