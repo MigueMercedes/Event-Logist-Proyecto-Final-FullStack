@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark p-2 bg-black">
     <div class="container justify-content-center">
-        <a class="navbar-brand fs-5 fw-bold" href="/"><img src="/img/logo.png" alt="Event Logo" width="60"
-                loading='lazy' class="img-fluid me-4">{{siteName}}</a>
+        <a class="navbar-brand fs-2 fw-bold text-uppercase" {{#if user}}href="" {{else}}href="/" {{/if}}>
+            <img src="/img/logo.png" alt="Event Logo" width="60" loading='lazy' class="img-fluid me-4">{{siteName}}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

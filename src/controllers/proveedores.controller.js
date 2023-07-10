@@ -7,28 +7,36 @@ export const renderProveedorForm = (req, res) => {
 }
 
 export const createNewProveedor = async (req, res) => {
-    const { title, description } = req.body;
+    const { name, category, email, address, phone, description } = req.body;
     const errors = [];
-    if (!title) {
-        errors.push({ text: "Please Write a Title." });
+
+    if (!name.trim()) {
+        errors.push({ text: "Por favor escribe un nombre." });
     }
-    if (!description) {
-        errors.push({ text: "Please Write a Description" });
+
+    if (!category.trim()) {
+        errors.push({ text: "Por seleciona una categoria." });
     }
+
     if (errors.length > 0) {
         return res.render("proveedores/new-proveedor", {
             errors,
-            title,
+            name,
+            category,
+            email,
+            address,
+            phone,
             description,
             page: 'Error al agregar'
         });
     }
 
-
-    const newProveedor = new Proveedor({ title, description });
+    const newProveedor = new Proveedor({
+        name, category, email, address, phone, description
+    });
     newProveedor.user = req.user.id;
     await newProveedor.save();
-    req.flash("success_msg", "Proveedor Added Successfully");
+    req.flash("success_msg", "Proveedor Agregado Correctamente.");
     res.redirect("/proveedores");
 };
 
@@ -46,8 +54,9 @@ export const renderProveedores = async (req, res) => {
 
 export const renderEditForm = async (req, res) => {
     const proveedor = await Proveedor.findById(req.params.id).lean();
+
     if (proveedor.user != req.user.id) {
-        req.flash("error_msg", "Not Authorized");
+        req.flash("error_msg", "Error al cargar la pagina.");
         return res.redirect("/proveedores");
     }
 
@@ -58,31 +67,17 @@ export const renderEditForm = async (req, res) => {
 };
 
 export const updateProveedor = async (req, res) => {
-    const { title, description } = req.body;
-    const errors = [];
+    const { name, category, email, address, phone, description } = req.body;
 
-    if (!title) {
-        errors.push({ text: "Please Write a Title." });
-    }
-    if (!description) {
-        errors.push({ text: "Please Write a Description" });
-    }
-    if (errors.length > 0) {
-        return res.render("proveedores/edit-proveedor", {
-            errors,
-            title,
-            description,
-            page: 'Error al editar'
-        });
-    }
-
-    await Proveedor.findByIdAndUpdate(req.params.id, { title, description });
-    req.flash("success_msg", "Proveedor Updated Successfully");
+    await Proveedor.findByIdAndUpdate(req.params.id, {
+        name, category, email, address, phone, description
+    });
+    req.flash("success_msg", "Proveedor Actualizado Correctamente.");
     res.redirect("/proveedores");
 };
 
 export const deleteProveedor = async (req, res) => {
     await Proveedor.findByIdAndDelete(req.params.id);
-    req.flash("success_msg", "Proveedor Deleted Successfully");
+    req.flash("success_msg", "Proveedor Eliminado Correctamente.");
     res.redirect("/proveedores");
 };

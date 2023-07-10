@@ -6,17 +6,33 @@
         <div class="card-body">
             <form action="/proveedores/edit-proveedor/{{proveedor._id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT" />
+
                 <div class="mb-3">
-                    <label for="title">Title:</label>
-                    <input type="text" name="title" class="form-control" placeholder="Title" value="{{proveedor.title}}" />
+                    <label class="form-label" for="name">Nombre:</label>
+                    <input type="text" name="name" class="form-control" value="{{proveedor.name}}" />
                 </div>
                 <div class="mb-3">
-                    <label for="description">Description:</label>
-                    <textarea name="description" class="form-control"
-                        placeholder="Description">{{proveedor.description}}</textarea>
+                    <label for="category">Categoria:</label>
+                    <input type="text" name="category" class="form-control" value="{{proveedor.category}}" />
+                </div>
+                <div class="mb-3">
+                    <label for="phone">Telefono:</label>
+                    <input type="text" name="phone" class="form-control" value="{{proveedor.phone}}" />
+                </div>
+                <div class="mb-3">
+                    <label for="address">Direccion:</label>
+                    <input type="text" name="address" class="form-control" value="{{proveedor.address}}" />
+                </div>
+                <div class="mb-3">
+                    <label for="email">Correo:</label>
+                    <input type="email" name="email" class="form-control" value="{{proveedor.email}}" />
+                </div>
+                <div class="mb-3">
+                    <label for="description">Descripcion:</label>
+                    <textarea name="description" class="form-control">{{proveedor.description}}</textarea>
                 </div>
                 <button class="btn btn-primary w-100 fw-bold" type="submit">
-                    Guardar
+                    Confirmar
                 </button>
             </form>
         </div>

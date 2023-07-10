@@ -1,25 +1,52 @@
 <div class="row">
-    {{#each proveedores}}
     <div class="d-flex flex-row justify-content-center">
         <a href="/proveedores/add" class="btn btn-primary p-4 text-light fw-bold fs-4 rounded">Agregar proveedor</a>
     </div>
+
+    <div class="d-flex align-items-center justify-content-center mt-4 gap-1">
+
+        <form class="col-8">
+            <input type="search" id="searchProveedor" class="p-2 form-control border-0" placeholder="Buscar">
+        </form>
+
+        <select id="SelectCategoria" class="col-4 col-md-2 p-2 ">
+            <option value="#">Categoria</option>
+            <option value="#">Sonido</option>
+            <option value="#">Pantallas</option>
+            <option value="#">Decoración</option>
+        </select>
+    </div>
+
+
+    {{#each proveedores}}
     <div class="col-md-4 mt-4">
         <div class="card">
-            <div class="card-header d-flex flex-row py-3 align-items-center justify-content-between">
-                <h4 class="text-capitalize">{{ title }}</h4>
+            <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                <div>
+                    <h5 class="text-capitalize fw-bold">{{ name }}</h5>
+                    <h6 class="text-capitalize">{{ category }}</h6>
+                </div>
                 <a class="text-primary" href="/proveedores/edit/{{_id}}"><i class="fas fa-edit fa-2x"></i></a>
             </div>
             <div class="card-body">
-                <p>{{ description }} </p>
-                <p>{{ description }} </p>
-                <p>{{ description }} </p>
-                <p>{{ description }} </p>
-                <p>{{ description }} </p>
-                <p>{{ description }} </p>
+                <p class="me-2 fw-bold ">Detalles:</h5>
+                <div class="mt-1">
+                    <i class="fa fa-phone fa-flip-horizontal me-2" aria-hidden="true"></i>{{ phone }}
+                </div>
+                <div class="mt-1">
+                    <i class="fa fa-address-book me-2" aria-hidden="true"></i>{{ address }}
+                </div>
+                <div class="mt-1">
+                    <i class="fa fa-envelope me-2" aria-hidden="true"></i>{{ email }}
+                </div>
+                <div class="my-2">
+                    <i class="fa-solid fa-memo "></i>{{ description }}
+                </div>
                 <!-- DELETE REQUEST -->
                 <form action="/proveedores/delete/{{_id}}?_method=DELETE" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
-                    <div class="d-grid mx-4">
+
+                    <div class="d-grid ">
                         <button type="submit" class="btn btn-danger rounded fw-bold">Eliminar</button>
                     </div>
                 </form>
