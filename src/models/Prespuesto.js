@@ -24,8 +24,7 @@ const billingDetails = new mongoose.Schema({
     amount: {
         type: String,
         required: false,
-    },
-    // Agrega más subcampos según tus necesidades
+    }
 });
 
 const PresupuestoSchema = new mongoose.Schema(
