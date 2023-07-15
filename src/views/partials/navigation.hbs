@@ -10,20 +10,24 @@
             <ul class="navbar-nav ms-auto text-center text-uppercase">
                 {{#if user}}
                 <li class="nav-item">
-                    <a class="nav-link p-2 fs-5 fw-bold " href="/proveedores">Proveedores</a>
+                    <a class="nav-link p-2 fs-5 fw-bold {{#if isProveedores}} active {{/if}}"
+                        href="/proveedores">Proveedores</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link p-2 fs-5 fw-bold" href="#">Presupuesto</a>
+                    <a class="nav-link p-2 fs-5 fw-bold {{#if isPresupuesto}} active {{/if}}"
+                        href="/presupuesto">Presupuesto</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link p-2 fs-5 fw-bold" href="/auth/salir">Salir</a>
                 </li>
                 {{else}}
                 <li class="nav-item">
-                    <a class="nav-link p-2 fs-5 fw-bold" href="/auth/acceder">Acceder</a>
+                    <a class="nav-link p-2 fs-5 fw-bold {{#if isAcceder}} active {{/if}}"
+                        href="/auth/acceder">Acceder</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link p-2 fs-5 fw-bold" href="/auth/registrar">Registrarse</a>
+                    <a class="nav-link p-2 fs-5 fw-bold {{#if isRegistrar}} active {{/if}}"
+                        href="/auth/registrar">Registrarse</a>
                 </li>
                 {{/if}}
             </ul>

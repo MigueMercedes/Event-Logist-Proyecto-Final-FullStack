@@ -1,0 +1,178 @@
+<div class="row">
+    <div class="bg-light border border-secondary p-0">
+        <div>
+            <h1 class="text-center bg-dark text-light py-2">Presupuesto de la
+                Actividad</h1>
+            <p class="fs-4 lead border border border-2 py-2 ps-4">Editar presupuesto:</p>
+        </div>
+
+        <div class="mt-3">
+            <form action="/presupuesto/edit-presupuesto/{{presupuesto._id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT" />
+                <div class="d-flex flex-wrap justify-content-between mx-5">
+                    <div>
+                        <div class="form-group">
+                            <label for="nameActivity">Nombre de la actividad</label>
+                            <input type="text" class="form-control" name="nameActivity"
+                                value="{{presupuesto.nameActivity}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="typeActivity">Tipo de actividad</label>
+                            <select class="form-select" name="typeActivity">
+                                <option value="{{presupuesto.typeActivity}}">
+                                    {{presupuesto.typeActivity}}</option>
+                                <option value="No definido">Seleciona un tipo</option>
+                                <option value="Cumpleaños">Cumpleaños</option>
+                                <option value="Graduacion">Graduacion</option>
+                                <option value="Boda">Boda</option>
+                                <option value="Baby Shower">Baby Shower</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nameClient">Cliente</label>
+                            <input type="text" class="form-control" name="nameClient"
+                                value="{{presupuesto.nameClient}}" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="form-group">
+                            <label for="phone">Telefono</label>
+                            <input type="tel" class="form-control" name="phone" value="{{presupuesto.phone}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo</label>
+                            <input type="email" class="form-control" name="email" placeholder="ejemplo@ejemplo.com"
+                                value="{{presupuesto.email}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Ubicacion</label>
+                            <input type="text" class="form-control" name="location" value="{{presupuesto.location}}" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="form-group">
+                            <label for="dateActivity">Dia de la actividad</label>
+                            <input type="date" class="form-control" name="dateActivity"
+                                value="{{presupuesto.dateActivity}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="timeActivity">Hora de la actividad</label>
+                            <input type="time" class="form-control" name="timeActivity"
+                                value="{{presupuesto.timeActivity}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="descriptionActivity">Descripcion</label>
+                            <input type="text" class="form-control" name="descriptionActivity"
+                                value="{{presupuesto.descriptionActivity}}" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="form-group">
+                            <label for="status">Estado del presupuesto</label>
+                            <select class="form-select" name="status">
+                                <option value="{{presupuesto.status}}">{{presupuesto.status}}
+                                </option>
+                                <option value="No definido" selected>Seleciona un estado</option>
+                                <option value="Aceptado">Aceptado</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Rechazado">Rechazado</option>
+                                <option value="Completado">Completado</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="statusPaid">Estado de pago</label>
+                            <select class="form-select" name="statusPaid">
+                                <option value="{{presupuesto.statusPaid}}">
+                                    {{presupuesto.statusPaid}}</option>
+                                <option value="" selected>Seleciona un estado</option>
+                                <option value="pendiente">Pagado</option>
+                                <option value="pendiente">pendiente</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="createdBy">Creado por</label>
+                            <input type="text" class="form-control" name="createdBy"
+                                value="{{presupuesto.createdBy}}" />
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <p class="fs-5 lead border-bottom border-2 ps-4">Facturacion de
+                            presupuesto:
+                        </p>
+                    </div>
+
+                    <div class="container-fluid table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tipo</th>
+                                    <th>Articulo</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>ITBIS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="DinamicTableRow">
+                                <tr>
+                                    <th>1</th>
+                                    <td>
+                                        <select class="form-select" name="typeArticle[]">
+                                            <option value="equipo">Equipo</option>
+                                            <option value="decoracion">Decoracion</option>
+                                            <option value="comida">Comida</option>
+                                            <option value="personal">Personal</option>
+                                            <option value="otro">Otro</option>
+                                        </select>
+                                    </td>
+                                    <td><input class="form-control" type="text" name="article[]"
+                                            placeholder="Bocinas" />
+                                    </td>
+                                    <td><input class="form-control" type="text" name="totalArticle[]" placeholder="0" />
+                                    </td>
+                                    <td><input class="form-control" type="text" name="price[]" placeholder="0" /></td>
+                                    <td><input class="form-control" type="text" name="itbis[]" placeholder="0" /></td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mb-5 mx-5 row justify-content-end">
+                    <div>
+                        <button class="btn btn-success" id="btnNewRow">
+                            <i class="fa fa-plus p-1"></i>
+                            Agregar
+                        </button>
+                    </div>
+
+                    <div class="col-auto text-end p-0 me-2">
+                        <label class="form-label" for="amount">Costo Total:</label>
+                        <input class="form-control" type="text" name="amount" id="amount" size="20px" value="0"
+                            readonly />
+                    </div>
+
+                    <div class="col-auto text-end p-0">
+                        <label class="form-label" for="itbis">ITBIS:</label>
+                        <input class="form-control" type="text" name="itbis" id="itbis" size="20px" value="0"
+                            readonly />
+                    </div>
+
+                    <div class="col-12 text-end mt-3 p-0">
+                        <button class="btn btn-primary fw-bold py-2" type="submit">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

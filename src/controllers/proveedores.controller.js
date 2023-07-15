@@ -1,8 +1,23 @@
 import Proveedor from "../models/Proveedor.js";
 
+export const renderProveedores = async (req, res) => {
+    const username = req.user.name.split(' ', 1);
+
+    const proveedores = await Proveedor.find({ user: req.user.id })
+        .sort({ updatedAt: "desc" }).lean();
+
+    res.render("proveedores/all-proveedores", {
+        proveedores,
+        page: 'Proveedores',
+        username,
+        isProveedores: true
+    });
+};
+
 export const renderProveedorForm = (req, res) => {
     res.render("proveedores/new-proveedor", {
-        page: 'Nuevo Proveedor'
+        page: 'Nuevo Proveedor',
+        isProveedores: true
     });
 }
 
@@ -40,18 +55,6 @@ export const createNewProveedor = async (req, res) => {
     res.redirect("/proveedores");
 };
 
-export const renderProveedores = async (req, res) => {
-    const username = req.user.name;
-    const proveedores = await Proveedor.find({ user: req.user.id })
-        .sort({ date: "desc" })
-        .lean();
-    res.render("proveedores/all-proveedores", {
-        proveedores,
-        page: 'Proveedores',
-        username
-    });
-};
-
 export const renderEditForm = async (req, res) => {
     const proveedor = await Proveedor.findById(req.params.id).lean();
 
@@ -62,7 +65,8 @@ export const renderEditForm = async (req, res) => {
 
     res.render("proveedores/edit-proveedor", {
         proveedor,
-        page: 'Editar proveedor'
+        page: 'Editar proveedor',
+        isProveedores: true
     });
 };
 

@@ -2,7 +2,10 @@ import User from "../models/User.js";
 import passport from "passport";
 
 export const renderRegistrarForm = (req, res) => {
-    res.render("auth/registrar", { page: 'Registrarse' });
+    res.render("auth/registrar", {
+        page: 'Registrarse',
+        isRegistrar: true
+    });
 }
 export const registrar = async (req, res) => {
     let errors = [];
@@ -44,7 +47,10 @@ export const registrar = async (req, res) => {
 };
 
 export const renderAccederForm = (req, res) => {
-    res.render("auth/acceder", { page: 'Acceder' });
+    res.render("auth/acceder", {
+        page: 'Acceder',
+        isAcceder: true
+    });
 }
 
 export const acceder = passport.authenticate("local", {

@@ -12,8 +12,9 @@ import { fileURLToPath } from "url";
 import { MONGODB_URI, PORT } from "./config.js";
 
 import indexRoutes from "./routes/index.routes.js";
-import proveedoresRoutes from "./routes/proveedores.routes.js";
 import userRoutes from "./routes/auth.routes.js";
+import proveedoresRoutes from "./routes/proveedores.routes.js";
+import presupuestoRoutes from "./routes/presupuesto.routes.js";
 import "./config/passport.js";
 
 // Initializations
@@ -64,7 +65,7 @@ app.use((req, res, next) => {
 app.use(indexRoutes);
 app.use(userRoutes);
 app.use(proveedoresRoutes);
-
+app.use(presupuestoRoutes);
 // static files
 app.use(express.static(join(__dirname, "public")));
 

@@ -1,4 +1,5 @@
 <div class="row">
+    {{#if proveedores}}
     <div class="d-flex flex-row justify-content-center">
         <a href="/proveedores/add" class="btn btn-primary p-4 text-light fw-bold fs-4 rounded">Agregar proveedor</a>
     </div>
@@ -16,8 +17,6 @@
             <option value="#">Decoración</option>
         </select>
     </div>
-
-
     {{#each proveedores}}
     <div class="col-md-4 mt-4">
         <div class="card">
@@ -53,16 +52,16 @@
             </div>
         </div>
     </div>
+    {{/each}}
+
     {{else}}
-    <div class="col-8 card my-5 py-5 mx-auto">
+    <div class="col card my-5 py-5 mx-auto bg-dark">
         <div class="card-body text-center">
-            <h1 class="display-3 fw-bold text-capitalize">Bienvenid@ {{username}}</h1>
-            <p class="lead fs-3">Aun no tienes proveedores.</p>
-            <div class="d-flex flex-row justify-content-center">
-                <a href="/proveedores/add" class="btn btn-primary p-4 text-light fw-bold fs-4 rounded">Agrega uno
-                    ahora!</a>
-            </div>
+            <h1 class="display-3 fw-bold text-capitalize text-light">Hola {{username}}</h1>
+            <p class="lead fs-3 text-light">Aun no tienes proveedores.</p>
+            <a href="/proveedores/add" class="btn btn-primary p-4 text-light fw-bold fs-4 rounded">Agrega uno
+                ahora!</a>
         </div>
     </div>
-    {{/each}}
+    {{/if}}
 </div>
