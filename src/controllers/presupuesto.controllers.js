@@ -31,8 +31,9 @@ export const renderPresupuestoForm = async (req, res) => {
 
 
 export const createNewPresupuesto = async (req, res) => {
-    const { nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity, dateActivity,
-        timeActivity, createdBy, statusPaid, status, amount } = req.body;
+    const { nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
+        dateActivity, timeActivity, createdBy, statusPaid, status, typeArticle, article, totalArticle, price, amount
+    } = req.body;
 
     const errors = [];
 
@@ -40,17 +41,19 @@ export const createNewPresupuesto = async (req, res) => {
         errors.push({ text: "Por favor escribe un nombre." });
     }
 
+    /*
     if (errors.length > 0) {
         return res.render("presupuesto/new-presupuesto", {
             errors, nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-            dateActivity, timeActivity, createdBy, statusPaid, status, amount,
+            dateActivity, timeActivity, createdBy, statusPaid, status, typeArticle, article, totalArticle, price, amount,
             page: 'Error al agregar'
         });
     }
+    */
 
     const newPresupuesto = new Presupuesto({
         nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-        dateActivity, timeActivity, createdBy, statusPaid, status, amount,
+        dateActivity, timeActivity, createdBy, statusPaid, status, typeArticle, article, totalArticle, price, amount
     });
 
     newPresupuesto.user = req.user.id;

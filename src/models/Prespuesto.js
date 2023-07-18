@@ -5,7 +5,7 @@ const billingDetails = new mongoose.Schema({
         type: String,
         required: false,
     },
-    article: {
+    nameArticle: {
         type: String,
         required: false,
     },

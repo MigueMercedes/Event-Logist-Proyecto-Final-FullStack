@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <label for="typeActivity">Tipo de actividad</label>
                             <select class="form-select" name="typeActivity">
-                                <option value="No definido" selected>Seleciona un tipo</option>
+                                <option value="Indefinido" selected>Seleciona un tipo</option>
                                 <option value="Cumpleaños">Cumpleaños</option>
                                 <option value="Graduacion">Graduacion</option>
                                 <option value="Boda">Boda</option>
@@ -60,9 +60,9 @@
                         <div class="form-group">
                             <label for="status">Estado del presupuesto</label>
                             <select class="form-select" name="status">
-                                <option value="" selected>Seleciona un estado</option>
+                                <option value="Indefinido" selected>Seleciona un estado</option>
                                 <option value="Aceptado">Aceptado</option>
-                                <option value="Pendiente">Pendiente</option>
+                                <option value="Editando">Editando</option>
                                 <option value="Rechazado">Rechazado</option>
                                 <option value="Completado">Completado</option>
                             </select>
@@ -70,9 +70,9 @@
                         <div class="form-group">
                             <label for="statusPaid">Estado de pago</label>
                             <select class="form-select" name="statusPaid">
-                                <option value="" selected>Seleciona un estado</option>
-                                <option value="pendiente">Pagado</option>
-                                <option value="pendiente">pendiente</option>
+                                <option value="Indefinido" selected>Seleciona un estado</option>
+                                <option value="Pagado">Pagado</option>
+                                <option value="Pendiente">Pendiente</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -98,9 +98,10 @@
                             </thead>
                             <tbody id="DinamicTableRow">
                                 <tr>
-                                    <th>1</th>
+                                    <th id="row-1">1</th>
                                     <td>
                                         <select class="form-select" name="typeArticle[]">
+                                            <option value="Indefinido">Selecciona un tipo</option>
                                             <option value="equipo">Equipo</option>
                                             <option value="decoracion">Decoracion</option>
                                             <option value="comida">Comida</option>
@@ -109,17 +110,19 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <input class="form-control" type="text" name="article[]"
+                                        <input class="form-control" type="text" name="nameArticle[]"
                                             placeholder="Bocinas" />
                                     </td>
                                     <td>
-                                        <input class="form-control" type="text" name="totalArticle[]" placeholder="0" />
+                                        <input class="form-control totalArticle" type="number" name="totalArticle[]"
+                                            value="0" />
                                     </td>
                                     <td>
-                                        <input class="form-control" type="text" name="price[]" placeholder="0" />
+                                        <input class="form-control price" type="number" name="price[]" value="0" />
                                     </td>
                                     <td>
-                                        <input class="form-control" type="text" name="itbis[]" placeholder="0" />
+                                        <input class="form-control itbis" type="number" name="itbis[]" value="0"
+                                            readonly />
                                     </td>
                                 </tr>
                             </tbody>
@@ -135,13 +138,12 @@
                     </div>
                     <div class="col-auto text-end p-0 me-2">
                         <label class="form-label" for="amount">Costo Total:</label>
-                        <input class="form-control" type="text" name="amount" id="amount" size="20px" value="0"
+                        <input class="form-control" type="text" name="amount" id="amount" size="20px" value=0
                             readonly />
                     </div>
                     <div class="col-auto text-end p-0">
                         <label class="form-label" for="itbis">ITBIS:</label>
-                        <input class="form-control" type="text" name="itbis" id="itbis" size="20px" value="0"
-                            readonly />
+                        <input class="form-control" type="text" name="itbis" id="itbis" size="20px" value=0 readonly />
                     </div>
                     <div class="col-12 text-end mt-3 p-0">
                         <button class="btn btn-primary fw-bold py-2" type="submit">
