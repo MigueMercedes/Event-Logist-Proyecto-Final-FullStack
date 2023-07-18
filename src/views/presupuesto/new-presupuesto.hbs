@@ -1,3 +1,167 @@
+{{#if errors}}
+<div class="row">
+    <div class="bg-light border border-secondary p-0">
+        <div>
+            <h1 class="text-center bg-dark text-light py-2">Presupuesto de la Actividad</h1>
+            <p class="fs-4 lead border border border-2 py-2 ps-4">Registrar presupuesto:</p>
+        </div>
+        <div class="mt-3">
+            <form action="/presupuesto/new-presupuesto" method="POST">
+                <div class="d-flex flex-wrap justify-content-between mx-5">
+                    <div>
+                        <div class="form-group">
+                            <label for="nameActivity">Nombre de la actividad</label>
+                            <input type="text" class="form-control" name="nameActivity" value="{{nameActivity}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="typeActivity">Tipo de actividad</label>
+                            <select class="form-select" name="typeActivity">
+                                <option value="{{typeActivity}}" selected>{{typeActivity}}</option>
+                                <option value="Cumpleaños">Cumpleaños</option>
+                                <option value="Graduacion">Graduacion</option>
+                                <option value="Boda">Boda</option>
+                                <option value="Baby Shower">Baby Shower</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nameClient">Cliente</label>
+                            <input type="text" class="form-control" name="nameClient" value="{{nameClient}}" />
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="phone">Telefono</label>
+                            <input type="tel" class="form-control" name="phone" value="{{phone}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo</label>
+                            <input type="email" class="form-control" name="email" placeholder="ejemplo@ejemplo.com"
+                                value="{{email}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Ubicacion</label>
+                            <input type="text" class="form-control" name="location" value="{{location}}" />
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="dateActivity">Dia de la actividad</label>
+                            <input type="date" class="form-control" name="dateActivity" value="{{dateActivity}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="timeActivity">Hora de la actividad</label>
+                            <input type="time" class="form-control" name="timeActivity" value="{{timeActivity}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="descriptionActivity">Descripcion</label>
+                            <input type="text" class="form-control" name="descriptionActivity"
+                                value="{{descriptionActivity}}" />
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="status">Estado del presupuesto</label>
+                            <select class="form-select" name="status">
+                                <option value="{{status}}" selected>{{status}}</option>
+                                <option value="Aceptado">Aceptado</option>
+                                <option value="Editando">Editando</option>
+                                <option value="Rechazado">Rechazado</option>
+                                <option value="Completado">Completado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="statusPaid">Estado de pago</label>
+                            <select class="form-select" name="statusPaid">
+                                <option value="{{statusPaid}}" selected>{{statusPaid}}</option>
+                                <option value="Pagado">Pagado</option>
+                                <option value="Pendiente">Pendiente</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="createdBy">Creado por</label>
+                            <input type="text" class="form-control" name="createdBy" value="{{createdBy}}" />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <p class="fs-5 lead border-bottom border-2 ps-4">Facturacion del
+                            presupuesto:</p>
+                    </div>
+                    <div class="container-fluid table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tipo</th>`
+                                    <th>Articulo</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>ITBIS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="DinamicTableRow">
+                                <tr>
+                                    <th id="row-{{@index}}">{{@index}}</th>
+                                    <td>
+                                        <select class="form-select" name="typeArticle[]">
+                                            <option value="{{this}}" selected>{{this}}
+                                            </option>
+                                            <option value="equipo">Equipo</option>
+                                            <option value="decoracion">Decoracion</option>
+                                            <option value="comida">Comida</option>
+                                            <option value="personal">Personal</option>
+                                            <option value="otro">Otro</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" type="text" name="nameArticle[]"
+                                            placeholder="Bocinas" value="{{lookup ../billing @index}}" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control totalArticle" type="number" name="totalArticle[]"
+                                            value="" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control price" type="number" name="price[]" value="" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control itbis" type="number" name="itbis[]" value=""
+                                            readonly />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mb-5 mx-5 row justify-content-end">
+                    <div>
+                        <button class="btn btn-success" id="btnNewRow">
+                            <i class="fa fa-plus p-1"></i>
+                            Agregar
+                        </button>
+                    </div>
+                    <div class="col-auto text-end p-0 me-2">
+                        <label class="form-label" for="totalPrice">Costo Total:</label>
+                        <input class="form-control" type="text" name="totalPrice" id="totalPrice" size="20px" value=0
+                            readonly />
+                    </div>
+                    <div class="col-auto text-end p-0">
+                        <label class="form-label" for="totalItbis">Total Itbis:</label>
+                        <input class="form-control" type="text" name="totalItbis" id="totalItbis" size="20px" value=0
+                            readonly />
+                    </div>
+                    <div class="col-12 text-end mt-3 p-0">
+                        <button class="btn btn-primary fw-bold py-2" type="submit">
+                            Crear presupuesto
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{else}}
 <div class="row">
     <div class="bg-light border border-secondary p-0">
         <div>
@@ -118,10 +282,10 @@
                                             value="0" />
                                     </td>
                                     <td>
-                                        <input class="form-control price" type="number" name="price[]" value="0" />
+                                        <input class="form-control price" type="number" name="price[]" value="0.00" />
                                     </td>
                                     <td>
-                                        <input class="form-control itbis" type="number" name="itbis[]" value="0"
+                                        <input class="form-control itbis" type="number" name="itbis[]" value="0.00"
                                             readonly />
                                     </td>
                                 </tr>
@@ -137,13 +301,14 @@
                         </button>
                     </div>
                     <div class="col-auto text-end p-0 me-2">
-                        <label class="form-label" for="amount">Costo Total:</label>
-                        <input class="form-control" type="text" name="amount" id="amount" size="20px" value=0
+                        <label class="form-label" for="totalPrice">Costo Total:</label>
+                        <input class="form-control" type="text" name="totalPrice" id="totalPrice" size="20px" value=0
                             readonly />
                     </div>
                     <div class="col-auto text-end p-0">
-                        <label class="form-label" for="itbis">ITBIS:</label>
-                        <input class="form-control" type="text" name="itbis" id="itbis" size="20px" value=0 readonly />
+                        <label class="form-label" for="totalItbis">Total Itbis:</label>
+                        <input class="form-control" type="text" name="totalItbis" id="totalItbis" size="20px" value=0
+                            readonly />
                     </div>
                     <div class="col-12 text-end mt-3 p-0">
                         <button class="btn btn-primary fw-bold py-2" type="submit">
@@ -155,3 +320,5 @@
         </div>
     </div>
 </div>
+
+{{/if}}
