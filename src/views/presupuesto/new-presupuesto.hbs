@@ -100,12 +100,12 @@
                                 </tr>
                             </thead>
                             <tbody id="DinamicTableRow">
+                                {{#each presupuestoData.typeArticle}}
                                 <tr>
-                                    <th id="row-{{@index}}">{{@index}}</th>
+                                    <th>{{@index}}</th>
                                     <td>
                                         <select class="form-select" name="typeArticle[]">
-                                            <option value="{{this}}" selected>{{this}}
-                                            </option>
+                                            <option value="{{this}}">{{this}} </option>
                                             <option value="equipo">Equipo</option>
                                             <option value="decoracion">Decoracion</option>
                                             <option value="comida">Comida</option>
@@ -115,21 +115,27 @@
                                     </td>
                                     <td>
                                         <input class="form-control" type="text" name="nameArticle[]"
-                                            placeholder="Bocinas" value="{{lookup ../billing @index}}" />
+                                            placeholder="Bocinas"
+                                            value="{{lookup ../presupuestoData.nameArticle @index}}" />
                                     </td>
                                     <td>
                                         <input class="form-control totalArticle" type="number" name="totalArticle[]"
-                                            value="" />
+                                            value="{{lookup ../presupuestoData.totalArticle @index}}" />
                                     </td>
                                     <td>
-                                        <input class="form-control price" type="number" name="price[]" value="" />
+                                        <input class="form-control price" type="number" name="price[]"
+                                            value="{{lookup ../presupuestoData.price @index}}" />
                                     </td>
                                     <td>
-                                        <input class="form-control itbis" type="number" name="itbis[]" value=""
-                                            readonly />
+                                        <input class="form-control itbis" type="number" name="itbis[]"
+                                            value="{{lookup ../presupuestoData.itbis @index}}" readonly />
                                     </td>
                                 </tr>
+                                {{/each}}
+
+
                             </tbody>
+
                         </table>
                     </div>
                 </div>
@@ -262,7 +268,7 @@
                             </thead>
                             <tbody id="DinamicTableRow">
                                 <tr>
-                                    <th id="row-1">1</th>
+                                    <th>1</th>
                                     <td>
                                         <select class="form-select" name="typeArticle[]">
                                             <option value="Indefinido">Selecciona un tipo</option>

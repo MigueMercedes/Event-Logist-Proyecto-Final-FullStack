@@ -27,47 +27,42 @@
 
     {{!-- Table Presupuesto --}}
     <div class="table-responsive mt-4">
-        <table class="table table-striped table-light">
-            <thead>
-                <tr class="row justify-content-center">
-                    <th class="col-auto">#</th>
-                    <th class="col-1">Fecha</th>
-                    <th class="col-2">Actividad</th>
-                    <th class="col-1">Tipo</th>
-                    <th class="col-2">Cliente</th>
-                    <th class="col-1">Estado</th>
-                    <th class="col-1">Costo</th>
-                    <th class="col-1">Opciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each presupuesto}}
-                <tr class="row justify-content-center">
-                    <td class="col-auto">{{incrementIndex @index}}</td>
-                    <td class="col-1">{{dateActivity}}</td>
-                    <td class="col-2 text-break">{{nameActivity}}</td>
-                    <td class="col-1">{{typeActivity}}</td>
-                    <td class="col-2 text-break">{{nameClient}}</td>
-                    <td class="col-1">{{status}}</td>
-                    <td class="col-1">{{amount}}</td>
-                    <td class="col-1">
-                        <div class="d-flex d-flex align-items-center justify-content-between gap-1">
-                            <a class="border-0 bg-transparent me-1 p-0" href=""><i
-                                    class="fa fa-eye text-success fa-lg"></i></a>
-                            <a class="border-0 bg-transparent m-0 p-0" href="/presupuesto/edit/{{_id}}"><i
-                                    class="fas fa-edit fa-lg text-primary"></i></a>
-                            <!-- DELETE REQUEST -->
-                            <form action="/presupuesto/delete/{{_id}}?_method=DELETE" method="POST">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="border-0 bg-transparent">
-                                    <i class="fas fa-trash fa-lg text-danger"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
+        <table class="table table-striped table-light presupuesto-index">
+            <tr>
+                <th>#</th>
+                <th>Fecha</th>
+                <th>Actividad</th>
+                <th>Tipo</th>
+                <th>Cliente</th>
+                <th>Estado</th>
+                <th>Costo</th>
+                <th class="text-center">Opciones</th>
+            </tr>
+            {{#each presupuesto}}
+            <tr>
+                <th>{{incrementIndex @index}}</th>
+                <td>{{dateActivity}}</td>
+                <td>{{nameActivity}}</td>
+                <td>{{typeActivity}}</td>
+                <td>{{nameClient}}</td>
+                <td>{{status}}</td>
+                <td>{{presupuestoData.totalPrice}}</td>
+                <td>
+                    <div class="d-flex d-flex align-items-center justify-content-evenly gap-1 ps-3">
+                        <a class="border-0 bg-transparent" href=""><i class="fa fa-eye text-success fa-lg"></i></a>
+                        <a class="border-0 bg-transparent" href="/presupuesto/edit/{{_id}}"><i
+                                class="fas fa-edit fa-lg text-primary"></i></a>
+                        <!-- DELETE REQUEST -->
+                        <form action="/presupuesto/delete/{{_id}}?_method=DELETE" method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="border-0 bg-transparent">
+                                <i class="fas fa-trash fa-lg text-danger"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
         </table>
     </div>
 </div>

@@ -32,8 +32,26 @@ export const renderPresupuestoForm = async (req, res) => {
 
 export const createNewPresupuesto = async (req, res) => {
     const { nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-        dateActivity, timeActivity, createdBy, statusPaid, status, typeArticle, article, totalArticle, price, amount
+        dateActivity, timeActivity, createdBy, statusPaid, status, totalPrice, totalItbis
     } = req.body;
+
+    const typeArticle = req.body['typeArticle[]'];
+    const nameArticle = req.body['nameArticle[]'];
+    const totalArticle = req.body['totalArticle[]'];
+    const price = req.body['price[]'];
+    const itbis = req.body['itbis[]'];
+
+    const presupuestoData = {
+        typeArticle,
+        nameArticle,
+        totalArticle,
+        price,
+        itbis,
+        totalPrice,
+        totalItbis
+    }
+
+    console.log(presupuestoData)
 
     const errors = [];
 
@@ -41,19 +59,17 @@ export const createNewPresupuesto = async (req, res) => {
         errors.push({ text: "Por favor escribe un nombre." });
     }
 
-    /*
     if (errors.length > 0) {
         return res.render("presupuesto/new-presupuesto", {
             errors, nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-            dateActivity, timeActivity, createdBy, statusPaid, status, typeArticle, article, totalArticle, price, amount,
+            dateActivity, timeActivity, createdBy, statusPaid, status, presupuestoData,
             page: 'Error al agregar'
         });
     }
-    */
 
     const newPresupuesto = new Presupuesto({
         nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-        dateActivity, timeActivity, createdBy, statusPaid, status, typeArticle, article, totalArticle, price, amount
+        dateActivity, timeActivity, createdBy, statusPaid, status, presupuestoData,
     });
 
     newPresupuesto.user = req.user.id;
@@ -77,11 +93,11 @@ export const renderEditForm = async (req, res) => {
 
 export const updatePresupuesto = async (req, res) => {
     const { nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-        dateActivity, timeActivity, createdBy, statusPaid, status, amount, } = req.body;
+        dateActivity, timeActivity, createdBy, statusPaid, status, billing, } = req.body;
 
     await Presupuesto.findByIdAndUpdate(req.params.id, {
         nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-        dateActivity, timeActivity, createdBy, statusPaid, status, amount,
+        dateActivity, timeActivity, createdBy, statusPaid, status, billing,
     });
     req.flash("success_msg", "Presupuesto Actualizado Correctamente.");
     res.redirect("/presupuesto");

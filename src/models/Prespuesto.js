@@ -1,27 +1,31 @@
 import mongoose from "mongoose";
 
-const billingDetails = new mongoose.Schema({
+const presupuestoDetails = new mongoose.Schema({
     typeArticle: {
-        type: String,
+        type: [String],
         required: false,
     },
     nameArticle: {
-        type: String,
+        type: [String],
         required: false,
     },
     totalArticle: {
-        type: String,
+        type: [String],
         required: false,
     },
     price: {
-        type: String,
+        type: [String],
         required: false,
     },
     itbis: {
+        type: [String],
+        required: false,
+    },
+    totalItbis: {
         type: String,
         required: false,
     },
-    amount: {
+    totalPrice: {
         type: String,
         required: false,
     }
@@ -38,10 +42,6 @@ const PresupuestoSchema = new mongoose.Schema(
             required: false,
         },
         nameClient: {
-            type: String,
-            required: false,
-        },
-        rnc: {
             type: String,
             required: false,
         },
@@ -81,8 +81,8 @@ const PresupuestoSchema = new mongoose.Schema(
             type: String,
             required: false,
         },
-        billing: {
-            type: billingDetails,
+        presupuestoData: {
+            type: presupuestoDetails,
             required: false,
         },
         user: {

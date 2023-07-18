@@ -4,25 +4,49 @@ let index = 2;
 // Selectores
 const selectorBtnNewRow = document.querySelector('#btnNewRow');
 const elDinamicTableRow = document.querySelector('#DinamicTableRow');
-const amountInput = document.querySelector('#amount');
+const totalPriceInputId = document.querySelector('#totalPrice');
+const ItbistInputId = document.querySelector('#totalItbis');
 let inputTA = document.querySelectorAll('.totalArticle');
 let inputP = document.querySelectorAll('.price');
+let inputItbis = document.querySelectorAll('.itbis');
 let totalPrice = 0;
+let totalItbis = 0;
 
 // Event listener al cargar el DOM
 document.addEventListener('DOMContentLoaded', () => {
     currentYear();
-
-    // Función para sumar el total del presupuesto
+    sumTotal();
+    // Función para calcular el monto total y el ITBIS total
     function sumTotal() {
+        // Reiniciar los totales a cero
         totalPrice = 0;
+        totalItbis = 0;
+
+        // Iterar sobre los campos de entrada de cantidad
         inputTA.forEach(input => {
+            // Obtener el valor de la cantidad
             const valueTA = parseFloat(input.value);
+            // Obtener el precio del artículo relacionado
             const priceInput = input.closest('tr').querySelector('.price').value;
+            // Calcular el subtotal del artículo
             const totalPriceInput = valueTA * parseFloat(priceInput);
+            // Sumar al monto total acumulativo
             totalPrice += totalPriceInput;
+
+            // Obtener la referencia al campo de entrada del ITBIS correspondiente
+            const itbisInput = input.closest('tr').querySelector('.itbis');
+            // Calcular el ITBIS del artículo
+            const totalItbisInput = totalPriceInput * 0.18;
+            // Sumar al ITBIS total acumulativo
+            totalItbis += totalItbisInput;
+            // Actualizar el valor del campo de entrada del ITBIS con el valor calculado
+            itbisInput.value = totalItbisInput.toFixed(2);
         });
-        amountInput.value = totalPrice.toFixed(2);
+
+        // Actualizar el valor del campo de entrada del monto total con el valor acumulativo
+        totalPriceInputId.value = totalPrice.toFixed(2);
+        // Actualizar el valor del campo de entrada del ITBIS total con el valor acumulativo
+        ItbistInputId.value = totalItbis.toFixed(2);
     }
 
     // Event listener para los cambios en los input de cantidad
@@ -32,6 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listener para los cambios en los input de precio
     inputP.forEach(input => {
+        input.addEventListener('input', sumTotal);
+    });
+    inputItbis.forEach(input => {
         input.addEventListener('input', sumTotal);
     });
 
@@ -45,6 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('input', sumTotal);
         });
         inputP.forEach(input => {
+            input.addEventListener('input', sumTotal);
+        });
+        inputItbis.forEach(input => {
             input.addEventListener('input', sumTotal);
         });
     });
@@ -105,8 +135,8 @@ function createDinamicTableRow() {
     inputPrice.classList.add('form-control', 'price');
     inputPrice.type = 'number';
     inputPrice.name = 'price[]';
-    inputPrice.value = 0;
-    inputPrice.placeholder = 0;
+    inputPrice.value = '0.00'
+    inputPrice.placeholder = '0.00'
     tdInputPrice.appendChild(inputPrice);
 
     const tdInputItbis = document.createElement('td');
@@ -114,8 +144,8 @@ function createDinamicTableRow() {
     inputItbis.classList.add('form-control', 'itbis');
     inputItbis.type = 'number';
     inputItbis.name = 'itbis[]';
-    inputItbis.value = 0;
-    inputItbis.placeholder = 0;
+    inputItbis.value = '0.00'
+    inputItbis.placeholder = '0.00';
     inputItbis.readOnly = true;
     tdInputItbis.appendChild(inputItbis);
 

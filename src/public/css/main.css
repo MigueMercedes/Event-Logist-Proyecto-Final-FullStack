@@ -49,3 +49,8 @@ h6 {
 .text-2 {
     color: #27b8e4;
 }
+
+.presupuesto-index td,
+.presupuesto-index th {
+    padding: .8rem 1.5rem;
+}
