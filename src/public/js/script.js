@@ -16,38 +16,7 @@ let totalItbis = 0;
 document.addEventListener('DOMContentLoaded', () => {
     currentYear();
     sumTotal();
-    // Función para calcular el monto total y el ITBIS total
-    function sumTotal() {
-        // Reiniciar los totales a cero
-        totalPrice = 0;
-        totalItbis = 0;
 
-        // Iterar sobre los campos de entrada de cantidad
-        inputTA.forEach(input => {
-            // Obtener el valor de la cantidad
-            const valueTA = parseFloat(input.value);
-            // Obtener el precio del artículo relacionado
-            const priceInput = input.closest('tr').querySelector('.price').value;
-            // Calcular el subtotal del artículo
-            const totalPriceInput = valueTA * parseFloat(priceInput);
-            // Sumar al monto total acumulativo
-            totalPrice += totalPriceInput;
-
-            // Obtener la referencia al campo de entrada del ITBIS correspondiente
-            const itbisInput = input.closest('tr').querySelector('.itbis');
-            // Calcular el ITBIS del artículo
-            const totalItbisInput = totalPriceInput * 0.18;
-            // Sumar al ITBIS total acumulativo
-            totalItbis += totalItbisInput;
-            // Actualizar el valor del campo de entrada del ITBIS con el valor calculado
-            itbisInput.value = totalItbisInput.toFixed(2);
-        });
-
-        // Actualizar el valor del campo de entrada del monto total con el valor acumulativo
-        totalPriceInputId.value = totalPrice.toFixed(2);
-        // Actualizar el valor del campo de entrada del ITBIS total con el valor acumulativo
-        ItbistInputId.value = totalItbis.toFixed(2);
-    }
 
     // Event listener para los cambios en los input de cantidad
     inputTA.forEach(input => {
@@ -78,7 +47,66 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('input', sumTotal);
         });
     });
+
+    // Event listener para el botón "Eliminar fila"
+    elDinamicTableRow.addEventListener('click', e => {
+        if (e.target.classList.contains('btnRemoveRow')) {
+            const row = e.target.closest('tr');
+            console.log(row)
+            const rowIndex = parseInt(row.querySelector('th').textContent);
+            removeDinamicTableRow(row, rowIndex);
+        }
+    });
 });
+
+// Función para calcular el monto total y el ITBIS total
+function sumTotal() {
+    // Reiniciar los totales a cero
+    totalPrice = 0;
+    totalItbis = 0;
+
+    // Iterar sobre los campos de entrada de cantidad
+    inputTA.forEach(input => {
+        // Obtener el valor de la cantidad
+        const valueTA = parseFloat(input.value);
+        // Obtener el precio del artículo relacionado
+        const priceInput = input.closest('tr').querySelector('.price').value;
+        // Calcular el subtotal del artículo
+        const totalPriceInput = valueTA * parseFloat(priceInput);
+        // Sumar al monto total acumulativo
+        totalPrice += totalPriceInput;
+
+        // Obtener la referencia al campo de entrada del ITBIS correspondiente
+        const itbisInput = input.closest('tr').querySelector('.itbis');
+        // Calcular el ITBIS del artículo
+        const totalItbisInput = totalPriceInput * 0.18;
+        // Sumar al ITBIS total acumulativo
+        totalItbis += totalItbisInput;
+        // Actualizar el valor del campo de entrada del ITBIS con el valor calculado
+        itbisInput.value = totalItbisInput.toFixed(2);
+    });
+
+    // Actualizar el valor del campo de entrada del monto total con el valor acumulativo
+    totalPriceInputId.value = totalPrice.toFixed(2);
+    // Actualizar el valor del campo de entrada del ITBIS total con el valor acumulativo
+    ItbistInputId.value = totalItbis.toFixed(2);
+}
+
+// Función para eliminar filas dinámicamente
+function removeDinamicTableRow(row, rowIndex) {
+    row.remove();
+    updateRowIndices();
+    sumTotal();
+}
+
+// Función para actualizar los índices de las filas
+function updateRowIndices() {
+    const rows = elDinamicTableRow.querySelectorAll('tr');
+    rows.forEach((row, i) => {
+        const rowIndex = row.querySelector('th');
+        rowIndex.textContent = i + 1;
+    });
+}
 
 // Función para agregar filas dinámicamente
 function createDinamicTableRow() {
@@ -149,11 +177,20 @@ function createDinamicTableRow() {
     inputItbis.readOnly = true;
     tdInputItbis.appendChild(inputItbis);
 
+    // Crear botón de eliminar fila
+    const tdRemoveBtn = document.createElement('td');
+    const removeBtn = document.createElement('button');
+    removeBtn.classList.add('btn', 'btn-danger', 'btn-sm', 'btnRemoveRow');
+    removeBtn.textContent = 'Eliminar';
+    tdRemoveBtn.appendChild(removeBtn);
+
     // Agregar elementos a la fila
     tr.appendChild(tdInputNA);
     tr.appendChild(tdInputTA);
     tr.appendChild(tdInputPrice);
     tr.appendChild(tdInputItbis);
+    tr.appendChild(tdRemoveBtn);
+
 
     // Agregar fila al elemento contenedor
     elDinamicTableRow.appendChild(tr);
