@@ -6,8 +6,3 @@ package-lock.json
 
 # environment variables
 .env
-
-## dist
-dist
-
-SQL
