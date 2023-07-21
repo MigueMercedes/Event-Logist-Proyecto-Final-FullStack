@@ -14,45 +14,42 @@ let totalItbis = 0;
 
 // Event listener al cargar el DOM
 document.addEventListener('DOMContentLoaded', () => {
-    currentYear();
     sumTotal();
 
-
     // Event listener para los cambios en los input de cantidad
-    inputTA.forEach(input => {
+    inputTA.forEach((input) => {
         input.addEventListener('input', sumTotal);
     });
 
     // Event listener para los cambios en los input de precio
-    inputP.forEach(input => {
+    inputP.forEach((input) => {
         input.addEventListener('input', sumTotal);
     });
-    inputItbis.forEach(input => {
+    inputItbis.forEach((input) => {
         input.addEventListener('input', sumTotal);
     });
 
     // Event listener para el botón "Agregar"
-    selectorBtnNewRow.addEventListener('click', e => {
+    selectorBtnNewRow.addEventListener('click', (e) => {
         e.preventDefault();
         createDinamicTableRow();
         inputTA = document.querySelectorAll('.totalArticle');
         inputP = document.querySelectorAll('.price');
-        inputTA.forEach(input => {
+        inputTA.forEach((input) => {
             input.addEventListener('input', sumTotal);
         });
-        inputP.forEach(input => {
+        inputP.forEach((input) => {
             input.addEventListener('input', sumTotal);
         });
-        inputItbis.forEach(input => {
+        inputItbis.forEach((input) => {
             input.addEventListener('input', sumTotal);
         });
     });
 
     // Event listener para el botón "Eliminar fila"
-    elDinamicTableRow.addEventListener('click', e => {
+    elDinamicTableRow.addEventListener('click', (e) => {
         if (e.target.classList.contains('btnRemoveRow')) {
             const row = e.target.closest('tr');
-            console.log(row)
             const rowIndex = parseInt(row.querySelector('th').textContent);
             removeDinamicTableRow(row, rowIndex);
         }
@@ -66,7 +63,7 @@ function sumTotal() {
     totalItbis = 0;
 
     // Iterar sobre los campos de entrada de cantidad
-    inputTA.forEach(input => {
+    inputTA.forEach((input) => {
         // Obtener el valor de la cantidad
         const valueTA = parseFloat(input.value);
         // Obtener el precio del artículo relacionado
@@ -93,7 +90,7 @@ function sumTotal() {
 }
 
 // Función para eliminar filas dinámicamente
-function removeDinamicTableRow(row, rowIndex) {
+function removeDinamicTableRow(row) {
     row.remove();
     updateRowIndices();
     sumTotal();
@@ -130,7 +127,7 @@ function createDinamicTableRow() {
         { value: 'Otro', text: 'Otro' }
     ];
 
-    options.forEach(option => {
+    options.forEach((option) => {
         const optionElement = document.createElement('option');
         optionElement.value = option.value;
         optionElement.textContent = option.text;
@@ -163,8 +160,8 @@ function createDinamicTableRow() {
     inputPrice.classList.add('form-control', 'price');
     inputPrice.type = 'number';
     inputPrice.name = 'price[]';
-    inputPrice.value = '0.00'
-    inputPrice.placeholder = '0.00'
+    inputPrice.value = '0.00';
+    inputPrice.placeholder = '0.00';
     tdInputPrice.appendChild(inputPrice);
 
     const tdInputItbis = document.createElement('td');
@@ -172,7 +169,7 @@ function createDinamicTableRow() {
     inputItbis.classList.add('form-control', 'itbis');
     inputItbis.type = 'number';
     inputItbis.name = 'itbis[]';
-    inputItbis.value = '0.00'
+    inputItbis.value = '0.00';
     inputItbis.placeholder = '0.00';
     inputItbis.readOnly = true;
     tdInputItbis.appendChild(inputItbis);
@@ -191,15 +188,8 @@ function createDinamicTableRow() {
     tr.appendChild(tdInputItbis);
     tr.appendChild(tdRemoveBtn);
 
-
     // Agregar fila al elemento contenedor
     elDinamicTableRow.appendChild(tr);
     index++;
-}
-
-// Función para obtener el año actual
-function currentYear() {
-    const currentYearElement = document.querySelector('#currentYear');
-    const currentYear = new Date().getFullYear();
-    currentYearElement.textContent = `${currentYear} | Event Logist.`;
+    updateRowIndices();
 }

@@ -1,4 +1,5 @@
 import Presupuesto from '../models/Prespuesto.js';
+import { formatCurrency } from '../helpers/index.js';
 
 export const renderPresupuestos = async (req, res) => {
     const username = req.user.name.split(' ', 1);
@@ -9,30 +10,54 @@ export const renderPresupuestos = async (req, res) => {
             return index + 1;
         }
     };
-    const presupuesto = await Presupuesto.find({ user: req.user.id }).sort({ updatedAt: "desc" }).lean();
+    const presupuesto = await Presupuesto.find({ user: req.user.id })
+        .sort({ updatedAt: 'desc' })
+        .lean();
 
     res.render('presupuesto/all-presupuestos', {
         username,
         page: 'Presupuesto',
         isPresupuesto: true,
-        presupuesto,
+        presupuesto
     });
-}
+};
+
+export const renderPrintPresupuesto = async (req, res) => {
+    const presupuesto = await Presupuesto.findById(req.params.id).lean();
+
+    res.render('presupuesto/print-presupuesto', {
+        presupuesto,
+        page: 'Imprimir presupuesto',
+        formatCurrency
+    });
+};
 
 export const renderPresupuestoForm = async (req, res) => {
     const username = req.user.name;
 
     res.render('presupuesto/new-presupuesto', {
         page: 'Nuevo presupuesto',
-        username,
+        username
     });
 };
 
-
-
 export const createNewPresupuesto = async (req, res) => {
-    const { nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-        dateActivity, timeActivity, createdBy, statusPaid, status, totalPrice, totalItbis
+    const {
+        nameActivity,
+        typeActivity,
+        nameClient,
+        email,
+        location,
+        address,
+        phone,
+        descriptionActivity,
+        dateActivity,
+        timeActivity,
+        createdBy,
+        statusPaid,
+        status,
+        totalPrice,
+        totalItbis
     } = req.body;
 
     const typeArticle = req.body['typeArticle[]'];
@@ -49,62 +74,130 @@ export const createNewPresupuesto = async (req, res) => {
         itbis,
         totalPrice,
         totalItbis
-    }
+    };
 
-    console.log(presupuestoData)
+    console.log(presupuestoData);
 
     const errors = [];
 
     if (!nameActivity.trim()) {
-        errors.push({ text: "Por favor escribe un nombre." });
+        errors.push({ text: 'Por favor escribe un nombre.' });
     }
 
     if (errors.length > 0) {
-        return res.render("presupuesto/new-presupuesto", {
-            errors, nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-            dateActivity, timeActivity, createdBy, statusPaid, status, presupuestoData,
+        return res.render('presupuesto/new-presupuesto', {
+            errors,
+            nameActivity,
+            typeActivity,
+            nameClient,
+            email,
+            location,
+            address,
+            phone,
+            descriptionActivity,
+            dateActivity,
+            timeActivity,
+            createdBy,
+            statusPaid,
+            status,
+            presupuestoData,
             page: 'Error al agregar'
         });
     }
 
     const newPresupuesto = new Presupuesto({
-        nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-        dateActivity, timeActivity, createdBy, statusPaid, status, presupuestoData,
+        nameActivity,
+        typeActivity,
+        nameClient,
+        email,
+        location,
+        address,
+        phone,
+        descriptionActivity,
+        dateActivity,
+        timeActivity,
+        createdBy,
+        statusPaid,
+        status,
+        presupuestoData
     });
 
     newPresupuesto.user = req.user.id;
     await newPresupuesto.save();
-    req.flash("success_msg", "Presupuesto Agregado Correctamente.");
-    res.redirect("/presupuesto");
-}
+    req.flash('success_msg', 'Presupuesto Agregado Correctamente.');
+    res.redirect('/presupuesto');
+};
 
 export const renderEditForm = async (req, res) => {
     const presupuesto = await Presupuesto.findById(req.params.id).lean();
     if (presupuesto.user != req.user.id) {
-        req.flash("error_msg", "Error al cargar la pagina.");
-        return res.redirect("/presupuesto");
+        req.flash('error_msg', 'Error al cargar la pagina.');
+        return res.redirect('/presupuesto');
     }
 
     res.render('presupuesto/edit-presupuesto', {
         page: 'Editar presupuesto',
         presupuesto
-    })
-}
+    });
+};
 
 export const updatePresupuesto = async (req, res) => {
-    const { nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-        dateActivity, timeActivity, createdBy, statusPaid, status, billing, } = req.body;
+    const {
+        nameActivity,
+        typeActivity,
+        nameClient,
+        email,
+        location,
+        address,
+        phone,
+        descriptionActivity,
+        dateActivity,
+        timeActivity,
+        createdBy,
+        statusPaid,
+        status,
+        totalPrice,
+        totalItbis
+    } = req.body;
+
+    const typeArticle = req.body['typeArticle[]'];
+    const nameArticle = req.body['nameArticle[]'];
+    const totalArticle = req.body['totalArticle[]'];
+    const price = req.body['price[]'];
+    const itbis = req.body['itbis[]'];
+
+    const presupuestoData = {
+        typeArticle,
+        nameArticle,
+        totalArticle,
+        price,
+        itbis,
+        totalPrice,
+        totalItbis
+    };
 
     await Presupuesto.findByIdAndUpdate(req.params.id, {
-        nameActivity, typeActivity, nameClient, email, location, address, phone, descriptionActivity,
-        dateActivity, timeActivity, createdBy, statusPaid, status, billing,
+        nameActivity,
+        typeActivity,
+        nameClient,
+        email,
+        location,
+        address,
+        phone,
+        descriptionActivity,
+        dateActivity,
+        timeActivity,
+        createdBy,
+        statusPaid,
+        status,
+        presupuestoData
     });
-    req.flash("success_msg", "Presupuesto Actualizado Correctamente.");
-    res.redirect("/presupuesto");
-}
+    req.flash('success_msg', 'Presupuesto Actualizado Correctamente.');
+    res.redirect('/presupuesto');
+};
 
 export const deletePresupuesto = async (req, res) => {
     await Presupuesto.findByIdAndDelete(req.params.id);
-    req.flash("success_msg", "Presupuesto Eliminado Correctamente.");
-    res.redirect("/presupuesto");
+    req.flash('success_msg', 'Presupuesto Eliminado Correctamente.');
+    res.redirect('/presupuesto');
 };

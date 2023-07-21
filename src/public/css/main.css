@@ -14,6 +14,14 @@ h6 {
     padding: 0;
 }
 
+.container-print {
+    width: 21.59cm;
+    height: 27.94cm;
+    /* Puedes agregar otros estilos o bordes si es necesario */
+    border: 1px solid black;
+    padding: 1cm;
+}
+
 .btn-bg {
     width: 100%;
     padding: 10px;
@@ -43,7 +51,7 @@ h6 {
 }
 
 .text-1 {
-    color: #A947F4;
+    color: #a947f4;
 }
 
 .text-2 {
@@ -52,5 +60,20 @@ h6 {
 
 .presupuesto-index td,
 .presupuesto-index th {
-    padding: .8rem 1.5rem;
+    padding: 0.8rem 1.5rem;
+}
+
+.totalsDiv {
+    height: 200px;
+}
+
+.container-print p {
+    margin: 0;
+    padding: 0;
+}
+
+.container-print {
+    width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }

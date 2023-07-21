@@ -1,8 +1,8 @@
 <div class="row">
     <div class="bg-light border border-secondary p-0">
         <div>
-            <h1 class="text-center bg-dark text-light py-2">Presupuesto de la Actividad</h1>
-            <p class="fs-4 lead border border border-2 py-2 ps-4">Editar presupuesto:</p>
+            <h1 class="text-center bg-dark text-light py-2">Editar Presupuesto</h1>
+            <p class="fs-4 lead border border border-2 py-2 ps-4">Detalles del presupuesto:</p>
         </div>
         <div class="mt-3">
             <form action="/presupuesto/edit-presupuesto/{{presupuesto._id}}?_method=PUT" method="POST">
@@ -98,7 +98,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Tipo</th>`
+                                    <th>Tipo</th>
                                     <th>Articulo</th>
                                     <th>Cantidad</th>
                                     <th>Precio</th>
@@ -111,7 +111,7 @@
                                     <th>{{@index}}</th>
                                     <td>
                                         <select class="form-select" name="typeArticle[]">
-                                            <option value="{{this}}">{{this}} </option>
+                                            <option value="{{this}}">{{this}}</option>
                                             <option value="equipo">Equipo</option>
                                             <option value="decoracion">Decoracion</option>
                                             <option value="comida">Comida</option>
@@ -136,11 +136,13 @@
                                         <input class="form-control itbis" type="number" name="itbis[]"
                                             value="{{lookup ../presupuesto.presupuestoData.itbis @index}}" readonly />
                                     </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm btnRemoveRow">Eliminar</button>
+                                    </td>
                                 </tr>
                                 {{/each}}
-
-
                             </tbody>
+
 
                         </table>
                     </div>
@@ -172,3 +174,5 @@
         </div>
     </div>
 </div>
+
+<script src="/js/loadPresupuesto.js"></script>

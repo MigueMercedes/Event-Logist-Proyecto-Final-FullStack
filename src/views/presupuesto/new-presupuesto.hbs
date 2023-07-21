@@ -2,8 +2,8 @@
 <div class="row">
     <div class="bg-light border border-secondary p-0">
         <div>
-            <h1 class="text-center bg-dark text-light py-2">Presupuesto de la Actividad</h1>
-            <p class="fs-4 lead border border border-2 py-2 ps-4">Registrar presupuesto:</p>
+            <h1 class="text-center bg-dark text-light py-2">Crear Presupuesto</h1>
+            <p class="fs-4 lead border border border-2 py-2 ps-4">Detalles del presupuesto:</p>
         </div>
         <div class="mt-3">
             <form action="/presupuesto/new-presupuesto" method="POST">
@@ -171,8 +171,8 @@
 <div class="row">
     <div class="bg-light border border-secondary p-0">
         <div>
-            <h1 class="text-center bg-dark text-light py-2">Presupuesto de la Actividad</h1>
-            <p class="fs-4 lead border border border-2 py-2 ps-4">Registrar presupuesto:</p>
+            <h1 class="text-center bg-dark text-light py-2">Crear Presupuesto</h1>
+            <p class="fs-4 lead border border border-2 py-2 ps-4">Detalles del presupuesto:</p>
         </div>
         <div class="mt-3">
             <form action="/presupuesto/new-presupuesto" method="POST">
@@ -294,6 +294,9 @@
                                         <input class="form-control itbis" type="number" name="itbis[]" value="0.00"
                                             readonly />
                                     </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm btnRemoveRow">Eliminar</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -328,3 +331,5 @@
 </div>
 
 {{/if}}
+
+<script src="/js/loadPresupuesto.js"></script>

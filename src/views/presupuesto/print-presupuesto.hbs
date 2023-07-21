@@ -1,0 +1,89 @@
+<div class="bg-light container-print mx-auto p-0 h-100">
+    <button class="btn btn-success d-grid w-25 p-2 mx-auto my-3" type="button" onclick="printPage()">
+        Imprimir
+    </button>
+    <form method="post" action="#" id="printJS-form">
+        <h1 class="fw-bold text-center">PRESUPUESTO</h1>
+        <div class="col-10 mx-auto mt-2">
+            <h2 class="fs-3">Organizador:</h2>
+            <div class="d-flex flex-wrap justify-content-between border-top border-1 border-black mt-1">
+                <div class="mt-1">
+                    <p class="px-1"><strong>Nombre: </strong>{{presupuesto.createdBy}}</p>
+                    <p class="px-1"><strong>RNC: </strong> 4214211451</p>
+                </div>
+                <div class="mt-1">
+                    <p class="px-1"><strong>Dirección: </strong>123 av. Mella, Santo Domingo, Rep. Dom.
+                    </p>
+                    <p class="px-1"><strong>Teléfono: </strong>+1-829-299-2121</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-10 mx-auto mt-2">
+            <h2 class="fs-3">Cliente:</h2>
+            <div class="d-flex border-top border-1 border-black mt-1">
+                <div class="col-6 d-flex flex-column flex-wrap mt-1">
+                    <p class="px-1"><strong>Nombre Cliente: </strong>{{presupuesto.nameClient}}</p>
+                    <p class="px-1"><strong>Nombre Actividad: </strong>{{presupuesto.nameActivity}}</p>
+                    <p class="px-1"><strong>Día Actividad: </strong>{{presupuesto.dateActivity}}
+                        {{presupuesto.timeActivity}}</p>
+                    <p class="px-1"><strong>Ubicación: </strong>{{presupuesto.location}}</p>
+                </div>
+
+                <div class="col-6 d-flex flex-column flex-wrap mt-1">
+                    <p class="px-1"><strong>Fecha Impresión : </strong>{{presupuesto.nameActivity}}</p>
+                    <p class="px-1"><strong>Fecha Emisión: </strong>{{presupuesto.location}}</p>
+                    <p class="px-1"><strong>Estado Pago: </strong>{{presupuesto.statusPaid}}</p>
+                    <p class="px-1"><strong>Estado Presupuesto: </strong>{{presupuesto.status}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-10 mx-auto mt-5 table-responsive">
+            <table class="table table-borderless">
+                <thead class="border border-black">
+                    <tr>
+                        <th>#</th>
+                        <th>Tipo</th>
+                        <th>Artículo</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>ITBIS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each presupuesto.presupuestoData.typeArticle}}
+                    <tr>
+                        <th>{{@index}}</th>
+                        <td>
+                            {{this}}
+                        </td>
+                        <td>
+                            {{lookup ../presupuesto.presupuestoData.nameArticle @index}}
+                        </td>
+                        <td>
+                            {{lookup ../presupuesto.presupuestoData.totalArticle @index}}
+                        </td>
+                        <td>
+                            {{lookup ../presupuesto.presupuestoData.price @index}}
+                        </td>
+                        <td>
+                            {{lookup ../presupuesto.presupuestoData.itbis @index}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+
+            <div class="col-10 mx-auto my-5">
+                <div class="d-flex flex-column text-end ">
+                    <p class="fs-5 fw-bold">SubTotal: {{formatCurrency presupuesto.presupuestoData.totalPrice}}</p>
+                    <p class="fs-5 fw-bold">ITBIS: {{formatCurrency presupuesto.presupuestoData.totalItbis}}</p>
+                    <p class="fs-5 fw-bold">Monto Total: {{formatCurrency (sum presupuesto.presupuestoData.totalPrice
+                        presupuesto.presupuestoData.totalItbis)}}</p>
+                </div>
+            </div>
+    </form>
+</div>
+
+<script src="/js/print.js"></script>
