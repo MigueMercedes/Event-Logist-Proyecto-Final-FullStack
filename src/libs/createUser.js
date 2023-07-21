@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-
+ 
 export const createAdminUser = async () => {
   const userFound = await User.findOne({ email: "admin@localhost" });
 
