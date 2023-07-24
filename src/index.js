@@ -10,4 +10,5 @@ async function main() {
   console.log("Environment:", process.env.NODE_ENV);
 }
 
+
 main();
