@@ -9,3 +9,11 @@ function currentYear() {
     const currentYear = new Date().getFullYear();
     currentYearElement.textContent = `${currentYear} | Event Logist.`;
 }
+
+const formatCurrency = (valor) => {
+    const formatter = new Intl.NumberFormat('es-DO', {
+        style: 'currency',
+        currency: 'DOP'
+    });
+    return formatter.format(valor);
+};

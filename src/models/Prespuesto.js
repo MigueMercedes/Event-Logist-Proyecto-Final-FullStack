@@ -1,33 +1,59 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
+const presupuestoTypes = new mongoose.Schema({
+    typesActivity: {
+        type: [String],
+        required: false
+    },
+    typesArticle: {
+        type: [String],
+        required: false
+    },
+    typesStatusPresupuesto: {
+        type: [String],
+        required: false
+    },
+    typesStatusPaid: {
+        type: [String],
+        required: false
+    }
+});
 const presupuestoDetails = new mongoose.Schema({
     typeArticle: {
         type: [String],
-        required: false,
+        required: false
     },
     nameArticle: {
         type: [String],
-        required: false,
+        required: false
     },
     totalArticle: {
         type: [String],
-        required: false,
+        required: false
     },
     price: {
         type: [String],
-        required: false,
+        required: false
     },
     itbis: {
         type: [String],
-        required: false,
+        required: false
+    },
+    discount: {
+        type: [String],
+        required: false
     },
     totalItbis: {
         type: String,
-        required: false,
+        required: false
     },
     totalPrice: {
         type: String,
-        required: false,
+        required: false
+    },
+    totalDiscount: {
+        type: String,
+        required: false
     }
 });
 
@@ -35,64 +61,68 @@ const PresupuestoSchema = new mongoose.Schema(
     {
         nameActivity: {
             type: String,
-            required: false,
+            required: false
         },
         typeActivity: {
             type: String,
-            required: false,
+            required: false
         },
         nameClient: {
             type: String,
-            required: false,
+            required: false
         },
         email: {
             type: String,
-            required: false,
+            required: false
         },
         location: {
             type: String,
-            required: false,
+            required: false
         },
         phone: {
             type: String,
-            required: false,
+            required: false
         },
         descriptionActivity: {
             type: String,
-            required: false,
+            required: false
         },
         dateActivity: {
             type: String,
-            required: false,
+            required: false
         },
         timeActivity: {
             type: String,
-            required: false,
+            required: false
         },
         createdBy: {
             type: String,
-            required: false,
+            required: false
         },
         statusPaid: {
             type: String,
-            required: false,
+            required: false
         },
-        status: {
+        statusPresupuesto: {
             type: String,
-            required: false,
+            required: false
         },
         presupuestoData: {
             type: presupuestoDetails,
-            required: false,
+            required: false
+        },
+        presupuestoDataTypes: {
+            type: presupuestoTypes,
+            required: false
         },
         user: {
             type: String,
-            required: true,
-        },
+            required: true
+        }
     },
     {
-        timestamps: true,
+        timestamps: true
     }
 );
 
-export default mongoose.model("Presupuesto", PresupuestoSchema);
+export default mongoose.model('Presupuesto', PresupuestoSchema);

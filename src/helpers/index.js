@@ -10,6 +10,16 @@ const formatCurrency = (valor) => {
     return formatter.format(valor);
 };
 
+const noRepeatTypes = (dataTypes, value) => {
+    if (dataTypes.includes(value)) {
+        const copy = dataTypes.filter((type) => type !== value);
+        copy.unshift(value);
+        return copy;
+    } else {
+        return dataTypes;
+    }
+};
+
 // Define la función sum
 function sum(a, b) {
     return Number(a) + Number(b);
@@ -21,4 +31,4 @@ Handlebars.registerHelper('sum', sum);
 // Registra el helper formatCurrency
 Handlebars.registerHelper('formatCurrency', formatCurrency);
 
-export { formatCurrency };
+export { formatCurrency, noRepeatTypes };

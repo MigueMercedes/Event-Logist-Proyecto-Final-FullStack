@@ -77,3 +77,20 @@ h6 {
     margin: 0 auto;
     padding: 20px;
 }
+
+.btn-custom {
+    height: 1.8rem; /* h-10 */
+    width: 3.9rem; /* w-10 */
+    display: flex; /* flex */
+    align-items: center; /* items-center */
+    justify-content: center; /* justify-center */
+    font-weight: bold; /* font-bold */
+    background-color: #32c47d; /* bg-lime-500 */
+    color: #fff; /* text-white */
+    font-size: 1.5rem; /* text-2xl */
+    border: none; /* hover:outline-none (remove the default outline on hover) */
+}
+
+.btn-custom:hover {
+    box-shadow: 0 0 0 3px rgba(50, 196, 125, 0.5); /* hover:ring-2 hover:ring-offset-2 hover:ring-lime-500 */
+}

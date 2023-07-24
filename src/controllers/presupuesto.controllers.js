@@ -1,50 +1,89 @@
 import Presupuesto from '../models/Prespuesto.js';
-import { formatCurrency } from '../helpers/index.js';
+import { formatCurrency, noRepeatTypes } from '../helpers/index.js';
+
+const dataTypes = {
+    activity: [
+        'Boda',
+        'Cumpleaños',
+        'Conferencia',
+        'Feria',
+        'Exposicion',
+        'Comporativo',
+        'Gala',
+        'Festival',
+        'Concierto',
+        'Deportivo',
+        'Graducacion'
+    ],
+    article: [
+        'Comida',
+        'Bebida',
+        'Decoracion',
+        'Sonido',
+        'Pantalla',
+        'Luces',
+        'Personal',
+        'Servicios',
+        'Centros de Mesa',
+        'Vestimenta',
+        'Invitaciones'
+    ],
+    statusPresupuesto: ['Aceptada', 'Editando', 'Rechazada', 'Completada'],
+    statusPaid: ['Pendiente', 'Pago', 'No Pago']
+};
 
 export const renderPresupuestos = async (req, res) => {
-    const username = req.user.name.split(' ', 1);
+    try {
+        const presupuesto = await Presupuesto.find({ user: req.user.id })
+            .sort({ updatedAt: 'desc' })
+            .lean();
 
-    // Registra el ayudante personalizado para incrementar el índice
-    res.locals.helpers = {
-        incrementIndex: function (index) {
-            return index + 1;
+        if (presupuesto.length > 0) {
+            res.render('presupuesto/all-presupuestos', {
+                page: 'Presupuestos',
+                // isPresupuesto: true,
+                presupuesto
+            });
         }
-    };
-    const presupuesto = await Presupuesto.find({ user: req.user.id })
-        .sort({ updatedAt: 'desc' })
-        .lean();
-
-    res.render('presupuesto/all-presupuestos', {
-        username,
-        page: 'Presupuesto',
-        isPresupuesto: true,
-        presupuesto
-    });
+    } catch (error) {
+        console.log(error);
+        res.redirect('/');
+    }
 };
 
 export const renderPrintPresupuesto = async (req, res) => {
-    const presupuesto = await Presupuesto.findById(req.params.id).lean();
+    try {
+        const presupuesto = await Presupuesto.findById(req.params.id).lean();
 
-    res.render('presupuesto/print-presupuesto', {
-        presupuesto,
-        page: 'Imprimir presupuesto',
-        formatCurrency
-    });
+        res.render('presupuesto/print-presupuesto', {
+            presupuesto,
+            page: 'Imprimir presupuesto',
+            formatCurrency
+        });
+    } catch (error) {
+        console.log(error);
+        res.redirect('/presupuesto');
+    }
 };
 
 export const renderPresupuestoForm = async (req, res) => {
-    const username = req.user.name;
-
-    res.render('presupuesto/new-presupuesto', {
-        page: 'Nuevo presupuesto',
-        username
-    });
+    try {
+        const username = req.user.name;
+        res.render('presupuesto/new-presupuesto', {
+            page: 'Crear presupuesto',
+            username,
+            dataTypes
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 export const createNewPresupuesto = async (req, res) => {
+    const errors = [];
+
     const {
         nameActivity,
-        typeActivity,
         nameClient,
         email,
         location,
@@ -54,17 +93,19 @@ export const createNewPresupuesto = async (req, res) => {
         dateActivity,
         timeActivity,
         createdBy,
-        statusPaid,
-        status,
         totalPrice,
         totalItbis
     } = req.body;
+    let { typeActivity } = req.body;
+    let { statusPresupuesto } = req.body;
+    let { statusPaid } = req.body;
 
     const typeArticle = req.body['typeArticle[]'];
     const nameArticle = req.body['nameArticle[]'];
     const totalArticle = req.body['totalArticle[]'];
     const price = req.body['price[]'];
     const itbis = req.body['itbis[]'];
+    const discount = req.body['discount[]'];
 
     const presupuestoData = {
         typeArticle,
@@ -73,15 +114,17 @@ export const createNewPresupuesto = async (req, res) => {
         price,
         itbis,
         totalPrice,
-        totalItbis
+        totalItbis,
+        discount
     };
 
-    console.log(presupuestoData);
-
-    const errors = [];
+    //Revisa si se encuentra el valor repetido y eliminar los valores duplicados
+    typeActivity = noRepeatTypes(dataTypes.activity, typeActivity);
+    statusPresupuesto = noRepeatTypes(dataTypes.statusPresupuesto, statusPresupuesto);
+    statusPaid = noRepeatTypes(dataTypes.statusPaid, statusPaid);
 
     if (!nameActivity.trim()) {
-        errors.push({ text: 'Por favor escribe un nombre.' });
+        errors.push({ text: 'Debes escribir un nombre para la actividad' });
     }
 
     if (errors.length > 0) {
@@ -99,7 +142,7 @@ export const createNewPresupuesto = async (req, res) => {
             timeActivity,
             createdBy,
             statusPaid,
-            status,
+            statusPresupuesto,
             presupuestoData,
             page: 'Error al agregar'
         });
@@ -118,7 +161,7 @@ export const createNewPresupuesto = async (req, res) => {
         timeActivity,
         createdBy,
         statusPaid,
-        status,
+        statusPresupuesto,
         presupuestoData
     });
 
