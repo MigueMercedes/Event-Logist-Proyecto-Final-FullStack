@@ -2,17 +2,18 @@
 let index = 1;
 let totalPrice;
 let totalItbis;
-let totalAmount;
 let totalDiscount;
+let totalAmount;
 
 // Selectores
 const selectorBtnNewRow = document.querySelector('#btnNewRow');
 const elDinamicTableRow = document.querySelector('#DinamicTableRow');
 const totalPriceInputId = document.querySelector('#totalPrice');
-const ItbistInputId = document.querySelector('#totalItbis');
+const totalItbistInputId = document.querySelector('#totalItbis');
+const totaldiscountInputId = document.querySelector('#totalDiscount');
 const totalAmountInputId = document.querySelector('#totalAmount');
-const discountInputId = document.querySelector('#discount');
 
+// Obtener todos los elementos con la clase "totalArticle", "price", "itbis" y "discount"
 let inputTA = document.querySelectorAll('.totalArticle');
 let inputP = document.querySelectorAll('.price');
 let inputItbis = document.querySelectorAll('.itbis');
@@ -22,27 +23,29 @@ let inputDiscount = document.querySelectorAll('.discount');
 document.addEventListener('DOMContentLoaded', () => {
     sumTotalPrice();
 
-    // Event listener para los cambios en los input de cantidad
+    // Event listener para los cambios en los input de cantidad y precio
     inputTA.forEach((input) => {
         input.addEventListener('input', sumTotalPrice);
     });
 
-    // Event listener para los cambios en los input de precio
     inputP.forEach((input) => {
         input.addEventListener('input', sumTotalPrice);
     });
-    inputItbis.forEach((input) => {
-        input.addEventListener('input', sumTotalPrice);
+
+    // Evento para escuchar los cambios del input descuento
+    inputDiscount.forEach((input) => {
+        input.addEventListener('input', handleDiscountInput);
     });
 
     // Event listener para el botón "Agregar"
     selectorBtnNewRow.addEventListener('click', (e) => {
         e.preventDefault();
         createDinamicTableRow();
+        // Actualizar los elementos con las clases "totalArticle", "price", "itbis" y "discount"
         inputTA = document.querySelectorAll('.totalArticle');
         inputP = document.querySelectorAll('.price');
         inputDiscount = document.querySelectorAll('.discount');
-
+        // Añadir eventos para los nuevos elementos agregados
         inputTA.forEach((input) => {
             input.addEventListener('input', sumTotalPrice);
         });
@@ -53,30 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('input', sumTotalPrice);
         });
         inputDiscount.forEach((input) => {
-            input.addEventListener('input', sumTotalPrice);
-        });
-    });
-
-    // Evento para escuchar los cambios del input descuento
-    inputDiscount.forEach((input) => {
-        // Evento para escuchar los cambios del input descuento
-        inputDiscount.forEach((input) => {
-            input.addEventListener('input', (e) => {
-                // Obtener el valor ingresado
-                let value = e.target.value;
-
-                // Eliminar cualquier caracter no numérico y el carácter porcentaje
-                value = value.replace(/[^0-9.]/g, '');
-
-                // Limitar el valor entre 0 y 100
-                value = Math.min(100, Math.max(0, value));
-
-                // Agregar el signo % al final del valor
-                value += '%';
-
-                // Actualizar el valor del input con el valor validado
-                e.target.value = value;
-            });
+            input.addEventListener('input', handleDiscountInput);
         });
     });
 
@@ -90,14 +70,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Función para limitar los caracteres y agregar el signo % al final del descuento
+function handleDiscountInput(e) {
+    // Obtener el valor ingresado
+    let value = e.target.value;
+
+    // Eliminar cualquier caracter no numérico y el carácter porcentaje
+    value = value.replace(/[^0-9.]/g, '');
+
+    // Limitar el valor entre 0 y 100
+    value = Math.min(100, Math.max(0, value));
+
+    // Agregar el signo % al final del valor
+    value += '%';
+
+    // Actualizar el valor del input con el valor validado
+    e.target.value = value;
+    // Volver a calcular el precio total con el nuevo descuento
+    sumTotalPrice();
+}
+
 // Función para calcular el monto total y el ITBIS total
 function sumTotalPrice() {
     // Reiniciar los totales a cero
     totalPrice = 0;
     totalItbis = 0;
+    totalDiscount = 0;
     totalAmount = 0;
 
-    // Iterar sobre los campos de entrada de cantidad
+    // Iterar sobre los campos de entrada de cantidad y precio
     inputTA.forEach((input) => {
         // Obtener el valor de la cantidad
         const valueTA = parseFloat(input.value);
@@ -117,15 +118,32 @@ function sumTotalPrice() {
         // Actualizar el valor del campo de entrada del ITBIS con el valor calculado
         itbisInput.value = totalItbisInput.toFixed(2);
 
-        // Sumar totalAmount
-        totalAmount = totalItbis + totalPrice;
-        totalAmountInputId.value = formatCurrency(totalAmount);
+        // Obtener el descuento ingresado
+        const discountInput = input.closest('tr').querySelector('.discount').value;
+        // Obtener el valor numérico del descuento
+        const discountNumeric = parseFloat(discountInput.replace(/[^0-9.]/g, ''));
+        // Limitar el descuento entre 0 y 100
+        const validatedDiscount = Math.min(100, Math.max(0, discountNumeric));
+        // Convertir el descuento validado en decimal (ejemplo: 10% -> 0.1)
+        const discountDecimal = validatedDiscount / 100;
+
+        // Calcular el descuento del artículo (aplicado solo al precio sin ITBIS)
+        const totalDiscountInput = (totalPriceInput + totalItbisInput) * discountDecimal;
+        // Sumar al descuento total acumulativo
+        totalDiscount += totalDiscountInput;
     });
+
+    // Sumar al monto total acumulativo
+    totalAmount = totalPrice + totalItbis - totalDiscount;
 
     // Actualizar el valor del campo de entrada del monto total con el valor acumulativo
     totalPriceInputId.value = formatCurrency(totalPrice);
     // Actualizar el valor del campo de entrada del ITBIS total con el valor acumulativo
-    ItbistInputId.value = formatCurrency(totalItbis);
+    totalItbistInputId.value = formatCurrency(totalItbis);
+    // Actualizar el valor del campo de entrada del descuento total con el valor acumulativo
+    totaldiscountInputId.value = formatCurrency(totalDiscount);
+    // Actualizar el valor del campo de entrada del monto total con el valor acumulativo
+    totalAmountInputId.value = formatCurrency(totalAmount);
 }
 
 // Función para eliminar filas dinámicamente
