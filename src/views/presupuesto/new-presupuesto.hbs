@@ -11,12 +11,13 @@
                     <div>
                         <div class="form-group">
                             <label for="nameActivity">Nombre de la actividad</label>
-                            <input type="text" class="form-control" name="nameActivity" value="{{nameActivity}}" />
+                            <input type="text" class="form-control" name="nameActivity" value="{{nameActivity}}"
+                                required />
                         </div>
                         <div class="form-group">
                             <label for="typeActivity">Tipo de actividad</label>
-                            <select class="form-select" id="typeActivity" name="typeActivity">
-                                <option value="Indefinido">Selecciona uno</option>
+                            <select class="form-select" name="typeActivity" required>
+                                <option value="" selected disabled>Selecciona uno</option>
                                 {{#each typeActivity}}
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
@@ -24,7 +25,7 @@
                         </div>
                         <div class="form-group">
                             <label for="nameClient">Cliente</label>
-                            <input type="text" class="form-control" name="nameClient" value="{{nameClient}}" />
+                            <input type="text" class="form-control" name="nameClient" value="{{nameClient}}" required />
                         </div>
                     </div>
                     <div>
@@ -60,8 +61,8 @@
                     <div>
                         <div class="form-group">
                             <label for="statusPresupuesto">Estado del presupuesto</label>
-                            <select class="form-select" name="statusPresupuesto" id="statusPresupuesto">
-                                <option value="Indefinido">Selecciona uno</option>
+                            <select class="form-select" name="statusPresupuesto" required>
+                                <option value="" selected disabled>Selecciona uno</option>
                                 {{#each statusPresupuesto}}
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
@@ -69,8 +70,8 @@
                         </div>
                         <div class="form-group">
                             <label for="statusPaid">Estado de pago</label>
-                            <select class="form-select" name="statusPaid" id="statusPaid">
-                                <option value="Indefinido">Selecciona uno</option>
+                            <select class="form-select" name="statusPaid" required>
+                                <option value="" selected disabled>Selecciona uno</option>
                                 {{#each statusPaid}}
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
@@ -87,8 +88,8 @@
                     </div>
                     <div class="container-fluid table-responsive">
                         <table class="table table-striped">
-                            <thead>
-                                <tr class="align-middle">
+                            <thead class="align-middle">
+                                <tr>
                                     <th>#</th>
                                     <th>Tipo</th>`
                                     <th>Articulo</th>
@@ -101,42 +102,44 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody id="DinamicTableRow">
+                            <tbody class="align-middle" id="DinamicTableRow">
                                 {{#each presupuestoData.typeArticle}}
                                 <tr>
                                     <th>{{incrementIndex @index}}</th>
                                     <td class="col-2">
-                                        <select class="form-select" name="typeArticle[]" id="typeArticle">
-                                            <option value="Indefinido" disabled>Selecciona uno</option>
+                                        <select class="form-select" name="typeArticle[]" required>
                                             <option value="{{this}}" selected>{{this}}</option>
-                                            {{#each dataTypes.article}}
-                                            <option value="{{this}}">{{this}}</option>
+                                            {{#each dataTypes}}
+                                            <option value="{{article}}">{{article}}</option>
                                             {{/each}}
                                         </select>
                                     </td>
                                     <td>
                                         <input class="form-control" type="text" name="nameArticle[]"
                                             placeholder="Bocinas"
-                                            value="{{lookup ../presupuestoData.nameArticle @index}}" />
+                                            value="{{lookup ../presupuestoData.nameArticle @index}}" required />
                                     </td>
                                     <td>
                                         <input class="form-control totalArticle" type="number" name="totalArticle[]"
-                                            value="{{lookup ../presupuestoData.totalArticle @index}}" />
+                                            placeholder="0" value="{{lookup ../presupuestoData.totalArticle @index}}"
+                                            required />
                                     </td>
                                     <td>
                                         <input class="form-control price" type="number" name="price[]"
-                                            value="{{lookup ../presupuestoData.price @index}}" />
+                                            placeholder="0.00" value="{{lookup ../presupuestoData.price @index}}"
+                                            required />
                                     </td>
                                     <td>
                                         <input class="form-control itbis" type="number" name="itbis[]"
-                                            value="{{lookup ../presupuestoData.itbis @index}}" readonly />
+                                            placeholder="0.00" value="{{lookup ../presupuestoData.itbis @index}}"
+                                            readonly />
                                     </td>
                                     <td>
-                                        <input class="form-control discount" type="text" name="discount[]" id="discount"
-                                            value="0%" />
+                                        <input class="form-control discount" type="text" name="discount[]"
+                                            placeholder="0%" value="{{lookup ../presupuestoData.discount @index}}" />
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger btn-sm btnRemoveRow">Eliminar</button>
+                                        <button class=" btn btn-danger btn-sm btnRemoveRow">Eliminar</button>
                                     </td>
                                 </tr>
                                 {{/each}}
@@ -191,20 +194,20 @@
                     <div>
                         <div class="form-group">
                             <label for="nameActivity">Nombre de la actividad</label>
-                            <input type="text" class="form-control" name="nameActivity" />
+                            <input type="text" class="form-control" name="nameActivity" required />
                         </div>
                         <div class="form-group">
                             <label for="typeActivity">Tipo de actividad</label>
-                            <select class="form-select" name="typeActivity">
-                                <option value="Indefinido" disabled selected>Selecciona uno</option>
-                                {{#each dataTypes.activity}}
+                            <select class="form-select" name="typeActivity" required>
+                                <option value="" disabled selected>Selecciona uno</option>
+                                {{#each presupuestoDefaultTypes.activity}}
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="nameClient">Cliente</label>
-                            <input type="text" class="form-control" name="nameClient" />
+                            <input type="text" class="form-control" name="nameClient" required />
                         </div>
                     </div>
                     <div>
@@ -214,7 +217,7 @@
                         </div>
                         <div class="form-group">
                             <label for="email">Correo</label>
-                            <input type="email" class="form-control" name="email" placeholder="ejemplo@ejemplo.com" />
+                            <input type="email" class="form-control" name="email" placeholder="Ejemplo@Ejemplo.com" />
                         </div>
                         <div class="form-group">
                             <label for="location">Ubicacion</label>
@@ -238,18 +241,18 @@
                     <div>
                         <div class="form-group">
                             <label for="statusPresupuesto">Estado del presupuesto</label>
-                            <select class="form-select" name="statusPresupuesto">
-                                <option value="Indefinido" disabled selected>Selecciona uno</option>
-                                {{#each dataTypes.statusPresupuesto}}
+                            <select class="form-select" name="statusPresupuesto" required>
+                                <option value="" disabled selected>Selecciona uno</option>
+                                {{#each presupuestoDefaultTypes.statusPresupuesto}}
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="statusPaid">Estado de pago</label>
-                            <select class="form-select" name="statusPaid" id="statusPaid">
-                                <option value="Indefinido" disabled selected>Selecciona uno</option>
-                                {{#each dataTypes.statusPaid}}
+                            <select class="form-select" name="statusPaid" required>
+                                <option value="" disabled selected>Selecciona uno</option>
+                                {{#each presupuestoDefaultTypes.statusPaid}}
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
                             </select>
@@ -273,7 +276,7 @@
                                     <th>Cantidad</th>
                                     <th>Precio</th>
                                     <th>ITBIS</th>
-                                    <th>Descuento</th>
+                                    <th>Descuento %</th>
                                     <th>
                                         <button class="btn-custom m-1" id="btnNewRow">+</button>
                                     </th>
@@ -281,35 +284,35 @@
                             </thead>
                             <tbody id="DinamicTableRow">
                                 <tr class="align-middle">
-                                    <th>1</th>
-                                    <td class="col-2">
-                                        <select class="form-select typeArticle" name="typeArticle[]" id="typeArticle">
-                                            <option value="Indefinido" disabled selected>Selecciona uno</option>
-                                            {{#each dataTypes.article}}
+                                    <th class="col-auto">1</th>
+                                    <td class="">
+                                        <select class="form-select typeArticle" name="typeArticle[]" required>
+                                            <option value="Selecciona uno" selected disabled>Selecciona uno</option>
+                                            {{#each presupuestoDefaultTypes.article}}
                                             <option value="{{this}}">{{this}}</option>
                                             {{/each}}
                                         </select>
                                     </td>
-                                    <td>
+                                    <td class="">
                                         <input class="form-control nameArticle" type="text" name="nameArticle[]"
-                                            placeholder="Bocinas" />
+                                            placeholder="Bocinas" required />
                                     </td>
-                                    <td>
+                                    <td class="">
                                         <input class="form-control totalArticle" type="number" name="totalArticle[]"
-                                            value="0" />
+                                            placeholder="0" value="1" required />
                                     </td>
-                                    <td>
-                                        <input class="form-control price" type="number" name="price[]" value="0.00" />
+                                    <td class="">
+                                        <input class="form-control price" type="number" name="price[]"
+                                            placeholder="0.00" required />
                                     </td>
-                                    <td>
-                                        <input class="form-control itbis" type="number" name="itbis[]" value="0.00"
-                                            readonly />
+                                    <td class="">
+                                        <input class="form-control itbis" type="number" name="itbis[]" readonly />
                                     </td>
-                                    <td>
-                                        <input class="form-control discount" type="text" name="discount[]" id="discount"
-                                            value="0%" />
+                                    <td class="">
+                                        <input class="form-control discount" type="number" name="discount[]"
+                                            placeholder="0%" />
                                     </td>
-                                    <td>
+                                    <td class="">
                                         <button class="btn btn-danger btn-sm btnRemoveRow">Eliminar</button>
                                     </td>
                                 </tr>

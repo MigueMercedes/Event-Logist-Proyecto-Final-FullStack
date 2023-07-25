@@ -1,59 +1,45 @@
 import mongoose from 'mongoose';
 
-const presupuestoTypes = new mongoose.Schema({
-    typesActivity: {
-        type: [String],
-        required: false
-    },
-    typesArticle: {
-        type: [String],
-        required: false
-    },
-    typesStatusPresupuesto: {
-        type: [String],
-        required: false
-    },
-    typesStatusPaid: {
-        type: [String],
-        required: false
-    }
-});
 const presupuestoDetails = new mongoose.Schema({
     typeArticle: {
         type: [String],
-        required: false
+        required: true
     },
     nameArticle: {
         type: [String],
-        required: false
+        required: true
     },
     totalArticle: {
-        type: [String],
-        required: false
+        type: [Number],
+        required: true
     },
     price: {
-        type: [String],
-        required: false
+        type: [Number],
+        required: true
     },
     itbis: {
-        type: [String],
-        required: false
+        type: [Number],
+        required: true
     },
     discount: {
-        type: [String],
-        required: false
+        type: [Number],
+        required: true
     },
     totalItbis: {
-        type: String,
-        required: false
+        type: Number,
+        required: true
     },
     totalPrice: {
-        type: String,
-        required: false
+        type: Number,
+        required: true
     },
     totalDiscount: {
-        type: String,
-        required: false
+        type: Number,
+        required: true
+    },
+    totalAmount: {
+        type: Number,
+        required: true
     }
 });
 
@@ -61,15 +47,15 @@ const PresupuestoSchema = new mongoose.Schema(
     {
         nameActivity: {
             type: String,
-            required: false
+            required: true
         },
         typeActivity: {
             type: String,
-            required: false
+            required: true
         },
         nameClient: {
             type: String,
-            required: false
+            required: true
         },
         email: {
             type: String,
@@ -97,23 +83,19 @@ const PresupuestoSchema = new mongoose.Schema(
         },
         createdBy: {
             type: String,
-            required: false
+            required: true
         },
         statusPaid: {
             type: String,
-            required: false
+            required: true
         },
         statusPresupuesto: {
             type: String,
-            required: false
+            required: true
         },
         presupuestoData: {
             type: presupuestoDetails,
-            required: false
-        },
-        presupuestoDataTypes: {
-            type: presupuestoTypes,
-            required: false
+            required: true
         },
         user: {
             type: String,

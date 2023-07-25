@@ -1,5 +1,20 @@
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+
+const presupuestoDataTypes = new mongoose.Schema({
+    activity: {
+        type: [String],
+        required: true
+    },
+    article: {
+        type: [String],
+        required: true
+    },
+    proveedor: {
+        type: [String],
+        required: true
+    }
+});
 
 const UserSchema = new mongoose.Schema(
     {
@@ -17,10 +32,14 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        userDataTypesP: {
+            type: presupuestoDataTypes,
+            required: true
+        }
     },
     {
         timestamps: true,
-        versionKey: false,
+        versionKey: false
     }
 );
 
@@ -33,4 +52,4 @@ UserSchema.methods.matchPassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 };
 
-export default mongoose.model("User", UserSchema);
+export default mongoose.model('User', UserSchema);

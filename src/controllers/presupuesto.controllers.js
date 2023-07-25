@@ -1,36 +1,6 @@
 import Presupuesto from '../models/Prespuesto.js';
 import { formatCurrency, noRepeatTypes } from '../helpers/index.js';
-
-const dataTypes = {
-    activity: [
-        'Boda',
-        'Cumpleaños',
-        'Conferencia',
-        'Feria',
-        'Exposicion',
-        'Comporativo',
-        'Gala',
-        'Festival',
-        'Concierto',
-        'Deportivo',
-        'Graducacion'
-    ],
-    article: [
-        'Comida',
-        'Bebida',
-        'Decoracion',
-        'Sonido',
-        'Pantalla',
-        'Luces',
-        'Personal',
-        'Servicios',
-        'Centros de Mesa',
-        'Vestimenta',
-        'Invitaciones'
-    ],
-    statusPresupuesto: ['Aceptada', 'Editando', 'Rechazada', 'Completada'],
-    statusPaid: ['Pendiente', 'Pago', 'No Pago']
-};
+import presupuestoDefaultTypes from '../helpers/defaultTypes.js';
 
 export const renderPresupuestos = async (req, res) => {
     try {
@@ -38,13 +8,11 @@ export const renderPresupuestos = async (req, res) => {
             .sort({ updatedAt: 'desc' })
             .lean();
 
-        if (presupuesto.length > 0) {
-            res.render('presupuesto/all-presupuestos', {
-                page: 'Presupuestos',
-                // isPresupuesto: true,
-                presupuesto
-            });
-        }
+        res.render('presupuesto/all-presupuestos', {
+            page: 'Presupuestos',
+            // isPresupuesto: true,
+            presupuesto
+        });
     } catch (error) {
         console.log(error);
         res.redirect('/');
@@ -72,7 +40,7 @@ export const renderPresupuestoForm = async (req, res) => {
         res.render('presupuesto/new-presupuesto', {
             page: 'Crear presupuesto',
             username,
-            dataTypes
+            presupuestoDefaultTypes
         });
     } catch (error) {
         console.log(error);
@@ -80,75 +48,94 @@ export const renderPresupuestoForm = async (req, res) => {
 };
 
 export const createNewPresupuesto = async (req, res) => {
-    const errors = [];
+    try {
+        const errors = [];
 
-    const {
-        nameActivity,
-        nameClient,
-        email,
-        location,
-        address,
-        phone,
-        descriptionActivity,
-        dateActivity,
-        timeActivity,
-        createdBy,
-        totalPrice,
-        totalItbis
-    } = req.body;
-    let { typeActivity } = req.body;
-    let { statusPresupuesto } = req.body;
-    let { statusPaid } = req.body;
-
-    const typeArticle = req.body['typeArticle[]'];
-    const nameArticle = req.body['nameArticle[]'];
-    const totalArticle = req.body['totalArticle[]'];
-    const price = req.body['price[]'];
-    const itbis = req.body['itbis[]'];
-    const discount = req.body['discount[]'];
-
-    const presupuestoData = {
-        typeArticle,
-        nameArticle,
-        totalArticle,
-        price,
-        itbis,
-        totalPrice,
-        totalItbis,
-        discount
-    };
-
-    //Revisa si se encuentra el valor repetido y eliminar los valores duplicados
-    typeActivity = noRepeatTypes(dataTypes.activity, typeActivity);
-    statusPresupuesto = noRepeatTypes(dataTypes.statusPresupuesto, statusPresupuesto);
-    statusPaid = noRepeatTypes(dataTypes.statusPaid, statusPaid);
-
-    if (!nameActivity.trim()) {
-        errors.push({ text: 'Debes escribir un nombre para la actividad' });
-    }
-
-    if (errors.length > 0) {
-        return res.render('presupuesto/new-presupuesto', {
-            errors,
+        const {
             nameActivity,
-            typeActivity,
             nameClient,
             email,
             location,
-            address,
             phone,
             descriptionActivity,
             dateActivity,
             timeActivity,
             createdBy,
-            statusPaid,
-            statusPresupuesto,
-            presupuestoData,
-            page: 'Error al agregar'
-        });
-    }
+            totalPrice,
+            totalItbis,
+            totalDiscount,
+            totalAmount
+        } = req.body;
+        let { typeActivity } = req.body;
+        let { statusPresupuesto } = req.body;
+        let { statusPaid } = req.body;
 
-    const newPresupuesto = new Presupuesto({
+        const typeArticle = req.body['typeArticle[]'];
+        const nameArticle = req.body['nameArticle[]'];
+        const totalArticle = req.body['totalArticle[]'];
+        const price = req.body['price[]'];
+        const itbis = req.body['itbis[]'];
+        const discount = req.body['discount[]'];
+
+        const presupuestoData = {
+            typeArticle,
+            nameArticle,
+            totalArticle,
+            price,
+            itbis,
+            totalPrice,
+            totalItbis,
+            discount,
+            totalDiscount,
+            totalAmount
+        };
+        console.log(presupuestoData);
+
+        // Verificar que todos los campos estén completos
+
+        if (
+            !nameActivity.trim() ||
+            !nameClient.trim() ||
+            !createdBy.trim() ||
+            !totalPrice.trim() ||
+            !typeActivity.trim() ||
+            !statusPresupuesto.trim() ||
+            !statusPaid.trim()
+        ) {
+            errors.push({ text: 'Asegurate de que los campos esten correctamente llenos' });
+        }
+
+        //Revisa si se encuentra el valor repetido y eliminar los valores duplicados
+        typeActivity = noRepeatTypes(presupuestoDefaultTypes.activity, typeActivity);
+        statusPresupuesto = noRepeatTypes(
+            presupuestoDefaultTypes.statusPresupuesto,
+            statusPresupuesto
+        );
+        statusPaid = noRepeatTypes(presupuestoDefaultTypes.statusPaid, statusPaid);
+
+        if (errors.length > 0) {
+            return res.render('presupuesto/new-presupuesto', {
+                errors,
+                nameActivity,
+                typeActivity,
+                nameClient,
+                email,
+                location,
+                address,
+                phone,
+                descriptionActivity,
+                dateActivity,
+                timeActivity,
+                createdBy,
+                statusPaid,
+                statusPresupuesto,
+                presupuestoData,
+                presupuestoDefaultTypes,
+                page: 'Error al agregar'
+            });
+        }
+
+        /*const newPresupuesto = new Presupuesto({
         nameActivity,
         typeActivity,
         nameClient,
@@ -167,8 +154,12 @@ export const createNewPresupuesto = async (req, res) => {
 
     newPresupuesto.user = req.user.id;
     await newPresupuesto.save();
-    req.flash('success_msg', 'Presupuesto Agregado Correctamente.');
-    res.redirect('/presupuesto');
+    */
+        req.flash('success_msg', 'Presupuesto Agregado Correctamente.');
+        res.redirect('/presupuesto');
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 export const renderEditForm = async (req, res) => {
