@@ -1,187 +1,3 @@
-{{#if errors}}
-<div class="row">
-    <div class="bg-light border border-secondary p-0">
-        <div>
-            <h1 class="text-center bg-dark text-light py-2">Crear Presupuesto</h1>
-            <p class="fs-4 lead border border border-2 py-2 ps-4">Detalles del presupuesto:</p>
-        </div>
-        <div class="mt-3">
-            <form action="/presupuesto/new-presupuesto" method="POST">
-                <div class="d-flex flex-wrap justify-content-between mx-5">
-                    <div>
-                        <div class="form-group">
-                            <label for="nameActivity">Nombre de la actividad</label>
-                            <input type="text" class="form-control" name="nameActivity" value="{{nameActivity}}"
-                                required />
-                        </div>
-                        <div class="form-group">
-                            <label for="typeActivity">Tipo de actividad</label>
-                            <select class="form-select" name="typeActivity" required>
-                                <option value="" selected disabled>Selecciona uno</option>
-                                {{#each typeActivity}}
-                                <option value="{{this}}">{{this}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="nameClient">Cliente</label>
-                            <input type="text" class="form-control" name="nameClient" value="{{nameClient}}" required />
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="phone">Telefono</label>
-                            <input type="tel" class="form-control" name="phone" value="{{phone}}" />
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Correo</label>
-                            <input type="email" class="form-control" name="email" placeholder="ejemplo@gmail.com"
-                                value="{{email}}" />
-                        </div>
-                        <div class="form-group">
-                            <label for="location">Ubicacion</label>
-                            <input type="text" class="form-control" name="location" value="{{location}}" />
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="dateActivity">Dia de la actividad</label>
-                            <input type="date" class="form-control" name="dateActivity" value="{{dateActivity}}" />
-                        </div>
-                        <div class="form-group">
-                            <label for="timeActivity">Hora de la actividad</label>
-                            <input type="time" class="form-control" name="timeActivity" value="{{timeActivity}}" />
-                        </div>
-                        <div class="form-group">
-                            <label for="descriptionActivity">Descripcion</label>
-                            <input type="text" class="form-control" name="descriptionActivity"
-                                value="{{descriptionActivity}}" />
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="statusPresupuesto">Estado del presupuesto</label>
-                            <select class="form-select" name="statusPresupuesto" required>
-                                <option value="" selected disabled>Selecciona uno</option>
-                                {{#each statusPresupuesto}}
-                                <option value="{{this}}">{{this}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="statusPaid">Estado de pago</label>
-                            <select class="form-select" name="statusPaid" required>
-                                <option value="" selected disabled>Selecciona uno</option>
-                                {{#each statusPaid}}
-                                <option value="{{this}}">{{this}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="createdBy">Creado por</label>
-                            <input type="text" class="form-control" name="createdBy" value="{{createdBy}}" readonly />
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <p class="fs-5 lead border-bottom border-2 ps-4">Facturacion del
-                            presupuesto:</p>
-                    </div>
-                    <div class="container-fluid table-responsive">
-                        <table class="table table-striped">
-                            <thead class="align-middle">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tipo</th>`
-                                    <th>Articulo</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio</th>
-                                    <th>ITBIS</th>
-                                    <th>Descuento</th>
-                                    <th>
-                                        <button class="btn-custom m-1" id="btnNewRow">+</button>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="align-middle" id="DinamicTableRow">
-                                {{#each presupuestoData.typeArticle}}
-                                <tr>
-                                    <th>{{incrementIndex @index}}</th>
-                                    <td class="col-2">
-                                        <select class="form-select" name="typeArticle[]" required>
-                                            <option value="{{this}}" selected>{{this}}</option>
-                                            {{#each dataTypes}}
-                                            <option value="{{article}}">{{article}}</option>
-                                            {{/each}}
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input class="form-control" type="text" name="nameArticle[]"
-                                            placeholder="Bocinas"
-                                            value="{{lookup ../presupuestoData.nameArticle @index}}" required />
-                                    </td>
-                                    <td>
-                                        <input class="form-control totalArticle" type="number" name="totalArticle[]"
-                                            placeholder="0" value="{{lookup ../presupuestoData.totalArticle @index}}"
-                                            required />
-                                    </td>
-                                    <td>
-                                        <input class="form-control price" type="number" name="price[]"
-                                            placeholder="0.00" value="{{lookup ../presupuestoData.price @index}}"
-                                            required />
-                                    </td>
-                                    <td>
-                                        <input class="form-control itbis" type="number" name="itbis[]"
-                                            placeholder="0.00" value="{{lookup ../presupuestoData.itbis @index}}"
-                                            readonly />
-                                    </td>
-                                    <td>
-                                        <input class="form-control discount" type="text" name="discount[]"
-                                            placeholder="0%" value="{{lookup ../presupuestoData.discount @index}}" />
-                                    </td>
-                                    <td>
-                                        <button class=" btn btn-danger btn-sm btnRemoveRow">Eliminar</button>
-                                    </td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-11 justify-content-end mx-auto p-2">
-                    <div class=" d-flex flex-column my-5 gap-2">
-                        <div class="text-end">
-                            <label class="form-label fs-5 fw-bold" for="totalPrice">SubTotal: </label>
-                            <input class="form-control-sm fs-5 fw-bold" type="text" name="totalPrice" id="totalPrice"
-                                size="20px" readonly />
-                        </div>
-                        <div class="text-end">
-                            <label class="form-label fs-5 fw-bold" for="totalItbis">Total ITBIS: </label>
-                            <input class="form-control-sm fs-5 fw-bold" type="text" name="totalItbis" id="totalItbis"
-                                size="20px" readonly />
-                        </div>
-                        <div class="text-end">
-                            <label class="form-label fs-5 fw-bold" for="totalDiscount">Total Descuento: </label>
-                            <input class="form-control-sm fs-5 fw-bold" type="text" name="totalDiscount" value=0
-                                id="totalDiscount" size="20px" readonly />
-                        </div>
-                        <div class="text-end">
-                            <label class="form-label fs-5 fw-bold" for="totalAmount">Monto Total: </label>
-                            <input class="form-control-sm fs-5 fw-bold" type="text" name="totalAmount" id="totalAmount"
-                                value=0 size="20px" readonly />
-                        </div>
-                        <div class="text-end my-3">
-                            <button class="btn btn-primary fw-bold fs-4 p-2" type="submit">
-                                Crear
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-{{else}}
 <div class="row">
     <div class="bg-light border border-secondary p-0">
         <div>
@@ -269,7 +85,7 @@
                     <div class="container-fluid table-responsive">
                         <table class="table table-striped">
                             <thead>
-                                <tr>
+                                <tr class="align-middle">
                                     <th>#</th>
                                     <th>Tipo</th>
                                     <th>Articulo</th>
@@ -278,16 +94,16 @@
                                     <th>ITBIS</th>
                                     <th>Descuento %</th>
                                     <th>
-                                        <button class="btn-custom m-1" id="btnNewRow">+</button>
+                                        <button class="btn-custom" id="btnNewRow">+</button>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody id="DinamicTableRow">
                                 <tr class="align-middle">
-                                    <th class="col-auto">1</th>
+                                    <th class="">1</th>
                                     <td class="">
                                         <select class="form-select typeArticle" name="typeArticle[]" required>
-                                            <option value="Selecciona uno" selected disabled>Selecciona uno</option>
+                                            <option value="" selected disabled>Selecciona uno</option>
                                             {{#each presupuestoDefaultTypes.article}}
                                             <option value="{{this}}">{{this}}</option>
                                             {{/each}}
@@ -298,62 +114,52 @@
                                             placeholder="Bocinas" required />
                                     </td>
                                     <td class="">
-                                        <input class="form-control totalArticle" type="number" name="totalArticle[]"
-                                            placeholder="0" value="1" required />
+                                        <input class="form-control text-end totalArticle" type="number"
+                                            name="totalArticle[]" placeholder="0" value="1" required />
                                     </td>
                                     <td class="">
-                                        <input class="form-control price" type="number" name="price[]"
+                                        <input class="form-control text-end price" type="number" name="price[]"
                                             placeholder="0.00" required />
                                     </td>
                                     <td class="">
-                                        <input class="form-control itbis" type="number" name="itbis[]" readonly />
+                                        <input class="form-control text-end itbis" type="number" name="itbis[]"
+                                            readonly />
                                     </td>
                                     <td class="">
-                                        <input class="form-control discount" type="number" name="discount[]"
+                                        <input class="form-control text-end discount" type="number" name="discount[]"
                                             placeholder="0%" />
                                     </td>
                                     <td class="">
-                                        <button class="btn btn-danger btn-sm btnRemoveRow">Eliminar</button>
+                                        <button class="btnRemoveRow">Eliminar</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="col-11 justify-content-end mx-auto p-2">
-                    <div class=" d-flex flex-column my-5 gap-2">
-                        <div class="text-end">
-                            <label class="form-label fs-5 fw-bold" for="totalPrice">SubTotal: </label>
-                            <input class="form-control-sm fs-5 fw-bold" type="text" name="totalPrice" id="totalPrice"
-                                size="20px" readonly />
-                        </div>
-                        <div class="text-end">
-                            <label class="form-label fs-5 fw-bold" for="totalItbis">Total ITBIS: </label>
-                            <input class="form-control-sm fs-5 fw-bold" type="text" name="totalItbis" id="totalItbis"
-                                size="20px" readonly />
-                        </div>
-                        <div class="text-end">
-                            <label class="form-label fs-5 fw-bold" for="totalDiscount">Total Descuento: </label>
-                            <input class="form-control-sm fs-5 fw-bold" type="text" name="totalDiscount"
-                                id="totalDiscount" value=0 size="20px" readonly />
-                        </div>
-                        <div class="text-end">
-                            <label class="form-label fs-5 fw-bold" for="totalAmount">Monto Total: </label>
-                            <input class="form-control-sm fs-5 fw-bold" type="text" name="totalAmount" id="totalAmount"
-                                value=0 size="20px" readonly />
-                        </div>
-                        <div class="text-end my-3">
-                            <button class="btn btn-primary fw-bold fs-4 p-2" type="submit">
-                                Guardar
+                <div class="my-5">
+                    <div class="d-flex flex-column text-center mx-5">
+                        <p class="fs-5 fw-bold my-1">SubTotal: <span class="text-end fs-5 fw-bold" type="text"
+                                id="totalPrice"></span></p>
+                        <p class="fs-5 fw-bold my-1">ITBIS Total: <span class="text-end fs-5 fw-bold" type="text"
+                                id="totalItbis"></span></p>
+                        <p class="fs-5 fw-bold my-1">Descuento Total: <span class="text-end fs-5 fw-bold" type="text"
+                                id="totalDiscount"></span>
+                        </p>
+                        <p class="fs-5 fw-bold my-1 mb-3">Monto Total: <span class="text-end fs-5 fw-bold" type="text"
+                                id="totalAmount"></span></p>
+                        <div>
+                            <button class="btn btn-primary btn-lg fw-bold fs-4 rounded shadow px-5" type="submit">
+                                Crear
                             </button>
                         </div>
                     </div>
+
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-{{/if}}
 
-<script src="/js/loadPresupuesto.js"></script>
+<script type="module" src="/js/loadPresupuesto.js"></script>

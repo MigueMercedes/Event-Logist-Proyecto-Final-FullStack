@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     inputTA.forEach((input) => {
         input.addEventListener('input', sumTotalPrice);
     });
-    // Event listener para los cambios en los input de cantidad
+    // Event listener para los cambios en los input de precio
     inputP.forEach((input) => {
         input.addEventListener('input', sumTotalPrice);
     });
@@ -70,6 +70,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Función para formatear el valor a DOP
+const formatCurrency = (valor) => {
+    const formatter = new Intl.NumberFormat('es-DO', {
+        style: 'currency',
+        currency: 'DOP'
+    });
+    return formatter.format(valor);
+};
+
 // Función para limitar los caracteres y validar el descuento
 function handleDiscountInput(e) {
     // Obtener el valor ingresado
@@ -93,12 +102,18 @@ function sumTotalPrice() {
 
     // Iterar sobre los campos de entrada de cantidad y precio
     inputTA.forEach((input) => {
-        // Obtener el valor de la cantidad
-        const valueTA = parseFloat(input.value) || 0; // Si el valor no es numérico, considerar cero
+        // Obtener el valor de la cantidad y asegurarse de que sea un número válido (positivo o cero)
+        const valueTA = parseFloat(input.value) || 0;
+        if (isNaN(valueTA) || valueTA < 0) {
+            input.value = 0; // Establecer a cero si no es válido
+        }
 
-        // Obtener el precio del artículo relacionado
+        // Obtener el valor de la cantidad y asegurarse de que sea un número válido (positivo o cero)
         const priceInput = input.closest('tr').querySelector('.price').value;
-        const valuePrice = parseFloat(priceInput) || 0; // Si el precio no es numérico, considerar cero
+        const valuePrice = parseFloat(priceInput) || 0;
+        if (isNaN(valuePrice) || valuePrice < 0) {
+            input.closest('tr').querySelector('.price').value = 0; // Limitar a 0 si es menor a ese valor
+        }
 
         // Calcular el subtotal del artículo
         const totalPriceInput = valueTA * valuePrice;
@@ -136,14 +151,15 @@ function sumTotalPrice() {
     totalAmount = totalPrice + totalItbis - totalDiscount;
 
     // Actualizar el valor del campo de entrada del monto total con el valor acumulativo
-    totalPriceInputId.value = formatCurrency(totalPrice);
+    totalPriceInputId.textContent = formatCurrency(totalPrice);
     // Actualizar el valor del campo de entrada del ITBIS total con el valor acumulativo
-    totalItbistInputId.value = formatCurrency(totalItbis);
+    totalItbistInputId.textContent = formatCurrency(totalItbis);
     // Actualizar el valor del campo de entrada del descuento total con el valor acumulativo
-    totaldiscountInputId.value = formatCurrency(totalDiscount);
+    totaldiscountInputId.textContent = formatCurrency(totalDiscount);
     // Actualizar el valor del campo de entrada del monto total con el valor acumulativo
-    totalAmountInputId.value = formatCurrency(totalAmount);
+    totalAmountInputId.textContent = formatCurrency(totalAmount);
 }
+
 // Función para eliminar filas dinámicamente
 function removeDinamicTableRow(row) {
     row.remove();
@@ -164,16 +180,23 @@ function updateRowIndices() {
 function createDinamicTableRow() {
     // Crear elementos
     const tr = document.createElement('tr');
+    tr.classList.add('align-middle');
     const th = document.createElement('th');
     tr.appendChild(th);
 
     const select = document.createElement('select');
-    select.classList.add('form-select');
+    select.classList.add('form-select', 'typeArticle');
     select.name = 'typeArticle[]';
     select.required = true;
 
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'Selecciona uno';
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    select.appendChild(defaultOption);
+
     const options = [
-        'Selecciona uno',
         'Comida',
         'Bebida',
         'Decoracion',
@@ -200,32 +223,35 @@ function createDinamicTableRow() {
 
     const tdInputNA = document.createElement('td');
     const inputNA = document.createElement('input');
-    inputNA.classList.add('form-control');
+    inputNA.classList.add('form-control', 'nameArticle');
     inputNA.type = 'text';
     inputNA.name = 'nameArticle[]';
     inputNA.placeholder = 'Bocinas';
+    inputNA.required = true;
     tdInputNA.appendChild(inputNA);
 
     const tdInputTA = document.createElement('td');
     const inputTA = document.createElement('input');
-    inputTA.classList.add('form-control', 'totalArticle');
+    inputTA.classList.add('form-control', 'text-end', 'totalArticle');
     inputTA.type = 'number';
     inputTA.name = 'totalArticle[]';
     inputTA.value = 1;
     inputTA.placeholder = 0;
+    inputTA.required = true;
     tdInputTA.appendChild(inputTA);
 
     const tdInputPrice = document.createElement('td');
     const inputPrice = document.createElement('input');
-    inputPrice.classList.add('form-control', 'price');
+    inputPrice.classList.add('form-control', 'text-end', 'price');
     inputPrice.type = 'number';
     inputPrice.name = 'price[]';
     inputPrice.placeholder = '0.00';
+    inputPrice.required = true;
     tdInputPrice.appendChild(inputPrice);
 
     const tdInputItbis = document.createElement('td');
     const inputItbis = document.createElement('input');
-    inputItbis.classList.add('form-control', 'itbis');
+    inputItbis.classList.add('form-control', 'text-end', 'itbis');
     inputItbis.type = 'number';
     inputItbis.name = 'itbis[]';
     inputItbis.placeholder = '0.00';
@@ -235,7 +261,7 @@ function createDinamicTableRow() {
 
     const tdInputDiscount = document.createElement('td');
     const inputDiscount = document.createElement('input');
-    inputDiscount.classList.add('form-control', 'discount');
+    inputDiscount.classList.add('form-control', 'text-end', 'discount');
     inputDiscount.type = 'number';
     inputDiscount.name = 'Discount[]';
     inputDiscount.placeholder = '0%';
@@ -244,7 +270,7 @@ function createDinamicTableRow() {
     // Crear botón de eliminar fila
     const tdRemoveBtn = document.createElement('td');
     const removeBtn = document.createElement('button');
-    removeBtn.classList.add('btn', 'btn-danger', 'btn-sm', 'btnRemoveRow');
+    removeBtn.classList.add('btnRemoveRow');
     removeBtn.textContent = 'Eliminar';
     tdRemoveBtn.appendChild(removeBtn);
 
