@@ -79,14 +79,8 @@ export const createNewPresupuesto = async (req, res) => {
     let { statusPaid } = req.body;
 
     //Revisa si se encuentra el valor repetido y eliminar los valores duplicados
-    typeActivity = noRepeatTypes(
-        presupuestoDefaultTypes.activity,
-        typeActivity
-    );
-    statusPresupuesto = noRepeatTypes(
-        presupuestoDefaultTypes.statusPresupuesto,
-        statusPresupuesto
-    );
+    typeActivity = noRepeatTypes(presupuestoDefaultTypes.activity, typeActivity);
+    statusPresupuesto = noRepeatTypes(presupuestoDefaultTypes.statusPresupuesto, statusPresupuesto);
     statusPaid = noRepeatTypes(presupuestoDefaultTypes.statusPaid, statusPaid);
 
     //Creamos el objeto con los datos de la tabla y validamos/convertimos datos
@@ -122,10 +116,9 @@ export const createNewPresupuesto = async (req, res) => {
         });
     }
 
-    const totalPrice = Array.isArray(presupuestoData.price)
+    const subTotal = Array.isArray(presupuestoData.price)
         ? presupuestoData.price.reduce(
-              (total, value, index) =>
-                  total + value * presupuestoData.totalArticle[index],
+              (total, value, index) => total + value * presupuestoData.totalArticle[index],
               0
           )
         : presupuestoData.price * presupuestoData.totalArticle;
@@ -141,7 +134,7 @@ export const createNewPresupuesto = async (req, res) => {
         : presupuestoData.discount;
 
     //const totalAmount
-    console.log(totalPrice);
+    console.log(subTotal);
     console.log(totalItbis);
     console.log(totalDiscount);
 
@@ -199,7 +192,7 @@ export const updatePresupuesto = async (req, res) => {
         createdBy,
         statusPaid,
         status,
-        totalPrice,
+        subTotal,
         totalItbis,
     } = req.body;
 
@@ -215,7 +208,7 @@ export const updatePresupuesto = async (req, res) => {
         totalArticle,
         price,
         itbis,
-        totalPrice,
+        subTotal,
         totalItbis,
     };
 

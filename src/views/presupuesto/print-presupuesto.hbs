@@ -77,9 +77,9 @@
 
             <div class="col-10 mx-auto my-5">
                 <div class="d-flex flex-column text-end ">
-                    <p class="fs-5 fw-bold">SubTotal: {{formatCurrency presupuesto.presupuestoData.totalPrice}}</p>
+                    <p class="fs-5 fw-bold">SubTotal: {{formatCurrency presupuesto.presupuestoData.subTotal}}</p>
                     <p class="fs-5 fw-bold">ITBIS: {{formatCurrency presupuesto.presupuestoData.totalItbis}}</p>
-                    <p class="fs-5 fw-bold">Monto Total: {{formatCurrency (sum presupuesto.presupuestoData.totalPrice
+                    <p class="fs-5 fw-bold">Monto Total: {{formatCurrency (sum presupuesto.presupuestoData.subTotal
                         presupuesto.presupuestoData.totalItbis)}}</p>
                 </div>
             </div>

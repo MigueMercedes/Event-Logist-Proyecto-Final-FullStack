@@ -81,11 +81,11 @@ const PresupuestoSchema = new mongoose.Schema(
             type: presupuestoTable,
             required: true,
         },
-        totalItbis: {
+        subTotal: {
             type: Number,
             required: true,
         },
-        totalPrice: {
+        totalItbis: {
             type: Number,
             required: true,
         },

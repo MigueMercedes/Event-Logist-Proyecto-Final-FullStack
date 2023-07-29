@@ -96,9 +96,9 @@
                                     <th>Precio</th>
                                     <th>ITBIS</th>
                                     <th>Descuento %</th>
-                                    <th>Descuento $</th>
+                                    <th>Total</th>
                                     <th>
-                                        <button class="btn-custom" id="btnNewRow">+</button>
+                                        <button type="button" class="btn-custom" id="btnNewRow">+</button>
                                     </th>
                                 </tr>
                             </thead>
@@ -118,7 +118,7 @@
                                             placeholder="Bocinas" required />
                                     </td>
                                     <td>
-                                        <input class="form-control text-end totalArticle" type="number"
+                                        <input class="form-control text-end totalArticle" type="number" step="0.1"
                                             name="totalArticle[]" placeholder="0" required />
                                     </td>
                                     <td>
@@ -134,11 +134,11 @@
                                             name="porcentDiscount[]" placeholder="0%" required />
                                     </td>
                                     <td>
-                                        <input class="form-control text-end discount" type="number" name="discount[]"
-                                            placeholder="0.00" readonly required />
+                                        <input class="form-control text-end totalPrice" type="number"
+                                            name="totalPrice[]" placeholder="0.00" readonly required />
                                     </td>
                                     <td>
-                                        <button class="btnRemoveRow">Eliminar</button>
+                                        <button class="btnRemoveRow">X</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -146,9 +146,9 @@
                     </div>
                 </div>
                 <div class="my-5">
-                    <div class="d-flex flex-column text-center mx-5">
+                    <div class="d-flex flex-column text-end mx-5">
                         <p class="fs-5 fw-bold my-1">SubTotal: <span class="text-end fs-5 fw-bold" type="text"
-                                id="totalPrice"></span></p>
+                                id="subTotal"></span></p>
                         <p class="fs-5 fw-bold my-1">ITBIS Total: <span class="text-end fs-5 fw-bold" type="text"
                                 id="totalItbis"></span></p>
                         <p class="fs-5 fw-bold my-1">Descuento Total: <span class="text-end fs-5 fw-bold" type="text"
@@ -168,6 +168,3 @@
         </div>
     </div>
 </div>
-
-
-<script src="/js/loadPresupuesto.js"></script>
