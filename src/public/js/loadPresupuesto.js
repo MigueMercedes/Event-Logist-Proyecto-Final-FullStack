@@ -17,19 +17,25 @@ const totalAmountInputId = document.querySelector('#totalAmount');
 let inputTA = document.querySelectorAll('.totalArticle');
 let inputP = document.querySelectorAll('.price');
 let inputItbis = document.querySelectorAll('.itbis');
+let inputPorcentDiscount = document.querySelectorAll('.porcentDiscount');
 let inputDiscount = document.querySelectorAll('.discount');
 
 // Event listener al cargar el DOM
 document.addEventListener('DOMContentLoaded', () => {
-    sumTotalPrice();
+    updateTotals();
 
     // Event listener para los cambios en los input de cantidad
     inputTA.forEach((input) => {
-        input.addEventListener('input', sumTotalPrice);
+        input.addEventListener('input', updateTotals);
     });
     // Event listener para los cambios en los input de precio
     inputP.forEach((input) => {
-        input.addEventListener('input', sumTotalPrice);
+        input.addEventListener('input', updateTotals);
+    });
+
+    // Event listener para los cambios en los input de itbis
+    inputItbis.forEach((input) => {
+        input.addEventListener('input', updateTotals);
     });
 
     // Event listener para los cambios en los input de descuento
@@ -47,13 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
         inputDiscount = document.querySelectorAll('.discount');
         // Añadir eventos para los nuevos elementos agregados
         inputTA.forEach((input) => {
-            input.addEventListener('input', sumTotalPrice);
+            input.addEventListener('input', updateTotals);
         });
         inputP.forEach((input) => {
-            input.addEventListener('input', sumTotalPrice);
+            input.addEventListener('input', updateTotals);
         });
         inputItbis.forEach((input) => {
-            input.addEventListener('input', sumTotalPrice);
+            input.addEventListener('input', updateTotals);
         });
         inputDiscount.forEach((input) => {
             input.addEventListener('input', handleDiscountInput);
@@ -74,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const formatCurrency = (valor) => {
     const formatter = new Intl.NumberFormat('es-DO', {
         style: 'currency',
-        currency: 'DOP'
+        currency: 'DOP',
     });
     return formatter.format(valor);
 };
@@ -90,10 +96,52 @@ function handleDiscountInput(e) {
     // Actualizar el valor del input con el valor validado
     e.target.value = value;
     // Volver a calcular el precio total con el nuevo descuento
-    sumTotalPrice();
+    updateTotals();
 }
 
-function sumTotalPrice() {
+// Función para obtener el valor numérico del input
+function getNumericValueFromInput(input) {
+    const value = parseFloat(input.value) || 0;
+    if (isNaN(value) || value < 0) {
+        input.value = 0;
+        return 0;
+    }
+    return value;
+}
+
+// Función para calcular el subtotal del artículo
+function calculateSubtotal(inputTA, inputPrice) {
+    const valueTA = getNumericValueFromInput(inputTA);
+    const valuePrice = getNumericValueFromInput(inputPrice);
+    return valueTA * valuePrice;
+}
+
+// Función para calcular el ITBIS del artículo
+function calculateItbis(subtotal) {
+    return subtotal * 0.18;
+}
+
+// Función para obtener el descuento numérico
+function getDiscountNumeric(input) {
+    const discountValue = input.value.trim() === '' ? '0%' : input.value;
+    const discountNumeric = parseFloat(discountValue.replace(/[^0-9.]/g, '')) || 0;
+    return Math.min(100, Math.max(0, discountNumeric));
+}
+
+// Función para calcular el descuento del artículo
+function calculateDiscount(subtotal, itbis, inputDiscount) {
+    const discountDecimal = getDiscountNumeric(inputDiscount) / 100;
+    return (subtotal + itbis) * discountDecimal;
+}
+
+// Función para actualizar los totales
+function updateTotals() {
+    // Actualizar los selectores con los elementos más recientes
+    inputTA = document.querySelectorAll('.totalArticle');
+    inputP = document.querySelectorAll('.price');
+    inputItbis = document.querySelectorAll('.itbis');
+    inputDiscount = document.querySelectorAll('.discount');
+
     // Reiniciar los totales a cero
     totalPrice = 0;
     totalItbis = 0;
@@ -103,17 +151,10 @@ function sumTotalPrice() {
     // Iterar sobre los campos de entrada de cantidad y precio
     inputTA.forEach((input) => {
         // Obtener el valor de la cantidad y asegurarse de que sea un número válido (positivo o cero)
-        const valueTA = parseFloat(input.value) || 0;
-        if (isNaN(valueTA) || valueTA < 0) {
-            input.value = 0; // Establecer a cero si no es válido
-        }
-
-        // Obtener el valor de la cantidad y asegurarse de que sea un número válido (positivo o cero)
-        const priceInput = input.closest('tr').querySelector('.price').value;
-        const valuePrice = parseFloat(priceInput) || 0;
-        if (isNaN(valuePrice) || valuePrice < 0) {
-            input.closest('tr').querySelector('.price').value = 0; // Limitar a 0 si es menor a ese valor
-        }
+        const valueTA = getNumericValueFromInput(input);
+        // Obtener el precio del artículo
+        const priceInput = input.closest('tr').querySelector('.price');
+        const valuePrice = getNumericValueFromInput(priceInput);
 
         // Calcular el subtotal del artículo
         const totalPriceInput = valueTA * valuePrice;
@@ -130,12 +171,9 @@ function sumTotalPrice() {
         itbisInput.value = totalItbisInput.toFixed(2);
 
         // Obtener el descuento ingresado
-        const discountInput = input.closest('tr').querySelector('.discount').value;
-        // Si el campo de descuento está vacío o undefined, establecerlo en "0%"
-        const discountValue = discountInput.trim() === '' ? '0%' : discountInput;
+        const discountInput = input.closest('tr').querySelector('.discount');
         // Obtener el valor numérico del descuento
-        const discountNumeric = parseFloat(discountValue.replace(/[^0-9.]/g, '')) || 0; // Si el descuento no es numérico, considerar cero
-
+        const discountNumeric = getNumericValueFromInput(discountInput);
         // Limitar el descuento entre 0 y 100
         const validatedDiscount = Math.min(100, Math.max(0, discountNumeric));
         // Convertir el descuento validado en decimal (ejemplo: 10% -> 0.1)
@@ -164,7 +202,7 @@ function sumTotalPrice() {
 function removeDinamicTableRow(row) {
     row.remove();
     updateRowIndices();
-    sumTotalPrice();
+    updateTotals(); // Actualizar los totales al eliminar una fila
 }
 
 // Función para actualizar los índices de las filas
@@ -207,7 +245,7 @@ function createDinamicTableRow() {
         'Servicios',
         'Centros de Mesa',
         'Vestimenta',
-        'Invitaciones'
+        'Invitaciones',
     ];
 
     options.forEach((option) => {
@@ -235,7 +273,6 @@ function createDinamicTableRow() {
     inputTA.classList.add('form-control', 'text-end', 'totalArticle');
     inputTA.type = 'number';
     inputTA.name = 'totalArticle[]';
-    inputTA.value = 1;
     inputTA.placeholder = 0;
     inputTA.required = true;
     tdInputTA.appendChild(inputTA);
@@ -255,16 +292,27 @@ function createDinamicTableRow() {
     inputItbis.type = 'number';
     inputItbis.name = 'itbis[]';
     inputItbis.placeholder = '0.00';
-    inputItbis.value = '0.00';
     inputItbis.readOnly = true;
     tdInputItbis.appendChild(inputItbis);
+
+    const tdInputPorcentDiscount = document.createElement('td');
+    const inputPorcentDiscount = document.createElement('input');
+    inputPorcentDiscount.classList.add('form-control', 'text-end', 'porcentDiscount');
+    inputPorcentDiscount.type = 'number';
+    inputPorcentDiscount.name = 'porcentDiscount[]';
+    inputPorcentDiscount.placeholder = '0%';
+    inputPorcentDiscount.required = true;
+    inputPorcentDiscount.step = '0.1';
+    tdInputPorcentDiscount.appendChild(inputPorcentDiscount);
 
     const tdInputDiscount = document.createElement('td');
     const inputDiscount = document.createElement('input');
     inputDiscount.classList.add('form-control', 'text-end', 'discount');
     inputDiscount.type = 'number';
-    inputDiscount.name = 'Discount[]';
-    inputDiscount.placeholder = '0%';
+    inputDiscount.name = 'discount[]';
+    inputDiscount.placeholder = '0.00';
+    inputDiscount.required = true;
+    inputDiscount.readOnly = true;
     tdInputDiscount.appendChild(inputDiscount);
 
     // Crear botón de eliminar fila
@@ -279,6 +327,7 @@ function createDinamicTableRow() {
     tr.appendChild(tdInputTA);
     tr.appendChild(tdInputPrice);
     tr.appendChild(tdInputItbis);
+    tr.appendChild(tdInputPorcentDiscount);
     tr.appendChild(tdInputDiscount);
     tr.appendChild(tdRemoveBtn);
 
