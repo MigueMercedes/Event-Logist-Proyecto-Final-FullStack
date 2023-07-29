@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark p-2 bg-black">
     <div class="container justify-content-center">
-        <a class="navbar-brand fs-2 fw-bold text-uppercase" {{#if user}}href="" {{else}}href="/" {{/if}}>
+        <a class="navbar-brand fs-2 fw-bold text-uppercase" href="/">
             <img src="/img/logo.png" alt="Event Logo" width="60" loading='lazy' class="img-fluid me-4">{{siteName}}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,13 +9,28 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto text-center text-uppercase">
                 {{#if user}}
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle p-2 fs-5 fw-bold {{#if isPresupuesto}} active {{/if}}"
+                        role="button" href="#" data-bs-toggle="dropdown" aria-expanded="false">Presupuestos</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="/presupuesto/all-presupuesto">Ver presupuestos</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/presupuesto/add">Crear presupuesto</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/">Dashboard</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link p-2 fs-5 fw-bold {{#if isProveedores}} active {{/if}}"
                         href="/proveedores">Proveedores</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link p-2 fs-5 fw-bold {{#if isPresupuesto}} active {{/if}}"
-                        href="/presupuesto">Presupuesto</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link p-2 fs-5 fw-bold" href="/auth/salir">Salir</a>

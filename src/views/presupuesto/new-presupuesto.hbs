@@ -10,7 +10,8 @@
                     <div>
                         <div class="form-group">
                             <label for="nameActivity">Nombre de la actividad</label>
-                            <input type="text" class="form-control" name="nameActivity" required />
+                            <input type="text" class="form-control" name="nameActivity" value="{{nameActivity}}"
+                                required />
                         </div>
                         <div class="form-group">
                             <label for="typeActivity">Tipo de actividad</label>
@@ -23,35 +24,37 @@
                         </div>
                         <div class="form-group">
                             <label for="nameClient">Cliente</label>
-                            <input type="text" class="form-control" name="nameClient" required />
+                            <input type="text" class="form-control" name="nameClient" value="{{nameClient}}" required />
                         </div>
                     </div>
                     <div>
                         <div class="form-group">
                             <label for="phone">Telefono</label>
-                            <input type="tel" class="form-control" name="phone" />
+                            <input type="tel" class="form-control" name="phone" value="{{phone}}" />
                         </div>
                         <div class="form-group">
                             <label for="email">Correo</label>
-                            <input type="email" class="form-control" name="email" placeholder="Ejemplo@Ejemplo.com" />
+                            <input type="email" class="form-control" name="email" placeholder="Ejemplo@Ejemplo.com"
+                                value="{{email}}" />
                         </div>
                         <div class="form-group">
                             <label for="location">Ubicacion</label>
-                            <input type="text" class="form-control" name="location" />
+                            <input type="text" class="form-control" name="location" value="{{location}}" />
                         </div>
                     </div>
                     <div>
                         <div class="form-group">
                             <label for="dateActivity">Dia</label>
-                            <input type="date" class="form-control" name="dateActivity" />
+                            <input type="date" class="form-control" name="dateActivity" value="{{dateActivity}}" />
                         </div>
                         <div class="form-group">
                             <label for="timeActivity">Hora</label>
-                            <input type="time" class="form-control" name="timeActivity" />
+                            <input type="time" class="form-control" name="timeActivity" value="{{timeActivity}}" />
                         </div>
                         <div class="form-group">
                             <label for="descriptionActivity">Descripcion</label>
-                            <input type="text" class="form-control" name="descriptionActivity" />
+                            <input type="text" class="form-control" name="descriptionActivity"
+                                value="{{descriptionActivity}}" />
                         </div>
                     </div>
                     <div>
@@ -75,7 +78,7 @@
                         </div>
                         <div class="form-group">
                             <label for="createdBy">Creado por</label>
-                            <input type="text" class="form-control" name="createdBy" value="{{username}}" readonly />
+                            <input type="text" class="form-control" value="{{createdBy}}" readonly />
                         </div>
                     </div>
                     <div class="col-12">
@@ -85,7 +88,7 @@
                     <div class="container-fluid table-responsive">
                         <table class="table table-striped">
                             <thead>
-                                <tr class="align-middle">
+                                <tr class="align-middle text-center">
                                     <th>#</th>
                                     <th>Tipo</th>
                                     <th>Articulo</th>
@@ -93,6 +96,7 @@
                                     <th>Precio</th>
                                     <th>ITBIS</th>
                                     <th>Descuento %</th>
+                                    <th>Descuento $</th>
                                     <th>
                                         <button class="btn-custom" id="btnNewRow">+</button>
                                     </th>
@@ -109,27 +113,31 @@
                                             {{/each}}
                                         </select>
                                     </td>
-                                    <td class="">
+                                    <td>
                                         <input class="form-control nameArticle" type="text" name="nameArticle[]"
                                             placeholder="Bocinas" required />
                                     </td>
-                                    <td class="">
+                                    <td>
                                         <input class="form-control text-end totalArticle" type="number"
-                                            name="totalArticle[]" placeholder="0" value="1" required />
+                                            name="totalArticle[]" placeholder="0" required />
                                     </td>
-                                    <td class="">
-                                        <input class="form-control text-end price" type="number" name="price[]"
-                                            placeholder="0.00" required />
+                                    <td>
+                                        <input class="form-control text-end price" type="number" step="0.1"
+                                            name="price[]" placeholder="0.00" required />
                                     </td>
-                                    <td class="">
-                                        <input class="form-control text-end itbis" type="number" name="itbis[]"
-                                            readonly />
+                                    <td>
+                                        <input class="form-control text-end itbis" type="number" name="itbis[]" readonly
+                                            required />
                                     </td>
-                                    <td class="">
+                                    <td>
+                                        <input class="form-control text-end porcentDiscount" type="number" step="0.1"
+                                            name="porcentDiscount[]" placeholder="0%" required />
+                                    </td>
+                                    <td>
                                         <input class="form-control text-end discount" type="number" name="discount[]"
-                                            placeholder="0%" />
+                                            placeholder="0.00" readonly required />
                                     </td>
-                                    <td class="">
+                                    <td>
                                         <button class="btnRemoveRow">Eliminar</button>
                                     </td>
                                 </tr>
@@ -162,4 +170,4 @@
 </div>
 
 
-<script type="module" src="/js/loadPresupuesto.js"></script>
+<script src="/js/loadPresupuesto.js"></script>

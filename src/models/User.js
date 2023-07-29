@@ -4,42 +4,42 @@ import bcrypt from 'bcryptjs';
 const presupuestoDataTypes = new mongoose.Schema({
     activity: {
         type: [String],
-        required: true
+        required: false,
     },
     article: {
         type: [String],
-        required: true
+        required: false,
     },
     proveedor: {
         type: [String],
-        required: true
-    }
+        required: false,
+    },
 });
 
 const UserSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            trim: true
+            trim: true,
         },
         email: {
             type: String,
             required: true,
             unique: true,
-            trim: true
+            trim: true,
         },
         password: {
             type: String,
-            required: true
+            required: true,
         },
         userDataTypesP: {
             type: presupuestoDataTypes,
-            required: true
-        }
+            required: false,
+        },
     },
     {
         timestamps: true,
-        versionKey: false
+        versionKey: false,
     }
 );
 

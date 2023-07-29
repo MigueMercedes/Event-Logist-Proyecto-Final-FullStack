@@ -2,11 +2,11 @@
     <div class="col-md-8 bg-light mx-auto py-5">
         <div class="text-center">
             <h1 class="display-1 fw-bold text-danger">Oops!</h1>
-            <p class="fs-3"> <span class="fw-bold">Error!</span> Pagina no encontrada.</p>
+            <p class="fs-3"> <span class="fw-bold">Error!</span></p>
             <p class="lead">
-                La pagina que estas buscando no existe.
+                Parece que la pagina que estas buscando no existe.
             </p>
-            <a href="/" class="btn btn-primary btn-lg">Ir a la pagina principal</a>
+            <a {{#if user}}href="/" class="btn btn-primary btn-lg">Volver</a>
         </div>
     </div>
 </div>

@@ -1,109 +1,109 @@
 import mongoose from 'mongoose';
 
-const presupuestoDetails = new mongoose.Schema({
+const presupuestoTable = new mongoose.Schema({
     typeArticle: {
         type: [String],
-        required: true
+        required: true,
     },
     nameArticle: {
         type: [String],
-        required: true
+        required: true,
     },
     totalArticle: {
         type: [Number],
-        required: true
+        required: true,
     },
     price: {
         type: [Number],
-        required: true
+        required: true,
     },
     itbis: {
         type: [Number],
-        required: true
+        required: true,
     },
     discount: {
         type: [Number],
-        required: true
+        required: true,
     },
-    totalItbis: {
-        type: Number,
-        required: true
-    },
-    totalPrice: {
-        type: Number,
-        required: true
-    },
-    totalDiscount: {
-        type: Number,
-        required: true
-    },
-    totalAmount: {
-        type: Number,
-        required: true
-    }
 });
 
 const PresupuestoSchema = new mongoose.Schema(
     {
         nameActivity: {
             type: String,
-            required: true
+            required: true,
         },
         typeActivity: {
             type: String,
-            required: true
+            required: true,
         },
         nameClient: {
             type: String,
-            required: true
+            required: true,
         },
         email: {
             type: String,
-            required: false
+            required: false,
         },
         location: {
             type: String,
-            required: false
+            required: false,
         },
         phone: {
             type: String,
-            required: false
+            required: false,
         },
         descriptionActivity: {
             type: String,
-            required: false
+            required: false,
         },
         dateActivity: {
             type: String,
-            required: false
+            required: false,
         },
         timeActivity: {
             type: String,
-            required: false
+            required: false,
         },
         createdBy: {
             type: String,
-            required: true
+            required: true,
         },
         statusPaid: {
             type: String,
-            required: true
+            required: true,
         },
         statusPresupuesto: {
             type: String,
-            required: true
+            required: true,
         },
         presupuestoData: {
-            type: presupuestoDetails,
-            required: true
+            type: presupuestoTable,
+            required: true,
+        },
+        totalItbis: {
+            type: Number,
+            required: true,
+        },
+        totalPrice: {
+            type: Number,
+            required: true,
+        },
+        totalDiscount: {
+            type: Number,
+            required: true,
+        },
+        totalAmount: {
+            type: Number,
+            required: true,
         },
         user: {
             type: String,
-            required: true
-        }
+            required: true,
+        },
     },
     {
-        timestamps: true
+        timestamps: true,
     }
 );
 

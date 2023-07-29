@@ -4,7 +4,7 @@ import passport from 'passport';
 export const renderRegistrarForm = (req, res) => {
     res.render('auth/registrar', {
         page: 'Registrarse',
-        isRegistrar: true
+        isRegistrar: true,
     });
 };
 export const registrar = async (req, res) => {
@@ -27,7 +27,7 @@ export const registrar = async (req, res) => {
         return res.render('auth/registrar', {
             errors,
             name,
-            email
+            email,
         });
     }
 
@@ -42,7 +42,7 @@ export const registrar = async (req, res) => {
     const newUser = new User({
         name,
         email,
-        password
+        password,
     });
 
     newUser.password = await newUser.encryptPassword(password);
@@ -54,14 +54,14 @@ export const registrar = async (req, res) => {
 export const renderAccederForm = (req, res) => {
     res.render('auth/acceder', {
         page: 'Acceder',
-        isAcceder: true
+        isAcceder: true,
     });
 };
 
 export const acceder = passport.authenticate('local', {
-    successRedirect: '/proveedores',
+    successRedirect: '/',
     failureRedirect: '/auth/acceder',
-    failureFlash: true
+    failureFlash: true,
 });
 
 export const salir = async (req, res, next) => {

@@ -7,14 +7,18 @@ import {
     createNewPresupuesto,
     renderEditForm,
     updatePresupuesto,
-    deletePresupuesto
+    deletePresupuesto,
+    renderDashboard,
 } from '../controllers/presupuesto.controllers.js';
 import { isAuthenticated } from '../helpers/auth.js';
 
 const router = Router();
 
+//Default
+router.get('/presupuesto', isAuthenticated, renderDashboard);
+
 //Get All Presupuestos
-router.get('/presupuesto', isAuthenticated, renderPresupuestos);
+router.get('/presupuesto/all-presupuesto', isAuthenticated, renderPresupuestos);
 
 // New Presupuesto
 router.get('/presupuesto/add', isAuthenticated, renderPresupuestoForm);
