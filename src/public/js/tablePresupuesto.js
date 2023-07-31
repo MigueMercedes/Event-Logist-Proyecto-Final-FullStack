@@ -7,14 +7,10 @@ let totalDiscount;
 let totalAmount;
 
 // Selectores
-const selectorBtnNewRow = document.querySelector('#btnNewRow');
 const elDinamicTableRow = document.querySelector('#DinamicTableRow');
-const subTotalInputId = document.querySelector('#subTotal');
-const totalItbistInputId = document.querySelector('#totalItbis');
-const totaldiscountInputId = document.querySelector('#totalDiscount');
-const totalAmountInputId = document.querySelector('#totalAmount');
+const selectorBtnNewRow = document.querySelector('#btnNewRow');
 
-// Obtener todos los elementos
+// Obtener todos inputs de las tablas
 let inputTotalArticle = document.querySelectorAll('.totalArticle');
 let inputPrice = document.querySelectorAll('.price');
 let inputItbis = document.querySelectorAll('.itbis');
@@ -23,7 +19,10 @@ let inputTotalPrice = document.querySelectorAll('.totalPrice');
 
 // Event listener al cargar el DOM
 document.addEventListener('DOMContentLoaded', () => {
-    updateTotals();
+    const totalAmountInputId = document.querySelector('#totalAmount');
+    if (totalAmountInputId) {
+        updateTotals();
+    }
 
     // Event listener para los cambios en los input de cantidad
     inputTotalArticle.forEach((input) => {
@@ -51,50 +50,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Event listener para el botón "Agregar fila"
-    selectorBtnNewRow.addEventListener('click', () => {
-        createDinamicTableRow();
+    if (selectorBtnNewRow) {
+        selectorBtnNewRow.addEventListener('click', () => {
+            createDinamicTableRow();
 
-        // Actualizar los elementos
-        inputTotalArticle = document.querySelectorAll('.totalArticle');
-        inputPrice = document.querySelectorAll('.price');
-        inputItbis = document.querySelectorAll('.itbis');
-        inputPorcentDiscount = document.querySelectorAll('.porcentDiscount');
-        inputTotalPrice = document.querySelectorAll('.totalPrice');
+            // Actualizar todos los inputs de las tablas
 
-        // Añadir eventos para los nuevos elementos agregados
-        inputTotalArticle.forEach((input) => {
-            input.addEventListener('input', updateTotals);
+            inputTotalArticle = document.querySelectorAll('.totalArticle');
+            inputPrice = document.querySelectorAll('.price');
+            inputItbis = document.querySelectorAll('.itbis');
+            inputPorcentDiscount = document.querySelectorAll('.porcentDiscount');
+            inputTotalPrice = document.querySelectorAll('.totalPrice');
+
+            // Añadir eventos para los nuevos elementos agregados
+            inputTotalArticle.forEach((input) => {
+                input.addEventListener('input', updateTotals);
+            });
+
+            inputPrice.forEach((input) => {
+                input.addEventListener('input', updateTotals);
+            });
+
+            inputItbis.forEach((input) => {
+                input.addEventListener('input', updateTotals);
+            });
+
+            inputPorcentDiscount.forEach((input) => {
+                input.addEventListener('input', updateTotals);
+            });
+
+            inputTotalPrice.forEach((input) => {
+                input.addEventListener('input', updateTotals);
+            });
         });
-
-        inputPrice.forEach((input) => {
-            input.addEventListener('input', updateTotals);
-        });
-
-        inputItbis.forEach((input) => {
-            input.addEventListener('input', updateTotals);
-        });
-
-        inputPorcentDiscount.forEach((input) => {
-            input.addEventListener('input', updateTotals);
-        });
-
-        inputTotalPrice.forEach((input) => {
-            input.addEventListener('input', updateTotals);
-        });
-    });
+    }
 
     // EventListener para el botón "Eliminar fila"
-    elDinamicTableRow.addEventListener('click', (e) => {
-        if (e.target.classList.contains('btnRemoveRow')) {
-            const row = e.target.closest('tr');
-            const rowIndex = parseInt(row.querySelector('th').textContent);
-            removeDinamicTableRow(row, rowIndex);
-        }
-    });
+    if (elDinamicTableRow) {
+        elDinamicTableRow.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btnRemoveRow')) {
+                const row = e.target.closest('tr');
+                const rowIndex = parseInt(row.querySelector('th').textContent);
+                removeDinamicTableRow(row, rowIndex);
+            }
+        });
+    }
 });
 
 // Función para actualizar los totales
 function updateTotals() {
+    //selectores span para mostrar los valores finales
+    const subTotalInputId = document.querySelector('#subTotal');
+    const totalItbistInputId = document.querySelector('#totalItbis');
+    const totaldiscountInputId = document.querySelector('#totalDiscount');
+    const totalAmountInputId = document.querySelector('#totalAmount');
+
     // Reiniciar los totales a cero
     subTotal = 0;
     totalItbis = 0;
@@ -123,13 +133,15 @@ function updateTotals() {
 
         // Calcular el subtotal del artículo
         const subTotalInput = valueTotalArticle * valuePrice;
+
+        // Sumar al subtotal acumulativo
         subTotal += subTotalInput;
 
         // Obtener el ITBIS del artículo
         const totalItbisInput = subTotalInput * 0.18;
         inputItbis[index].value = totalItbisInput.toFixed(2);
 
-        // Calcular el ITBIS Total
+        // Sumar al itbis total acumulativo
         totalItbis += totalItbisInput;
 
         // Obtener el descuento ingresado definir valor maximo como 100
@@ -142,11 +154,13 @@ function updateTotals() {
         const discountDecimal = verifiedDiscount / 100;
         // Calcular el descuento del artículo
         const totalDiscountInput = (subTotalInput + totalItbisInput) * discountDecimal;
+
         // Sumar al descuento total acumulativo
         totalDiscount += totalDiscountInput;
 
         //Actualizar el precio total del articulo
-        inputTotalPrice[index].value = subTotalInput + totalItbisInput - totalDiscountInput;
+        const totalPrice = subTotalInput + totalItbisInput - totalDiscountInput;
+        inputTotalPrice[index].value = totalPrice.toFixed(2);
     });
 
     // Calcular el monto total incluyendo el descuento
@@ -232,7 +246,7 @@ function createDinamicTableRow() {
     inputTotalArticle.classList.add('form-control', 'text-end', 'totalArticle');
     inputTotalArticle.type = 'number';
     inputTotalArticle.name = 'totalArticle[]';
-    inputTotalArticle.step = '0.1';
+    inputTotalArticle.step = '1';
     inputTotalArticle.placeholder = 0;
     inputTotalArticle.required = true;
     tdinputTotalArticle.appendChild(inputTotalArticle);

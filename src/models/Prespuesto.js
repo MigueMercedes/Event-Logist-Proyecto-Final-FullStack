@@ -21,9 +21,13 @@ const presupuestoTable = new mongoose.Schema({
         type: [Number],
         required: true,
     },
-    discount: {
+    porcentDiscount: {
         type: [Number],
         required: true,
+    },
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        auto: false,
     },
 });
 

@@ -3,6 +3,8 @@ import presupuestoDefaultTypes from '../helpers/defaultTypes.js';
 import parseNumberOrArray from '../helpers/parseNumberOrArray.js';
 import noRepeatTypes from '../helpers/noRepeatTypes.js';
 import capitalizeArrayOrString from '../helpers/capitalizeArrayOrString.js';
+import capitalizeEachWord from '../helpers/capitalizeEachWord.js';
+import { formatCurrency, sum } from '../helpers/hbs.js';
 
 export const renderDashboard = async (req, res) => {
     res.render('presupuesto/dashboard');
@@ -16,8 +18,9 @@ export const renderPresupuestos = async (req, res) => {
 
         res.render('presupuesto/all-presupuestos', {
             page: 'Presupuestos',
-            // isPresupuesto: true,
+            isPresupuesto: true,
             presupuesto,
+            formatCurrency,
         });
     } catch (error) {
         console.log(error);
@@ -29,10 +32,16 @@ export const renderPrintPresupuesto = async (req, res) => {
     try {
         const presupuesto = await Presupuesto.findById(req.params.id).lean();
 
-        res.render('presupuesto/print-presupuesto', {
-            presupuesto,
-            page: 'Imprimir presupuesto',
-        });
+        if (presupuesto) {
+            return res.render('presupuesto/print-presupuesto', {
+                presupuesto,
+                page: 'Imprimir presupuesto',
+                isPresupuesto: true,
+                sum,
+                formatCurrency,
+            });
+        }
+        res.redirect('/');
     } catch (error) {
         console.log(error);
         res.redirect('/');
@@ -46,6 +55,7 @@ export const renderPresupuestoForm = async (req, res) => {
             page: 'Crear presupuesto',
             createdBy,
             presupuestoDefaultTypes,
+            isPresupuesto: true,
         });
     } catch (error) {
         console.log(error);
@@ -57,31 +67,20 @@ export const createNewPresupuesto = async (req, res) => {
 
     const createdBy = req.user.name;
     const {
-        nameActivity,
-        nameClient,
         email,
-        location,
         phone,
-        descriptionActivity,
         dateActivity,
         timeActivity,
+        typeActivity,
+        statusPresupuesto,
+        statusPaid,
     } = req.body;
 
-    // Verificar campos necesarios
-    if (!nameActivity.trim() || !nameClient.trim()) {
-        errors.push({
-            text: 'Asegurate de que los detalles estén llenos correctamente.',
-        });
-    }
-
-    let { typeActivity } = req.body;
-    let { statusPresupuesto } = req.body;
-    let { statusPaid } = req.body;
-
-    //Revisa si se encuentra el valor repetido y eliminar los valores duplicados
-    typeActivity = noRepeatTypes(presupuestoDefaultTypes.activity, typeActivity);
-    statusPresupuesto = noRepeatTypes(presupuestoDefaultTypes.statusPresupuesto, statusPresupuesto);
-    statusPaid = noRepeatTypes(presupuestoDefaultTypes.statusPaid, statusPaid);
+    //Convertir primera letra a mayuscula y quitar espacios en blanco
+    const nameActivity = capitalizeArrayOrString(req.body.nameActivity.trim());
+    const nameClient = capitalizeEachWord(req.body.nameClient.trim());
+    const location = capitalizeEachWord(req.body.location.trim());
+    const descriptionActivity = capitalizeEachWord(req.body.descriptionActivity.trim());
 
     //Creamos el objeto con los datos de la tabla y validamos/convertimos datos
     const presupuestoData = {
@@ -90,12 +89,25 @@ export const createNewPresupuesto = async (req, res) => {
         totalArticle: parseNumberOrArray(req.body['totalArticle[]']),
         price: parseNumberOrArray(req.body['price[]']),
         itbis: parseNumberOrArray(req.body['itbis[]']),
-        discount: parseNumberOrArray(req.body['discount[]']),
+        porcentDiscount: parseNumberOrArray(req.body['porcentDiscount[]']),
     };
 
-    console.log(presupuestoData);
+    // Verificar campos necesarios
+    if (!nameActivity.trim() || !nameClient.trim()) {
+        errors.push({
+            text: 'Asegurate de que los detalles estén llenos correctamente.',
+        });
+    }
 
     if (errors.length > 0) {
+        //Revisa si se encuentra el valor repetido y eliminar los valores duplicados
+        const typeActivity = noRepeatTypes(presupuestoDefaultTypes.activity, typeActivity);
+        const statusPresupuesto = noRepeatTypes(
+            presupuestoDefaultTypes.statusPresupuesto,
+            statusPresupuesto
+        );
+        const statusPaid = noRepeatTypes(presupuestoDefaultTypes.statusPaid, statusPaid);
+
         return res.render('presupuesto/new-presupuesto', {
             errors,
             nameActivity,
@@ -127,41 +139,50 @@ export const createNewPresupuesto = async (req, res) => {
         ? presupuestoData.itbis.reduce((total, value) => total + value, 0)
         : presupuestoData.itbis;
 
-    const totalDiscount = Array.isArray(presupuestoData.discount)
-        ? presupuestoData.discount.reduce((total, value) => {
-              total + value, 0;
-          })
-        : presupuestoData.discount;
+    const totalDiscount = Array.isArray(presupuestoData.porcentDiscount)
+        ? presupuestoData.porcentDiscount.reduce((total, value, index) => {
+              const discountDecimal = value / 100;
 
-    //const totalAmount
-    console.log(subTotal);
-    console.log(totalItbis);
-    console.log(totalDiscount);
+              return (
+                  total +
+                  (presupuestoData.price[index] * presupuestoData.totalArticle[index] +
+                      presupuestoData.itbis[index]) *
+                      discountDecimal
+              );
+          }, 0)
+        : (presupuestoData.porcentDiscount / 100) * (subTotal + presupuestoData.itbis);
+
+    const totalAmount = subTotal + totalItbis - totalDiscount;
 
     try {
-        /*const newPresupuesto = new Presupuesto({
-        nameActivity,
-        typeActivity,
-        nameClient,
-        email,
-        location,
-        phone,
-        descriptionActivity,
-        dateActivity,
-        timeActivity,
-        createdBy,
-        statusPaid,
-        statusPresupuesto,
-        presupuestoData
-    });
+        const newPresupuesto = new Presupuesto({
+            nameActivity,
+            typeActivity,
+            nameClient,
+            email,
+            location,
+            phone,
+            descriptionActivity,
+            dateActivity,
+            timeActivity,
+            createdBy,
+            statusPaid,
+            statusPresupuesto,
+            presupuestoData,
+            subTotal,
+            totalItbis,
+            totalDiscount,
+            totalAmount,
+        });
 
-    newPresupuesto.user = req.user.id;
-    await newPresupuesto.save();
-    */
+        newPresupuesto.user = req.user.id;
+        await newPresupuesto.save();
+
         req.flash('success_msg', 'Presupuesto Agregado Correctamente.');
-        res.redirect('/presupuesto');
+        res.redirect('/presupuesto/all-presupuesto');
     } catch (error) {
         console.log(error);
+        res.redirect('/presupuesto/all-presupuesto');
     }
 };
 
@@ -234,5 +255,5 @@ export const updatePresupuesto = async (req, res) => {
 export const deletePresupuesto = async (req, res) => {
     await Presupuesto.findByIdAndDelete(req.params.id);
     req.flash('success_msg', 'Presupuesto Eliminado Correctamente.');
-    res.redirect('/presupuesto');
+    res.redirect('/presupuesto/all-presupuesto');
 };
