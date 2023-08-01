@@ -1,24 +1,79 @@
 // Importa Handlebars para poder definir el helper
 import Handlebars from 'handlebars';
 
-// Define la función sum
-function sum(a, b) {
+// Registra el helper para sumar
+Handlebars.registerHelper('sum', (a, b) => {
     return Number(a) + Number(b);
-}
+});
 
-// Registra el helper sum
-Handlebars.registerHelper('sum', sum);
-
-// Define el helper formatCurrency
-const formatCurrency = (valor) => {
+// Registra el helper formatear a DOP
+Handlebars.registerHelper('formatCurrency', (valor) => {
     const formatter = new Intl.NumberFormat('es-DO', {
         style: 'currency',
         currency: 'DOP',
     });
     return formatter.format(valor);
-};
+});
 
-// Registra el helper formatCurrency
-Handlebars.registerHelper('formatCurrency', formatCurrency);
+// Registra el helper poder comparar
+Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
+    return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+});
 
-export { formatCurrency, sum };
+Handlebars.registerHelper('compare', function (lvalue, operator, rvalue, options) {
+    var operators, result;
+
+    if (arguments.length < 3) {
+        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+    }
+
+    if (options === undefined) {
+        options = rvalue;
+        rvalue = operator;
+        operator = '===';
+    }
+
+    operators = {
+        '==': function (l, r) {
+            return l == r;
+        },
+        '===': function (l, r) {
+            return l === r;
+        },
+        '!=': function (l, r) {
+            return l != r;
+        },
+        '!==': function (l, r) {
+            return l !== r;
+        },
+        '<': function (l, r) {
+            return l < r;
+        },
+        '>': function (l, r) {
+            return l > r;
+        },
+        '<=': function (l, r) {
+            return l <= r;
+        },
+        '>=': function (l, r) {
+            return l >= r;
+        },
+        typeof: function (l, r) {
+            return typeof l == r;
+        },
+    };
+
+    if (!operators[operator]) {
+        throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
+    }
+
+    result = operators[operator](lvalue, rvalue);
+
+    if (result) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+});
+
+export { Handlebars };

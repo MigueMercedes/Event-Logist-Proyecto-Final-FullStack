@@ -1,7 +1,7 @@
 <div class="row">
     <div class="bg-light border border-secondary p-0">
         <div>
-            <h1 class="text-center bg-dark text-light py-2">Editar Presupuesto</h1>
+            <h1 class="text-center bg-dark text-light py-2">Crear Presupuesto</h1>
             <p class="fs-4 lead border border border-2 py-2 ps-4">Detalles del presupuesto:</p>
         </div>
         <div class="mt-3">
@@ -12,26 +12,32 @@
                         <div class="form-group">
                             <label for="nameActivity">Nombre de la actividad</label>
                             <input type="text" class="form-control" name="nameActivity"
-                                value="{{presupuesto.nameActivity}}" />
+                                value="{{presupuesto.nameActivity}}" required />
                         </div>
                         <div class="form-group">
                             <label for="typeActivity">Tipo de actividad</label>
-                            <select class="form-select" name="typeActivity"></select>
+                            <select class="form-select" name="typeActivity" required>
+                                <option value="" disabled>Selecciona uno</option>
+                                {{#each typeActivity}}
+                                <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="nameClient">Cliente</label>
-                            <input type="text" class="form-control" name="nameClient"
-                                value="{{presupuesto.nameClient}}" />
+                            <input type="text" class="form-control" name="nameClient" value="{{presupuesto.nameClient}}"
+                                required />
                         </div>
                     </div>
                     <div>
                         <div class="form-group">
                             <label for="phone">Telefono</label>
-                            <input type="tel" class="form-control" name="phone" value="{{presupuesto.phone}}" />
+                            <input type="tel" class="form-control" name="phone" id="phone" value="{{presupuesto.phone}}"
+                                maxlength="10" />
                         </div>
                         <div class="form-group">
                             <label for="email">Correo</label>
-                            <input type="email" class="form-control" name="email" placeholder="ejemplo@ejemplo.com"
+                            <input type="email" class="form-control" name="email" placeholder="Ejemplo@Ejemplo.com"
                                 value="{{presupuesto.email}}" />
                         </div>
                         <div class="form-group">
@@ -41,12 +47,12 @@
                     </div>
                     <div>
                         <div class="form-group">
-                            <label for="dateActivity">Dia de la actividad</label>
-                            <input type="date" class="form-control" name="dateActivity"
+                            <label for="dateActivity">Dia</label>
+                            <input type="date" class="form-control" name="dateActivity" id="dateActivity"
                                 value="{{presupuesto.dateActivity}}" />
                         </div>
                         <div class="form-group">
-                            <label for="timeActivity">Hora de la actividad</label>
+                            <label for="timeActivity">Hora</label>
                             <input type="time" class="form-control" name="timeActivity"
                                 value="{{presupuesto.timeActivity}}" />
                         </div>
@@ -59,16 +65,25 @@
                     <div>
                         <div class="form-group">
                             <label for="statusPresupuesto">Estado del presupuesto</label>
-                            <select class="form-select" name="statusPresupuesto" id="statusPresupuesto"></select>
+                            <select class="form-select" name="statusPresupuesto" required>
+                                <option value="" disabled>Selecciona uno</option>
+                                {{#each statusPresupuesto}}
+                                <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="statusPaid">Estado de pago</label>
-                            <select class="form-select" name="statusPaid"></select>
+                            <select class="form-select" name="statusPaid" required>
+                                <option value="" disabled>Selecciona uno</option>
+                                {{#each statusPaid}}
+                                <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="createdBy">Creado por</label>
-                            <input type="text" class="form-control" name="createdBy"
-                                value="{{presupuesto.createdBy}}" />
+                            <input type="text" class="form-control" value="{{presupuesto.createdBy}}" readonly />
                         </div>
                     </div>
                     <div class="col-12">
@@ -78,82 +93,95 @@
                     <div class="container-fluid table-responsive">
                         <table class="table table-striped">
                             <thead>
-                                <tr class="align-middle">
+                                <tr class="align-middle text-center">
                                     <th>#</th>
                                     <th>Tipo</th>
                                     <th>Articulo</th>
                                     <th>Cantidad</th>
                                     <th>Precio</th>
                                     <th>ITBIS</th>
-                                    <th>Descuento</th>
+                                    <th>Descuento %</th>
+                                    <th>Total</th>
                                     <th>
-                                        <button class="btn-custom m-1" id="btnNewRow">+</button>
+                                        <button type="button" class="btn-custom" id="btnNewRow">+</button>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody id="DinamicTableRow">
-                                {{#each presupuesto.presupuestoData.typeArticle}}
+                                {{#each presupuesto.presupuestoData.typeArticle as |selectedType|}}
                                 <tr class="align-middle">
-                                    <th>{{incrementIndex @index}}</th>
-                                    <td>
-                                        <select class="form-select" name="typeArticle[]"></select>
+                                    <th class="">{{incrementIndex @index}}</th>
+                                    <td class="">
+                                        <select class="form-select typeArticle" name="typeArticle[]" required>
+                                            <option value="" disabled>Selecciona uno</option>
+                                            {{#each ../presupuestoDefaultTypes.article}}
+                                            {{#ifEquals this selectedType}}
+                                            <option value="{{this}}" selected>{{
+                                                this}}</option>
+                                            {{else}}
+                                            <option value="{{this}}">{{this}}</option>
+                                            {{/ifEquals}}
+                                            {{/each}}
+                                        </select>
                                     </td>
                                     <td>
-                                        <input class="form-control" type="text" name="nameArticle[]"
+                                        <input class="form-control nameArticle" type="text" name="nameArticle[]"
                                             placeholder="Bocinas"
-                                            value="{{lookup ../presupuesto.presupuestoData.nameArticle @index}}" />
+                                            value="{{lookup ../presupuesto.presupuestoData.nameArticle @index}}"
+                                            required />
                                     </td>
                                     <td>
-                                        <input class="form-control totalArticle" type="number" name="totalArticle[]"
-                                            value="{{lookup ../presupuesto.presupuestoData.totalArticle @index}}" />
+                                        <input class="form-control text-end totalArticle" type="number" step="1"
+                                            name="totalArticle[]" placeholder="0"
+                                            value="{{lookup ../presupuesto.presupuestoData.totalArticle @index}}"
+                                            required />
                                     </td>
                                     <td>
-                                        <input class="form-control price" type="number" name="price[]"
-                                            value="{{lookup ../presupuesto.presupuestoData.price @index}}" />
+                                        <input class="form-control text-end price" type="number" step="0.1"
+                                            name="price[]" placeholder="0.00"
+                                            value="{{lookup ../presupuesto.presupuestoData.price @index}}" required />
                                     </td>
                                     <td>
-                                        <input class="form-control itbis" type="number" name="itbis[]"
-                                            value="{{lookup ../presupuesto.presupuestoData.itbis @index}}" readonly />
+                                        <input class="form-control text-end itbis" type="number" name="itbis[]"
+                                            value="{{lookup ../presupuesto.presupuestoData.itbis @index}}" readonly
+                                            required />
                                     </td>
                                     <td>
-                                        <input class="form-control discount" type="text" name="discount[]" id="discount"
-                                            value="0%" />
+                                        <input class="form-control text-end porcentDiscount" type="number" step="0.1"
+                                            name="porcentDiscount[]" placeholder="0%"
+                                            value="{{lookup ../presupuesto.presupuestoData.porcentDiscount @index}}"
+                                            required />
                                     </td>
-                                    <td class="align-middle">
-                                        <button class="btn btn-danger btn-sm btnRemoveRow">Eliminar</button>
+                                    <td>
+                                        <input class="form-control text-end totalPrice" type="number"
+                                            name="totalPrice[]" placeholder="0.00"
+                                            value="{{lookup ../presupuesto.presupuestoData.totalPrice @index}}" readonly
+                                            required />
+                                    </td>
+                                    <td>
+                                        <button class="btnRemoveRow">X</button>
                                     </td>
                                 </tr>
                                 {{/each}}
                             </tbody>
                         </table>
                     </div>
-                    <div class="row justify-content-end mx-auto p-2">
-                        <div class="col-6 d-flex flex-column my-5 gap-2">
-                            <div class="text-end">
-                                <label class="form-label fs-5 fw-bold" for="subTotal">SubTotal: </label>
-                                <input class="form-control-sm fs-5 fw-bold" type="text" name="subTotal" id="subTotal"
-                                    size="20px" readonly />
-                            </div>
-                            <div class="text-end">
-                                <label class="form-label fs-5 fw-bold" for="totalItbis">Total ITBIS: </label>
-                                <input class="form-control-sm fs-5 fw-bold" type="text" name="totalItbis"
-                                    id="totalItbis" size="20px" readonly />
-                            </div>
-                            <div class="text-end">
-                                <label class="form-label fs-5 fw-bold" for="totalDiscount">Total ITBIS: </label>
-                                <input class="form-control-sm fs-5 fw-bold" type="text" name="totalDiscount"
-                                    id="totalDiscount" size="20px" readonly />
-                            </div>
-                            <div class="text-end">
-                                <label class="form-label fs-5 fw-bold" for="totalAmount">Monto Total: </label>
-                                <input class="form-control-sm fs-5 fw-bold" type="text" name="totalAmount"
-                                    id="totalAmount" size="20px" readonly />
-                            </div>
-                            <div class="text-end my-3">
-                                <button class="btn btn-primary fw-bold fs-4 p-2" type="submit">
-                                    Guardar
-                                </button>
-                            </div>
+                </div>
+                <div class="my-5">
+                    <div class="d-flex flex-column text-end mx-5">
+                        <p class="fs-5 fw-bold my-1">SubTotal: <span class="text-end fs-5 fw-bold" type="text"
+                                id="subTotal"></span></p>
+                        <p class="fs-5 fw-bold my-1">ITBIS Total: <span class="text-end fs-5 fw-bold" type="text"
+                                id="totalItbis"></span></p>
+                        <p class="fs-5 fw-bold my-1">Descuento Total: <span class="text-end fs-5 fw-bold" type="text"
+                                id="totalDiscount"></span>
+                        </p>
+                        <p class="fs-5 fw-bold my-1 mb-3">Monto Total: <span class="text-end fs-5 fw-bold" type="text"
+                                id="totalAmount"></span></p>
+                        <div>
+                            <button class="btn btn-primary btn-lg fw-bold fs-4 rounded shadow px-5" type="submit">
+                                Crear
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -161,5 +189,3 @@
         </div>
     </div>
 </div>
-
-<script src="/js/loadPresupuesto.js"></script>
