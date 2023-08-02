@@ -1,5 +1,5 @@
 import Presupuesto from '../models/Prespuesto.js';
-import presupuestoDefaultTypes from '../helpers/defaultTypes.js';
+import { presupuestoDefaultTypes } from '../helpers/defaultTypes.js';
 import parseNumberOrArray from '../helpers/parseNumberOrArray.js';
 import noRepeatTypes from '../helpers/noRepeatTypes.js';
 import capitalizeArrayOrString from '../helpers/capitalizeArrayOrString.js';

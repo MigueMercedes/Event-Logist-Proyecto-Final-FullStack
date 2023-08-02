@@ -13,7 +13,7 @@ const getNumericValueFromInput = (inputValue) => {
     return isNaN(numericValue) ? 0 : numericValue;
 };
 
-function formatPhoneNumber(e) {
+const formatPhoneNumber = (e) => {
     // Remover cualquier formato existente y mantener solo los dígitos
     const phoneNumber = e.target.value.replace(/\D/g, '');
 
@@ -22,15 +22,30 @@ function formatPhoneNumber(e) {
 
     // Actualizar el valor del input con el número formateado
     e.target.value = formattedPhoneNumber;
-}
+};
 
-function validatedDate(e) {
+const validatedDate = (e) => {
     const selectedDate = new Date(e.target.value);
     const currentDate = new Date();
 
     if (selectedDate < currentDate) {
         e.target.value = currentDate.toISOString().split('T')[0];
     }
-}
+};
 
-export { formatCurrency, getNumericValueFromInput, formatPhoneNumber, validatedDate };
+const validatedTrimString = (e) => {
+    const input = e.target;
+    const trimmedValue = e.target.value.trim();
+
+    if (trimmedValue === '') {
+        input.value = '';
+    }
+};
+
+export {
+    formatCurrency,
+    getNumericValueFromInput,
+    formatPhoneNumber,
+    validatedDate,
+    validatedTrimString,
+};

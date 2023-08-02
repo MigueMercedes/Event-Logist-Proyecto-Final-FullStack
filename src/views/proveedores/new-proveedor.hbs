@@ -1,38 +1,56 @@
-<div class="col-md-4 mx-auto mt-5">
-    <div class="card">
-        <div class="card-header bg-dark text-center">
-            <h3 class="text-white">Crear Proveedor</h3>
-        </div>
-        <div class="card-body">
-            <form action="/proveedores/new-proveedor" method="POST">
-                <div class="mb-3">
-                    <label class="form-label" for="name">Nombre:</label>
-                    <input type="text" name="name" class="form-control" autofocus value="{{name}}" />
-                </div>
-                <div class="mb-3">
-                    <label for="category">Categoria:</label>
-                    <input type="text" name="category" class="form-control" value="{{category}}" />
-                </div>
-                <div class="mb-3">
-                    <label for="phone">Telefono:</label>
-                    <input type="tel" name="phone" class="form-control" value="{{phone}}" />
-                </div>
-                <div class="mb-3">
-                    <label for="address">Direccion:</label>
-                    <input type="text" name="address" class="form-control" value="{{address}}" />
-                </div>
-                <div class="mb-3">
-                    <label for="email">Correo:</label>
-                    <input type="email" name="email" class="form-control" value="{{email}}" />
-                </div>
-                <div class="mb-3">
-                    <label for="description">Descripcion:</label>
-                    <textarea name="description" class="form-control">{{description}}</textarea>
-                </div>
-                <button class="btn btn-primary w-100 fw-bold" type="submit">
-                    Guardar
-                </button>
-            </form>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-dark text-center">
+                <h3 class="text-white">Crear Proveedor</h3>
+            </div>
+            <div class="card-body">
+                <form action="/proveedores/new-proveedor" method="POST">
+                    <div class="mb-2">
+                        <label class="form-label" for="name">Nombre: </label>
+                        <input type="text" name="name" class="form-control" value="{{name}}" id="nameInput" required
+                            autofocus />
+                    </div>
+                    <div class="mb-2">
+                        <label for="category">Categoría:</label>
+                        <select class="form-select" name="category" id="category" required>
+                            {{#if errors}}
+                            <option value="" disabled>Selecciona uno</option>
+                            {{#each category}}
+                            <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                            {{else}}
+                            <option value="" disabled selected>Selecciona uno</option>
+                            {{#each proveedorDefaultTypes}}
+                            <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                            {{/if}}
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label for="phone">Teléfono:</label>
+                        <input type="tel" name="phone" class="form-control" id="phone" value="{{phone}}"
+                            maxlength="10" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="address">Dirección:</label>
+                        <input type="text" name="address" class="form-control" value="{{address}}" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="email">Correo:</label>
+                        <input type="email" name="email" class="form-control" value="{{email}}" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="description">Descripción:</label>
+                        <textarea name="description" class="form-control">{{description}}</textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-primary fw-bold" type="submit">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

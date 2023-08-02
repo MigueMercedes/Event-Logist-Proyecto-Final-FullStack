@@ -1,67 +1,107 @@
-<div class="row">
-    {{#if proveedores}}
-    <div class="d-flex flex-row justify-content-center">
-        <a href="/proveedores/add" class="btn btn-primary p-4 text-light fw-bold fs-4 rounded">Agregar proveedor</a>
-    </div>
+{{#if proveedores}}
 
-    <div class="d-flex align-items-center justify-content-center mt-4 gap-1">
-
-        <form class="col-8">
-            <input type="search" id="searchProveedor" class="p-2 form-control border-0" placeholder="Buscar">
-        </form>
-
-        <select id="SelectCategoria" class="col-4 col-md-2 p-2 ">
-            <option value="#">Categoria</option>
-            <option value="#">Sonido</option>
-            <option value="#">Pantallas</option>
-            <option value="#">Decoración</option>
-        </select>
-    </div>
-    {{#each proveedores}}
-    <div class="col-md-4 mt-4">
-        <div class="card">
-            <div class="card-header d-flex flex-row align-items-center justify-content-between">
-                <div>
-                    <h5 class="text-capitalize fw-bold">{{ name }}</h5>
-                    <h6 class="text-capitalize">{{ category }}</h6>
-                </div>
-                <a class="text-primary" href="/proveedores/edit/{{_id}}"><i class="fas fa-edit fa-2x"></i></a>
+<div class="row bg-white mt-2">
+    <div class="align-items-center gap-1 mt-3 bg-light p-2">
+        <div class="row align-items-center justify-content-center mt-3 gap-1">
+            <div class="col-12 col-md-3 text-center mb-3 mb-md-0">
+                <a href="/proveedores/add"
+                    class="btn btn-primary fw-bold rounded py-3 px-5 fs-3 px-md-3 px-lg-5">Agregar</a>
             </div>
-            <div class="card-body">
-                <p class="me-2 fw-bold ">Detalles:</h5>
-                <div class="mt-1">
-                    <i class="fa fa-phone fa-flip-horizontal me-2" aria-hidden="true"></i>{{ phone }}
-                </div>
-                <div class="mt-1">
-                    <i class="fa fa-address-book me-2" aria-hidden="true"></i>{{ address }}
-                </div>
-                <div class="mt-1">
-                    <i class="fa fa-envelope me-2" aria-hidden="true"></i>{{ email }}
-                </div>
-                <div class="my-2">
-                    <i class="fa-solid fa-memo "></i>{{ description }}
-                </div>
-                <!-- DELETE REQUEST -->
-                <form action="/proveedores/delete/{{_id}}?_method=DELETE" method="POST">
-                    <input type="hidden" name="_method" value="DELETE">
 
-                    <div class="d-grid ">
-                        <button type="submit" class="btn btn-danger rounded fw-bold">Eliminar</button>
+            <div class="col-12 col-md-3 mb-3 mb-md-0">
+                <label for="SelectCategory" class="form-label fw-bold">Categoría:</label>
+                <select id="SelectCategory" class="form-select">
+                    <option value="Todos" selected>Todos</option>
+                    {{#each proveedorDefaultTypes}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="col-12 col-md-5">
+                <form id="filterForm">
+                    <label for="searchInput" class="form-label fw-bold">Buscar:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Buscar proveedor..." />
                     </div>
                 </form>
             </div>
         </div>
-    </div>
-    {{/each}}
 
-    {{else}}
-    <div class="col card my-5 py-5 mx-auto bg-dark">
-        <div class="card-body text-center">
-            <h1 class="display-3 fw-bold text-capitalize text-light">Hola {{username}}</h1>
-            <p class="lead fs-3 text-light">Aun no tienes proveedores.</p>
-            <a href="/proveedores/add" class="btn btn-primary p-4 text-light fw-bold fs-4 rounded">Agrega uno
-                ahora!</a>
+
+        <div class="row col-12 border-2 border-top mx-auto mt-2" id="proveedoresContainer">
+            {{#each proveedores}}
+            <div class="col-md-6 col-lg-4 mt-4">
+                <div class="card h-100" data-name="{{name}}" data-category="{{category}}">
+                    <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                        <div>
+                            <h5 class="text-capitalize fw-bold">{{ name }}</h5>
+                            <h6 class="text-capitalize">{{ category }}</h6>
+                        </div>
+                        <a class="text-primary" href="/proveedores/edit/{{_id}}"><i class="fas fa-edit fa-2x"></i></a>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div>
+                            <p class="me-2 fw-bold ">Detalles:</h5>
+                            <div class="mt-1">
+                                <i class="fa fa-phone fa-flip-horizontal me-2" aria-hidden="true"></i>
+                                {{#if phone}}
+                                {{phone}}
+                                {{else}}
+                                Indefinido
+                                {{/if}}
+                            </div>
+                            <div class="mt-1">
+                                <i class="fa fa-address-book me-2" aria-hidden="true"></i>
+                                {{#if address}}
+                                {{address}}
+                                {{else}}
+                                Indefinido
+                                {{/if}}
+                            </div>
+                            <div class="mt-1">
+                                <i class="fa fa-envelope me-2" aria-hidden="true"></i>
+                                {{#if email}}
+                                {{email}}
+                                {{else}}
+                                Indefinido
+                                {{/if}}
+                            </div>
+                            <div class="my-2 mx-4 p-1 bg-light">
+                                <i class="fa-solid fa-memo"></i>
+                                {{#if description}}
+                                {{description}}
+                                {{else}}
+                                Indefinido
+                                {{/if}}
+                            </div>
+                        </div>
+                        <!-- DELETE REQUEST -->
+                        <div class="mt-auto">
+                            <form action="/proveedores/delete/{{_id}}?_method=DELETE" method="POST">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-danger rounded fw-bold">Eliminar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
         </div>
     </div>
-    {{/if}}
 </div>
+{{else}}
+<div class="col-12 col-md-10 card my-2 py-5 mx-auto bg-dark">
+    <div class="card-body text-center">
+        <h1 class="display-3 fw-bold text-capitalize text-white">Hola {{username}}</h1>
+        <p class="lead fs-3 text-white">Aun no tienes proveedores.</p>
+        <a href="/proveedores/add" class="btn btn-primary p-4 text-white fw-bold fs-4 rounded">Agrega uno
+            ahora!</a>
+    </div>
+</div>
+{{/if}}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/filterProveedor.js"></script>

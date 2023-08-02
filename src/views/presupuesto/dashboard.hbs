@@ -6,7 +6,7 @@
                     <p class="text-primary">TOTAL CREADOS</p>
                     <span class="material-icons-outlined text-blue">check_circle_outline</span>
                 </div>
-                <span class="text-primary font-weight-bold">249</span>
+                <span class="text-primary font-weight-bold" id="creadosValue"></span>
             </div>
 
             <div class="card-dashboard">
@@ -14,7 +14,7 @@
                     <p class="text-primary">PAGADOS</p>
                     <span class="material-icons-outlined text-orange">payment</span>
                 </div>
-                <span class="text-primary font-weight-bold">230</span>
+                <span class="text-primary font-weight-bold" id="pagadosValue"></span>
             </div>
 
             <div class="card-dashboard">
@@ -22,7 +22,7 @@
                     <p class="text-primary">PENDIENTES DE PAGO</p>
                     <span class="material-icons-outlined text-green">schedule</span>
                 </div>
-                <span class="text-primary font-weight-bold">19</span>
+                <span class="text-primary font-weight-bold" id="pendientesValue"></span>
             </div>
 
             <div class="card-dashboard">
@@ -30,15 +30,17 @@
                     <p class="text-primary">RECHASADOS</p>
                     <span class="material-icons-outlined text-red">warning</span>
                 </div>
-                <span class="text-primary font-weight-bold">8</span>
+                <span class="text-primary font-weight-bold" id="rechazadosValue"></span>
             </div>
 
         </div>
         <div class="charts">
             <div class="charts-card">
                 <p class="chart-title">PRESENTACIÓN GRÁFICA</p>
-                <div id="bar-chart"></div>
+                <div id="pie-chart"></div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="/js/dashboard.js"></script>

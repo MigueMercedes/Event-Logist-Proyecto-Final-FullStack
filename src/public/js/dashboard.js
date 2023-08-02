@@ -1,62 +1,61 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const barChartElement = document.getElementById('bar-chart');
+document.addEventListener('DOMContentLoaded', function () {
+    let creados = 249;
+    let pagados = 230;
+    let pendientes = 19;
+    let rechazados = 8;
+    let total = creados;
 
-    if (barChartElement) {
-        // BAR CHART
+    // Actualizar el valor de las variables en el HTML
+    document.getElementById('creadosValue').innerText = creados;
+    document.getElementById('pagadosValue').innerText = pagados;
+    document.getElementById('pendientesValue').innerText = pendientes;
+    document.getElementById('rechazadosValue').innerText = rechazados;
 
-        let datos = [249, 230, 19, 8];
-        let total = datos[0]; // Calculamos la suma de los valores en el arreglo "datos"
+    // Cálculo de porcentajes
+    let porcentajePagados = (pagados / total) * 100;
+    let porcentajePendientes = (pendientes / total) * 100;
+    let porcentajeRechazados = (rechazados / total) * 100;
 
-        //2do arreglo
-        let porcentajes = datos.map((valor) => (valor / total) * 100);
-
-        let barChartOptions = {
-            series: [
-                {
-                    data: porcentajes,
-                },
-            ],
-            chart: {
-                type: 'bar',
-                height: 300,
-                toolbar: {
-                    show: false,
-                },
-            },
-            colors: ['#246dec', '#367952', '#f5b74f', '#cc3c43'],
-            plotOptions: {
-                bar: {
-                    distributed: true,
-                    borderRadius: 4,
-                    horizontal: false,
-                    columnWidth: '45%',
-                },
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            legend: {
+    let pieChartOptions = {
+        series: [porcentajePagados, porcentajePendientes, porcentajeRechazados],
+        chart: {
+            type: 'pie',
+            height: 400,
+            toolbar: {
                 show: false,
             },
-            xaxis: {
-                categories: ['Total Creados', 'Pagados', 'Pendientes de Pago', 'Rechasados'],
-            },
-            yaxis: {
-                title: {
-                    text: 'Porcentaje',
-                },
-                min: 0,
-                max: 100,
-                tickAmount: 5, //de 20 en 20
-                labels: {
-                    formatter: function (value) {
-                        return value + '%'; //A;adir simbolo
-                    },
+        },
+        colors: ['#367952', '#f5b74f', '#cc3c43'],
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '70%',
                 },
             },
-        };
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val) {
+                return val.toFixed(1) + '%';
+            },
+        },
+        legend: {
+            show: true,
+            position: 'bottom',
+            horizontalAlign: 'center',
+            floating: false,
+            fontSize: '14px',
+            offsetY: 10,
+            onItemClick: {
+                toggleDataSeries: true,
+            },
+            onItemHover: {
+                highlightDataSeries: true,
+            },
+        },
+        labels: ['Pagados', 'Pendientes de Pago', 'Rechazados'],
+    };
 
-        let barChart = new ApexCharts(barChartElement, barChartOptions);
-        barChart.render();
-    }
+    let pieChart = new ApexCharts(document.querySelector('#pie-chart'), pieChartOptions);
+    pieChart.render();
 });
