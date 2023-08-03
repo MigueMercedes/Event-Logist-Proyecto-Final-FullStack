@@ -14,14 +14,6 @@ h6 {
     padding: 0;
 }
 
-.container-print {
-    width: 21.59cm;
-    height: 27.94cm;
-    /* Puedes agregar otros estilos o bordes si es necesario */
-    border: 1px solid black;
-    padding: 1cm;
-}
-
 .btn-bg {
     width: 100%;
     padding: 10px;
@@ -67,17 +59,6 @@ h6 {
     height: 200px;
 }
 
-.container-print p {
-    margin: 0;
-    padding: 0;
-}
-
-.container-print {
-    width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
 .btn-custom {
     height: 1.8rem;
     width: 4rem;
@@ -111,4 +92,25 @@ h6 {
 }
 .btnRemoveRow:hover {
     box-shadow: 0 0 0 3px red;
+}
+
+/* Clase para el formato de papel tamaño carta */
+.carta {
+    /* Tamaño carta */
+    width: 21.59cm;
+    height: 100%;
+
+    /* Sangría */
+    text-indent: 5ch;
+    font-size: 12px;
+}
+
+.carta p {
+    margin: 0;
+    padding: 0;
+}
+
+.card-with-description {
+    height: 100px;
+    overflow-y: auto;
 }

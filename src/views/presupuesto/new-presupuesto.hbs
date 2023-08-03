@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row mt-3 ">
     <div class="bg-light border border-secondary p-0">
         <div>
             <h1 class="text-center bg-dark text-white py-2">Crear Presupuesto</h1>
@@ -9,12 +9,12 @@
                 <div class="d-flex flex-wrap justify-content-between mx-5">
                     <div>
                         <div class="form-group">
-                            <label for="nameActivity">Nombre de la actividad</label>
+                            <label for="nameActivity">Nombre del evento</label>
                             <input type="text" class="form-control" name="nameActivity" value="{{nameActivity}}"
                                 required />
                         </div>
                         <div class="form-group">
-                            <label for="typeActivity">Tipo de actividad</label>
+                            <label for="typeActivity">Tipo de evento</label>
                             <select class="form-select" name="typeActivity" required>
                                 <option value="" disabled selected>Selecciona uno</option>
                                 {{#each presupuestoDefaultTypes.activity}}
@@ -106,8 +106,8 @@
                             </thead>
                             <tbody id="DinamicTableRow">
                                 <tr class="align-middle">
-                                    <th class="">1</th>
-                                    <td class="">
+                                    <th>1</th>
+                                    <td>
                                         <select class="form-select typeArticle" name="typeArticle[]" required>
                                             <option value="" selected disabled>Selecciona uno</option>
                                             {{#each presupuestoDefaultTypes.article}}
@@ -147,7 +147,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="my-5">
+                <div class="my-5 me-3">
                     <div class="d-flex flex-column text-end mx-5">
                         <p class="fs-5 fw-bold my-1">SubTotal: <span class="text-end fs-5 fw-bold" type="text"
                                 id="subTotal"></span></p>
@@ -164,7 +164,6 @@
                             </button>
                         </div>
                     </div>
-
                 </div>
             </form>
         </div>

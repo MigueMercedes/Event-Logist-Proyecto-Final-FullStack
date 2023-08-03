@@ -1,0 +1,39 @@
+/* Estilos para impresión */
+@media print {
+    * {
+        visibility: hidden;
+        margin: 0;
+    }
+
+    #toPrint,
+    #toPrint * {
+        visibility: visible;
+        font-size: 12px;
+        margin: 0;
+    }
+
+    /* Tamaño de página y márgenes */
+    @page {
+        size: letter;
+        margin: 0;
+    }
+
+    /* Opcional: ocultar el botón de impresión en la vista de impresión */
+    .hide-on-print {
+        display: none;
+    }
+
+    /* Añadir un borde para identificar el límite de la página en la vista de impresión */
+    #toPrint {
+        width: 95% !important;
+        height: 100% !important;
+        border: 1px solid #000 !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+    #toPrint p {
+        font-size: 12px !important;
+    }
+}

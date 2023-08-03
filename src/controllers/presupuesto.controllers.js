@@ -20,6 +20,7 @@ export const renderPresupuestos = async (req, res) => {
             page: 'Presupuestos',
             isPresupuesto: true,
             presupuesto,
+            categorySearch: presupuestoDefaultTypes.activity,
         });
     } catch (error) {
         console.log(error);
@@ -35,8 +36,6 @@ export const renderPrintPresupuesto = async (req, res) => {
                 presupuesto,
                 page: 'Imprimir presupuesto',
                 isPresupuesto: true,
-                sum,
-                formatCurrency,
             });
         }
         res.redirect('/');

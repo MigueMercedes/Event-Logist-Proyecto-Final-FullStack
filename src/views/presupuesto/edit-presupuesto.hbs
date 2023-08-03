@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row mt-3">
     <div class="bg-light border border-secondary p-0">
         <div>
             <h1 class="text-center bg-dark text-white py-2">Crear Presupuesto</h1>
@@ -10,12 +10,12 @@
                 <div class="d-flex flex-wrap justify-content-between mx-5">
                     <div>
                         <div class="form-group">
-                            <label for="nameActivity">Nombre de la actividad</label>
+                            <label for="nameActivity">Nombre del evento</label>
                             <input type="text" class="form-control" name="nameActivity"
                                 value="{{presupuesto.nameActivity}}" required />
                         </div>
                         <div class="form-group">
-                            <label for="typeActivity">Tipo de actividad</label>
+                            <label for="typeActivity">Tipo de evento</label>
                             <select class="form-select" name="typeActivity" required>
                                 <option value="" disabled>Selecciona uno</option>
                                 {{#each typeActivity}}
@@ -167,7 +167,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="my-5">
+                <div class="my-5 me-3">
                     <div class="d-flex flex-column text-end mx-5">
                         <p class="fs-5 fw-bold my-1">SubTotal: <span class="text-end fs-5 fw-bold" type="text"
                                 id="subTotal"></span></p>

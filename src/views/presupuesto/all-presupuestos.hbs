@@ -1,70 +1,75 @@
-<div class="row justify-content-center">
-    {{#if presupuesto}}
-    <div class="text-center col-12">
-        <a href="/presupuesto/add" class="btn btn-primary p-4 text-white fw-bold fs-4 rounded">Agregar presupuesto</a>
-    </div>
+{{#if presupuesto}}
 
-    <div class="row justify-content-center mt-4">
-        {{!-- Buscador --}}
-        <div class="col-6">
-            <form>
-                <input type="search" id="searchPresupuesto" class="form-control" placeholder="Buscar">
-            </form>
+<div class="row mt-3 ">
+    <div class="bg-white p-0 ">
+        <h1 class="text-center fw-bold bg-dark text-white py-2 text-uppercase">Presupuestos</h1>
+
+        <div class="row justify-content-center mt-3">
+
+            <div class="col-12 col-md-3 text-center mb-3 mb-md-0">
+                <a href="/proveedores/add"
+                    class="btn btn-primary fw-bold rounded py-3 px-5 fs-3 px-md-3 px-lg-5">Agregar</a>
+            </div>
+
+            <div class="col-12 col-md-3 mb-3 mb-md-0">
+                <label for="SelectCategory" class="form-label fw-bold">Tipos:</label>
+                <select id="SelectCategory" class="form-select">
+                    <option value="Todos" selected>Todos</option>
+                    {{#each categorySearch}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="col-12 col-md-5">
+                <label for="searchInput" class="form-label fw-bold">Buscar:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Buscar proveedor..." />
+                </div>
+            </div>
         </div>
 
-        {{!-- Buscar por categoria --}}
-        <div class="col-2">
-            <select class="form-select" id="filterPresupuesto">
-                <option value="#" selected>Filtrar por Tipo</option>
-                <option value="#">Boda</option>
-                <option value="#">Baby Shower</option>
-                <option value="#">Cumpleaños</option>
-                <option value="#">Graduacion</option>
-                <option value="#">Otras</option>
-            </select>
+        {{!-- Table Presupuesto --}}
+        <div class="table-responsive mt-4">
+            <table class="table table-striped table-light presupuesto-index">
+                <tr class="table-header">
+                    <th>#</th>
+                    <th>Fecha</th>
+                    <th>Evento</th>
+                    <th>Tipo</th>
+                    <th>Cliente</th>
+                    <th>Estado</th>
+                    <th>Costo</th>
+                    <th class="text-center">Opciones</th>
+                </tr>
+                {{#each presupuesto}}
+                <tr>
+                    <th>{{incrementIndex @index}}</th>
+                    <td>{{dateActivity}}</td>
+                    <td>{{nameActivity}}</td>
+                    <td>{{typeActivity}}</td>
+                    <td>{{nameClient}}</td>
+                    <td>{{statusPresupuesto}}</td>
+                    <td>{{formatCurrency totalAmount}}</td>
+                    <td>
+                        <div class="d-flex d-flex align-items-center justify-content-evenly gap-1 ps-3">
+                            <a class="border-0 bg-transparent" href="/presupuesto/print/{{_id}}"><i
+                                    class="fa fa-eye text-success fa-lg"></i></a>
+                            <a class="border-0 bg-transparent" href="/presupuesto/edit/{{_id}}"><i
+                                    class="fas fa-edit fa-lg text-primary"></i></a>
+                            <!-- DELETE REQUEST -->
+                            <form action="/presupuesto/delete/{{_id}}?_method=DELETE" method="POST">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="border-0 bg-transparent">
+                                    <i class="fas fa-trash fa-lg text-danger"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </table>
         </div>
-    </div>
-
-    {{!-- Table Presupuesto --}}
-    <div class="table-responsive mt-4">
-        <table class="table table-striped table-light presupuesto-index">
-            <tr>
-                <th>#</th>
-                <th>Fecha</th>
-                <th>Actividad</th>
-                <th>Tipo</th>
-                <th>Cliente</th>
-                <th>Estado</th>
-                <th>Costo</th>
-                <th class="text-center">Opciones</th>
-            </tr>
-            {{#each presupuesto}}
-            <tr>
-                <th>{{incrementIndex @index}}</th>
-                <td>{{dateActivity}}</td>
-                <td>{{nameActivity}}</td>
-                <td>{{typeActivity}}</td>
-                <td>{{nameClient}}</td>
-                <td>{{statusPresupuesto}}</td>
-                <td>{{formatCurrency totalAmount}}</td>
-                <td>
-                    <div class="d-flex d-flex align-items-center justify-content-evenly gap-1 ps-3">
-                        <a class="border-0 bg-transparent" href="/presupuesto/print/{{_id}}"><i
-                                class="fa fa-eye text-success fa-lg"></i></a>
-                        <a class="border-0 bg-transparent" href="/presupuesto/edit/{{_id}}"><i
-                                class="fas fa-edit fa-lg text-primary"></i></a>
-                        <!-- DELETE REQUEST -->
-                        <form action="/presupuesto/delete/{{_id}}?_method=DELETE" method="POST">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="border-0 bg-transparent">
-                                <i class="fas fa-trash fa-lg text-danger"></i>
-                            </button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-            {{/each}}
-        </table>
     </div>
 </div>
 
@@ -80,3 +85,6 @@
 </div>
 {{/if}}
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/filterPresupuesto.js"></script>

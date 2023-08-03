@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .invoice-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .invoice-header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .invoice-details div {
+            flex: 1;
+            text-align: right;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .invoice-table th,
+        .invoice-table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .invoice-table th {
+            background-color: #f0f0f0;
+        }
+
+        .invoice-table td {
+            text-align: right;
+        }
+
+        .invoice-total {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .invoice-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <h1>Factura</h1>
+            <p>Fecha: 01/08/2023</p>
+        </div>
+        <div class="invoice-details">
+            <div>
+                <p>Nombre del cliente: John Doe</p>
+                <p>Dirección: 123 Main St</p>
+                <p>Ciudad: Anytown</p>
+            </div>
+            <div>
+                <p>Número de factura: 00123</p>
+                <p>Fecha de vencimiento: 15/08/2023</p>
+            </div>
+        </div>
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio unitario</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Producto 1</td>
+                    <td>2</td>
+                    <td>$50.00</td>
+                    <td>$100.00</td>
+                </tr>
+                <tr>
+                    <td>Producto 2</td>
+                    <td>3</td>
+                    <td>$30.00</td>
+                    <td>$90.00</td>
+                </tr>
+                <tr>
+                    <td>Producto 3</td>
+                    <td>1</td>
+                    <td>$80.00</td>
+                    <td>$80.00</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="invoice-total">Total</td>
+                    <td>$270.00</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="invoice-footer">
+            <p>Gracias por su compra</p>
+        </div>
+    </div>
+</body>
+
+</html>

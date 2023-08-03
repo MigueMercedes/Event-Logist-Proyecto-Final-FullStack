@@ -17,9 +17,8 @@ $(document).ready(function () {
         const selectedCategory = $('#SelectCategory').val().toLowerCase();
         const searchTerm = $('#searchInput').val().toLowerCase();
 
-        // Obtener todos los elementos de proveedoresContainer
-        const $proveedoresContainer = $('#proveedoresContainer');
-        const $proveedores = $proveedoresContainer.find('.col-md-6.col-lg-4.mt-4');
+        // Obtener todos los elementos con la clase "proveedor"
+        const $proveedores = $('.proveedor');
 
         // Mostrar todos los elementos antes de aplicar el filtrado
         $proveedores.show();
@@ -28,7 +27,12 @@ $(document).ready(function () {
         $proveedores.each(function () {
             const $card = $(this).find('.card.h-100');
             const cardCategory = $card.data('category').toLowerCase();
-            const cardName = $card.data('name').toLowerCase();
+            let cardName = $card.data('name');
+
+            // Verificar si cardName existe y es una cadena antes de aplicar includes()
+            if (typeof cardName !== 'string') {
+                cardName = '';
+            }
 
             const categoryMatch = selectedCategory === 'todos' || cardCategory === selectedCategory;
             const searchMatch = cardName.includes(searchTerm);

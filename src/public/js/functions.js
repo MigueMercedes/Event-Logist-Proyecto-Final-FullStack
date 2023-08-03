@@ -17,11 +17,22 @@ const formatPhoneNumber = (e) => {
     // Remover cualquier formato existente y mantener solo los dígitos
     const phoneNumber = e.target.value.replace(/\D/g, '');
 
-    // Aplicar el formato (123) 456-7890
-    const formattedPhoneNumber = phoneNumber.replace(/^(\d{3})(\d{3})(\d{4})$/, '($1) $2-$3');
+    // Verificar si el número de dígitos sin formato es igual a 10
+    if (phoneNumber.length === 10) {
+        // Aplicar el formato (123) 456-7890
+        const formattedPhoneNumber = phoneNumber.replace(/^(\d{3})(\d{3})(\d{4})$/, '($1) $2-$3');
+        e.target.value = formattedPhoneNumber;
+    } else {
+        // Si el número de dígitos sin formato no es igual a 10, quitar cualquier formato
+        e.target.value = phoneNumber;
+    }
+};
 
-    // Actualizar el valor del input con el número formateado
-    e.target.value = formattedPhoneNumber;
+const validatedPhone = (e) => {
+    const phoneNumber = e.target.value;
+    if (phoneNumber.length > 0 && phoneNumber.length < 10) {
+        alert('Por favor, ingresa los 10 dígitos del número de teléfono');
+    }
 };
 
 const validatedDate = (e) => {
@@ -48,4 +59,5 @@ export {
     formatPhoneNumber,
     validatedDate,
     validatedTrimString,
+    validatedPhone,
 };
