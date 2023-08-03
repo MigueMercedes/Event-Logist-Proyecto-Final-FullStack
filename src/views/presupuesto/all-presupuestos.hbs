@@ -5,11 +5,14 @@
         <h1 class="text-center fw-bold bg-dark text-white py-2 text-uppercase">Presupuestos</h1>
 
         <div class="row justify-content-center mt-3">
-
             <div class="col-12 col-md-3 text-center mb-3 mb-md-0">
                 <a href="/proveedores/add"
                     class="btn btn-primary fw-bold rounded py-3 px-5 fs-3 px-md-3 px-lg-5">Agregar</a>
             </div>
+        </div>
+
+
+        <div class="row justify-content-center mt-3">
 
             <div class="col-12 col-md-3 mb-3 mb-md-0">
                 <label for="SelectCategory" class="form-label fw-bold">Tipos:</label>
@@ -21,12 +24,23 @@
                 </select>
             </div>
 
+            {{!-- <div class="col-12 col-md-3 mb-3 mb-md-0">
+                <label for="SelectCategory" class="form-label fw-bold">Fecha:</label>
+                <select id="SelectCategory" class="form-select">
+                    <option value="Ascendente">Mas nuevo al mas viejo</option>
+                    <option value="Descendente">Mas viejo al mas nuevo</option>
+                </select>
+            </div> --}}
+
             <div class="col-12 col-md-5">
                 <label for="searchInput" class="form-label fw-bold">Buscar:</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="searchInput" placeholder="Buscar proveedor..." />
+                    <input type="text" class="form-control" id="searchInput" placeholder="Buscar Evento..." />
                 </div>
             </div>
+
+
+
         </div>
 
         {{!-- Table Presupuesto --}}

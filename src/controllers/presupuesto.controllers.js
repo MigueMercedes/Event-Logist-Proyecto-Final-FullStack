@@ -7,7 +7,14 @@ import capitalizeEachWord from '../helpers/capitalizeEachWord.js';
 import { Handlebars } from '../helpers/hbs.js';
 
 export const renderDashboard = async (req, res) => {
-    res.render('presupuesto/dashboard');
+    try {
+        // Obtener todos los presupuestos del usuario
+        const presupuestos = await Presupuesto.find({ user: req.user.id });
+        console.log('holoa');
+        res.render('presupuesto/dashboard');
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 export const renderPresupuestos = async (req, res) => {

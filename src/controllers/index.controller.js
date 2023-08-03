@@ -6,8 +6,6 @@ export const renderIndex = (req, res) => {
             page: 'Inicio',
         });
     } else {
-        res.render('presupuesto/dashboard', {
-            page: 'Dashboard',
-        });
+        res.redirect('/presupuesto');
     }
 };
