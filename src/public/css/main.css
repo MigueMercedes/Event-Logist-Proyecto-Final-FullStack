@@ -114,3 +114,20 @@ h6 {
     height: 100px;
     overflow-y: auto;
 }
+
+.table-btn {
+    cursor: pointer;
+}
+
+.table-header th .sort-icon::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    content: '\f0de';
+    margin-left: 5px;
+    color: #999;
+}
+
+.table-header th[data-order='desc'] .sort-icon::before {
+    content: '\f0dd';
+    color: #999;
+}
