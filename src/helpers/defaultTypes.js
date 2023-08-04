@@ -55,7 +55,7 @@ const presupuestoDefaultTypes = {
         'Personal de Apoyo',
         'Seguro de Eventos',
     ],
-    statusPresupuesto: ['Aceptada', 'Editando', 'Rechazada', 'Completada'],
+    statusPresupuesto: ['Aceptado', 'Editando', 'Rechazado', 'Completado'],
     statusPaid: ['Pendiente', 'Pago', 'No Pago'],
 };
 

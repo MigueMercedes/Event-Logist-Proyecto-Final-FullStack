@@ -9,9 +9,49 @@ import { Handlebars } from '../helpers/hbs.js';
 export const renderDashboard = async (req, res) => {
     try {
         // Obtener todos los presupuestos del usuario
-        const presupuestos = await Presupuesto.find({ user: req.user.id });
-        console.log('holoa');
-        res.render('presupuesto/dashboard');
+        const presupuestos = await Presupuesto.find({ user: req.user.id }).lean();
+
+        const countPresupuesto = {
+            totalCreate: presupuestos.length,
+            completed: 0,
+            accepted: 0,
+            editing: 0,
+            refused: 0,
+            paid: 0,
+            pending: 0,
+            noPaid: 0,
+        };
+
+        presupuestos.forEach((presupuesto) => {
+            if (presupuesto.statusPaid === 'Pago') {
+                countPresupuesto.paid++;
+            } else if (presupuesto.statusPaid === 'Pendiente') {
+                countPresupuesto.pending++;
+            } else {
+                countPresupuesto.noPaid++;
+            }
+
+            switch (presupuesto.statusPresupuesto) {
+                case 'Aceptado':
+                    countPresupuesto.accepted++;
+                    break;
+                case 'Editando':
+                    countPresupuesto.editing++;
+                    break;
+                case 'Rechazado':
+                    countPresupuesto.refused++;
+                    break;
+                case 'Completado':
+                    countPresupuesto.completed++;
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        res.render('presupuesto/dashboard', {
+            countPresupuesto,
+        });
     } catch (error) {
         console.log(error);
     }

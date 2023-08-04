@@ -1,20 +1,14 @@
-.text-primary {
-    color: #666666;
-}
-
 .text-blue {
     color: #246dec;
 }
 
 .text-red {
-    color: #cc3c43;
+    color: #ff0000;
 }
-
-.text-green {
+.text-orange {
     color: #f5b74f;
 }
-
-.text-orange {
+.text-green {
     color: #367952;
 }
 
@@ -50,9 +44,9 @@
 }
 
 .main-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    margin: 20px 0;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .card-dashboard {
@@ -60,6 +54,8 @@
     flex-direction: column;
     justify-content: space-around;
     padding: 15px;
+    flex-basis: calc(25% - 10px); /* Ancho del 25% menos el espacio entre tarjetas */
+    margin-bottom: 20px;
     background-color: #ffffff;
     box-sizing: border-box;
     border: 1px solid #d2d2d3;
@@ -80,7 +76,7 @@
 }
 
 .card-dashboard:nth-child(4) {
-    border-left: 7px solid #cc3c43;
+    border-left: 7px solid #ff0000;
 }
 
 .card-dashboard > span {
