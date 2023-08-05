@@ -15,7 +15,7 @@
                 <label for="SelectCategory" class="form-label fw-bold">Categoría:</label>
                 <select id="SelectCategory" class="form-select">
                     <option value="Todos" selected>Todos</option>
-                    {{#each proveedorDefaultTypes}}
+                    {{#each categoryDefault}}
                     <option value="{{this}}">{{this}}</option>
                     {{/each}}
                 </select>
@@ -106,5 +106,6 @@
 </div>
 {{/if}}
 
+{{!-- jquery --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/filterProveedor.js"></script>

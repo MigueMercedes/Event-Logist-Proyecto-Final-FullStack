@@ -114,14 +114,17 @@
                                     <td class="">
                                         <select class="form-select typeArticle" name="typeArticle[]" required>
                                             <option value="" disabled>Selecciona uno</option>
-                                            {{#each ../presupuestoDefaultTypes.article}}
+                                            {{#each ../defaultTypesArray.article}}
                                             {{#ifEquals this selectedType}}
-                                            <option value="{{this}}" selected>{{
-                                                this}}</option>
+                                            <option value="{{selectedType}}" selected>
+                                                {{selectedType}}</option>
                                             {{else}}
                                             <option value="{{this}}">{{this}}</option>
                                             {{/ifEquals}}
                                             {{/each}}
+                                            {{!-- {{#each ../customTypes}}
+                                            <option value="{{this}}">{{this}}</option>
+                                            {{/each}} --}}
                                         </select>
                                     </td>
                                     <td>
@@ -180,7 +183,7 @@
                                 id="totalAmount"></span></p>
                         <div>
                             <button class="btn btn-primary btn-lg fw-bold fs-4 rounded shadow px-5" type="submit">
-                                Crear
+                                Guardar
                             </button>
                         </div>
                     </div>
@@ -189,3 +192,7 @@
         </div>
     </div>
 </div>
+
+{{!-- jquery --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/selectChangeToInput.js"></script>

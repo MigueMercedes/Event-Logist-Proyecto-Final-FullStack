@@ -53,6 +53,18 @@ const validatedTrimString = (e) => {
     }
 };
 
+const getDataTypes = async () => {
+    try {
+        const response = await fetch('/data/types');
+        const data = await response.json();
+        const types = data.defaultTypesArray.article;
+        return types;
+    } catch (error) {
+        console.error('Error al hacer fetch:', error);
+        return [];
+    }
+};
+
 export {
     formatCurrency,
     getNumericValueFromInput,
@@ -60,4 +72,5 @@ export {
     validatedDate,
     validatedTrimString,
     validatedPhone,
+    getDataTypes,
 };

@@ -6,11 +6,25 @@ Handlebars.registerHelper('sum', (a, b) => {
     return Number(a) + Number(b);
 });
 
+// Registra el helper para realizar la multiplicación
+Handlebars.registerHelper('multiply', (a, b) => {
+    return Number(a) * Number(b);
+});
+
 // Registra el helper formatear a DOP
-Handlebars.registerHelper('formatCurrency', (valor) => {
+Handlebars.registerHelper('formatCurrencyDOP', (valor) => {
     const formatter = new Intl.NumberFormat('es-DO', {
         style: 'currency',
         currency: 'DOP',
+    });
+    return formatter.format(valor);
+});
+
+// Registra el helper formatear a moneda sin el nombre de la moneda
+Handlebars.registerHelper('formatCurrency', (valor) => {
+    const formatter = new Intl.NumberFormat('es-DO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
     });
     return formatter.format(valor);
 });
@@ -74,6 +88,11 @@ Handlebars.registerHelper('compare', function (lvalue, operator, rvalue, options
     } else {
         return options.inverse(this);
     }
+});
+
+// Registra el helper if basico
+Handlebars.registerHelper('eq', function (a, b) {
+    return a === b;
 });
 
 export { Handlebars };

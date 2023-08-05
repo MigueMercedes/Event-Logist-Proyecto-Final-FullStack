@@ -1,85 +1,137 @@
-<div class="row mt-3">
-    <div class="hide-on-print text-center mb-2">
-        <button class="btn btn-success btn-lg fw-bold" id="btn-print">
-            Imprimir
-        </button>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="invoice-title">
+                        <h4 class="float-end">
+                            <span class="badge ms-2
+        {{#if (eq presupuesto.statusPaid 'Pago')}}
+        bg-success
+        {{else}}
+        {{#if (eq presupuesto.statusPaid 'Pendiente')}}
+        bg-warning
+        {{else}}
+        bg-danger
+        {{/if}}
+        {{/if}}">
+                                {{presupuesto.statusPaid}}
+                            </span>
+                        </h4>
+
+                        <div class="mb-2">
+                            <h2 class="mb-3 text-muted text-capitalize fw-bold">FACTURACIÓN DE PRESUPUESTO</h2>
+                            <h5 class="mb-3">Creado por: {{dataUser.username}}</h5>
+                            <p class="mb-1">Correo: {{dataUser.email}}</p>
+
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="text-muted">
+                                <h5 class="mb-3">Presupuesto para: {{presupuesto.nameClient}}</h5>
+                                <p class="mb-1">Ubicacion: {{presupuesto.location}}</p>
+                                <p class="mb-1">Correo: {{presupuesto.email}}</p>
+                                <p>Telefono: {{presupuesto.phone}}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="text-muted text-sm-end">
+                                <div>
+                                    <h5 class=" mb-1">Numero de facturacion:</h5>
+                                    <p>#{{invoiceNumber}}</p>
+                                </div>
+                                <div class="mt-4">
+                                    <h5 class=" mb-1">Fecha de facturacion:</h5>
+                                    <p>{{invoiceDate}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="py-2">
+                        <h5 class="mb-2">Resumen</h5>
+
+                        <div class="table-responsive">
+                            <table class="table align-middle table-nowrap table-centered mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 50px;">#</th>
+                                        <th class="text-center">Descripcion</th>
+                                        <th class="text-center" style="width: 150px;">Precio Unitario</th>
+                                        <th class="text-center" style="width: 80px;">Cantidad</th>
+                                        <th class="text-center" style="width: 150px;">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each presupuesto.presupuestoData.typeArticle}}
+                                    <tr>
+                                        <td class="text-center" scope="row" class="border">
+                                            {{incrementIndex @index}}
+                                        </td>
+                                        <td class="border">
+                                            {{lookup ../presupuesto.presupuestoData.nameArticle @index}}
+                                        </td>
+                                        <td class="text-end border">
+                                            {{formatCurrency (lookup ../presupuesto.presupuestoData.price @index)}}
+                                        </td>
+                                        <td class="text-center border">
+                                            {{lookup ../presupuesto.presupuestoData.totalArticle @index}}
+                                        </td>
+                                        <td class="text-end border">
+                                            {{formatCurrency (multiply (lookup ../presupuesto.presupuestoData.price
+                                            @index) (lookup
+                                            ../presupuesto.presupuestoData.totalArticle @index))}}
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+
+                                    <tr>
+                                        <th scope="row" colspan="3" class="border-0 text-end">SubTotal :</th>
+                                        <td class="border-0 text-end" colspan="2">{{formatCurrencyDOP
+                                            presupuesto.subTotal}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row" colspan="3" class="border-0 text-end">
+                                            Itbis Total :</th>
+                                        <td class="border-0 text-end" colspan="2">{{formatCurrencyDOP
+                                            presupuesto.totalItbis}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row" colspan="3" class="border-0 text-end">
+                                            Descuento :</th>
+                                        <td class="border-0 text-end" colspan="2">{{formatCurrencyDOP
+                                            presupuesto.totalDiscount}}</td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <th scope="row" colspan="3" class="border-0 text-end">Monto Total :</th>
+                                        <td class="border-0 text-end" colspan="2">
+                                            <h4 class="m-0 fw-semibold">{{formatCurrencyDOP
+                                                presupuesto.totalAmount}}</h4>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-print-none mt-4">
+                            <div class="float-end">
+                                <a href="javascript:window.print()" class="btn btn-success me-1"><i
+                                        class="fa fa-print"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="row bg-light mx-auto shadow carta" id="toPrint">
-
-        <h2 class="fw-bold text-center my-1">PRESUPUESTO</h2>
-
-        <div class="mx-auto">
-            <h2 class="fs-4">Organizador:</h2>
-            <div class="d-flex flex-wrap justify-content-between border-top border-1 border-black mt-1">
-                <div class="col-6 mt-1">
-                    <p><strong>Nombre: </strong>{{presupuesto.createdBy}}</p>
-                    <p><strong>RNC: </strong> 4214211451</p>
-                </div>
-                <div class="col-6 mt-1">
-                    <p><strong>Dirección: </strong>123 av. Mella, Santo Domingo, Rep. Dom.</p>
-                    <p><strong>Teléfono: </strong>+1-829-299-2121</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="mx-auto">
-            <h2 class="fs-4">Cliente:</h2>
-            <div class="d-flex border-top border-1 border-black mt-1">
-                <div class="col-6 d-flex flex-column flex-wrap mt-1">
-                    <p><strong>Nombre: </strong>{{presupuesto.nameClient}}</p>
-                    <p><strong>Evento: </strong>{{presupuesto.nameActivity}}</p>
-                    <p><strong>Día: </strong>{{presupuesto.dateActivity}}
-                        {{presupuesto.timeActivity}}</p>
-                    <p><strong>Ubicación: </strong>{{presupuesto.location}}</p>
-                </div>
-                <div class="col-6 d-flex flex-column flex-wrap mt-1">
-                    <p><strong>Fecha de Impresión : </strong>{{presupuesto.nameActivity}}</p>
-                    <p><strong>Fecha de Emisión: </strong>{{presupuesto.location}}</p>
-                    <p><strong>Estado del Pago: </strong>{{presupuesto.statusPaid}}</p>
-                    <p><strong>Estado del Presupuesto: </strong>{{presupuesto.statusPresupuesto}}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="mx-auto mt-5">
-            <table class="table">
-                <thead class="bg-light">
-                    <tr>
-                        <th class="text-center">#</th>
-                        <th class="text-center">Tipo</th>
-                        <th class="text-center">Artículo</th>
-                        <th class="text-center">Cantidad</th>
-                        <th class="text-center">Precio</th>
-                        <th class="text-center">ITBIS</th>
-                        <th class="text-center">Descuento%</th>
-                        <!-- <th class="text-center">Total</th> -->
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each presupuesto.presupuestoData.typeArticle}}
-                    <tr>
-                        <td class="text-center">{{incrementIndex @index}}</td>
-                        <td>{{this}}</td>
-                        <td>{{lookup ../presupuesto.presupuestoData.nameArticle @index}}</td>
-                        <td class="text-end">{{lookup ../presupuesto.presupuestoData.totalArticle @index}}</td>
-                        <td class="text-end">{{lookup ../presupuesto.presupuestoData.price @index}}</td>
-                        <td class="text-end">{{lookup ../presupuesto.presupuestoData.itbis @index}}</td>
-                        <td class="text-end">{{lookup ../presupuesto.presupuestoData.porcentDiscount @index}}</td>
-                        <!-- <td class="text-end">{{lookup ../presupuesto.presupuestoData.totalPrice @index}}</td> -->
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-            <div class="mx-3 my-5">
-                <div class="d-flex flex-column text-end mt-auto">
-                    <p class="fw-bold">SubTotal: {{formatCurrency presupuesto.subTotal}}</p>
-                    <p class="fw-bold">ITBIS Total: {{formatCurrency presupuesto.totalItbis}}</p>
-                    <p class="fw-bold">Descuento Total: {{formatCurrency presupuesto.totalDiscount}}</p>
-                    <p class="fw-bold">Monto Total: {{formatCurrency presupuesto.totalAmount}}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="/js/print.js"></script>
 </div>

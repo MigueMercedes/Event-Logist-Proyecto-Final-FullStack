@@ -1,11 +1,11 @@
-const presupuestoDefaultTypes = {
+const defaultTypesArray = {
     activity: [
         'Boda',
         'Cumpleaños',
         'Conferencia',
         'Feria',
         'Exposicion',
-        'Comporativo',
+        'Corporativo',
         'Gala',
         'Festival',
         'Concierto',
@@ -60,4 +60,4 @@ const presupuestoDefaultTypes = {
     statusPaid: ['Pago', 'Pendiente', 'No Pago'],
 };
 
-export { presupuestoDefaultTypes, proveedorDefaultTypes };
+export default defaultTypesArray;

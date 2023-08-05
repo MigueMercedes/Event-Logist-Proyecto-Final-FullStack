@@ -17,7 +17,7 @@
                             <label for="typeActivity">Tipo de evento</label>
                             <select class="form-select" name="typeActivity" required>
                                 <option value="" disabled selected>Selecciona uno</option>
-                                {{#each presupuestoDefaultTypes.activity}}
+                                {{#each defaultTypesArray.activity}}
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
                             </select>
@@ -64,7 +64,7 @@
                             <label for="statusPresupuesto">Estado del presupuesto</label>
                             <select class="form-select" name="statusPresupuesto" required>
                                 <option value="" disabled selected>Selecciona uno</option>
-                                {{#each presupuestoDefaultTypes.statusPresupuesto}}
+                                {{#each defaultTypesArray.statusPresupuesto}}
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
                             </select>
@@ -73,7 +73,7 @@
                             <label for="statusPaid">Estado de pago</label>
                             <select class="form-select" name="statusPaid" required>
                                 <option value="" disabled selected>Selecciona uno</option>
-                                {{#each presupuestoDefaultTypes.statusPaid}}
+                                {{#each defaultTypesArray.statusPaid}}
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
                             </select>
@@ -110,7 +110,7 @@
                                     <td>
                                         <select class="form-select typeArticle" name="typeArticle[]" required>
                                             <option value="" selected disabled>Selecciona uno</option>
-                                            {{#each presupuestoDefaultTypes.article}}
+                                            {{#each defaultTypesArray.article}}
                                             <option value="{{this}}">{{this}}</option>
                                             {{/each}}
                                         </select>
@@ -169,3 +169,7 @@
         </div>
     </div>
 </div>
+
+{{!-- jquery --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/selectChangeToInput.js"></script>

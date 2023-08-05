@@ -1,39 +1,27 @@
-/* Estilos para impresión */
 @media print {
-    * {
-        visibility: hidden;
+    body {
+        margin-top: 20px;
+        background-color: #eee;
+    }
+
+    .card {
+        box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+    }
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid rgba(0, 0, 0, 0.125);
+        border-radius: 1rem;
+    }
+    .container {
         margin: 0;
-    }
-
-    #toPrint,
-    #toPrint * {
-        visibility: visible;
-        font-size: 12px;
-        margin: 0;
-    }
-
-    /* Tamaño de página y márgenes */
-    @page {
-        size: letter;
-        margin: 0;
-    }
-
-    /* Opcional: ocultar el botón de impresión en la vista de impresión */
-    .hide-on-print {
-        display: none;
-    }
-
-    /* Añadir un borde para identificar el límite de la página en la vista de impresión */
-    #toPrint {
-        width: 95% !important;
-        height: 100% !important;
-        border: 1px solid #000 !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-    }
-    #toPrint p {
-        font-size: 12px !important;
+        padding: 0;
+        min-width: 100%;
+        min-height: 100%;
     }
 }

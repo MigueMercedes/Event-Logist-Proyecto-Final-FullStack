@@ -15,6 +15,7 @@ import indexRoutes from './routes/index.routes.js';
 import userRoutes from './routes/auth.routes.js';
 import proveedoresRoutes from './routes/proveedores.routes.js';
 import presupuestoRoutes from './routes/presupuesto.routes.js';
+import dataTypes from './routes/dataTypes.routes.js';
 import './config/passport.js';
 
 // Initializations
@@ -30,7 +31,7 @@ const hbs = exphbs.create({
     defaultLayout: 'main',
     layoutsDir: join(app.get('views'), 'layouts'),
     partialsDir: join(app.get('views'), 'partials'),
-    extname: '.hbs'
+    extname: '.hbs',
 });
 app.engine('.hbs', hbs.engine);
 app.set('view engine', '.hbs');
@@ -44,7 +45,7 @@ app.use(
         secret: 'secret',
         resave: true,
         saveUninitialized: true,
-        store: MongoStore.create({ mongoUrl: MONGODB_URI })
+        store: MongoStore.create({ mongoUrl: MONGODB_URI }),
     })
 );
 app.use(passport.initialize());
@@ -61,7 +62,7 @@ app.use((req, res, next) => {
     res.locals.helpers = {
         incrementIndex: function (index) {
             return index + 1;
-        }
+        },
     };
     next();
 });
@@ -71,6 +72,7 @@ app.use(indexRoutes);
 app.use(userRoutes);
 app.use(proveedoresRoutes);
 app.use(presupuestoRoutes);
+app.use(dataTypes);
 // static files
 app.use(express.static(join(__dirname, 'public')));
 
@@ -81,7 +83,7 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
     res.render('error', {
-        error
+        error,
     });
 });
 

@@ -1,4 +1,4 @@
-import { formatCurrency, getNumericValueFromInput } from './functions.js';
+import { formatCurrency, getNumericValueFromInput, getDataTypes } from './functions.js';
 
 // Variables globales
 let subTotal;
@@ -190,7 +190,7 @@ function updateRowIndices() {
 }
 
 // Función para agregar filas dinámicamente
-function createDinamicTableRow() {
+async function createDinamicTableRow() {
     // Crear elementos
     const tr = document.createElement('tr');
     tr.classList.add('align-middle');
@@ -201,19 +201,7 @@ function createDinamicTableRow() {
     select.name = 'typeArticle[]';
     select.required = true;
 
-    const options = [
-        'Comida',
-        'Bebida',
-        'Decoracion',
-        'Sonido',
-        'Pantalla',
-        'Luces',
-        'Personal',
-        'Servicios',
-        'Centros de Mesa',
-        'Vestimenta',
-        'Invitaciones',
-    ];
+    const options = await getDataTypes();
 
     const defaultOption = document.createElement('option');
     defaultOption.value = '';

@@ -1,12 +1,12 @@
 import Proveedor from '../models/Proveedor.js';
 import noRepeatTypes from '../helpers/noRepeatTypes.js';
 import capitalizeEachWord from '../helpers/capitalizeEachWord.js';
-import { proveedorDefaultTypes } from '../helpers/defaultTypes.js';
+import defaultTypesArray from '../models/defaultTypes.js';
 import { Handlebars } from '../helpers/hbs.js';
 
 export const renderProveedores = async (req, res) => {
     const username = req.user.name.split(' ', 1);
-
+    const categoryDefault = defaultTypesArray.article;
     try {
         const proveedores = await Proveedor.find({ user: req.user.id })
             .sort({ updatedAt: 'desc' })
@@ -17,7 +17,7 @@ export const renderProveedores = async (req, res) => {
             page: 'Proveedores',
             username,
             isProveedores: true,
-            proveedorDefaultTypes,
+            categoryDefault,
         });
     } catch (error) {
         console.log(error);
@@ -25,10 +25,12 @@ export const renderProveedores = async (req, res) => {
 };
 
 export const renderProveedorForm = (req, res) => {
+    const categoryDefault = defaultTypesArray.article;
+
     res.render('proveedores/new-proveedor', {
         page: 'Nuevo Proveedor',
         isProveedores: true,
-        proveedorDefaultTypes,
+        categoryDefault,
     });
 };
 
@@ -59,7 +61,7 @@ export const renderEditForm = async (req, res) => {
         const proveedor = await Proveedor.findById(req.params.id).lean();
 
         //Revisa si se encuentra el valor repetido y eliminar los valores duplicados
-        const category = noRepeatTypes(proveedorDefaultTypes, proveedor.category);
+        const category = noRepeatTypes(defaultTypesArray.article, proveedor.category);
         proveedor.category = category;
 
         if (proveedor.user != req.user.id) {
