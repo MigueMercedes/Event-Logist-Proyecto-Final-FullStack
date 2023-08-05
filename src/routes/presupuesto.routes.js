@@ -9,6 +9,7 @@ import {
     updatePresupuesto,
     deletePresupuesto,
     renderDashboard,
+    copyPresupuesto,
 } from '../controllers/presupuesto.controllers.js';
 import { isAuthenticated } from '../helpers/auth.js';
 
@@ -35,5 +36,6 @@ router.delete('/presupuesto/delete/:id', isAuthenticated, deletePresupuesto);
 
 //Print Presupuesto
 router.get('/presupuesto/print/:id', isAuthenticated, renderPrintPresupuesto);
+router.post('/presupuesto/print/:id', isAuthenticated, copyPresupuesto);
 
 export default router;

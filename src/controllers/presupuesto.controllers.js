@@ -111,6 +111,18 @@ export const renderPrintPresupuesto = async (req, res) => {
     }
 };
 
+export const copyPresupuesto = async (req, res) => {
+    try {
+        const presupuesto = await Presupuesto.findById(req.params.id);
+        const copyPresupuesto = new Presupuesto(presupuesto.toJSON()); // Crea una copia con los mismos datos
+        copyPresupuesto._id = null; // Establece el _id en null para que se genere uno nuevo
+        await copyPresupuesto.save();
+        res.redirect('/presupuesto/all-presupuesto');
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const renderPresupuestoForm = async (req, res) => {
     try {
         const createdBy = req.user.name;
