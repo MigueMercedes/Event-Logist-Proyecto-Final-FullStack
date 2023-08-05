@@ -1,4 +1,4 @@
-import { formatCurrency, getNumericValueFromInput, getDataTypes } from './functions.js';
+import { formatCurrency, getNumericValueFromInput } from './functions.js';
 
 // Variables globales
 let subTotal;
@@ -201,7 +201,50 @@ async function createDinamicTableRow() {
     select.name = 'typeArticle[]';
     select.required = true;
 
-    const options = await getDataTypes();
+    const options = [
+        'Alquiler de Equipos',
+        'Animación',
+        'Asesoría',
+        'Audiovisuales',
+        'Barra de Bebidas',
+        'Bebidas',
+        'Carpas y Toldos',
+        'Catering',
+        'Centros de Mesa',
+        'Comida',
+        'Cristalería',
+        'Decoración',
+        'Diseño Gráfico',
+        'Efectos Especiales',
+        'Entretenimiento',
+        'Escenografía',
+        'Espacios de Eventos',
+        'Fotografía',
+        'Flores',
+        'Hospedaje',
+        'Iluminación',
+        'Impresión',
+        'Invitaciones',
+        'Logística',
+        'Mesas',
+        'Mobiliario',
+        'Música',
+        'Personal de Apoyo',
+        'Postres',
+        'Publicidad',
+        'Regalos y Recuerdos',
+        'Seguridad',
+        'Seguro de Eventos',
+        'Sillas',
+        'Sonido',
+        'Tortas',
+        'Traducción',
+        'Transporte',
+        'Vajilla',
+        'Vestimenta',
+        'Video',
+        'Otro',
+    ];
 
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
