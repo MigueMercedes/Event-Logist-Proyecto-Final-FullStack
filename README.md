@@ -63,7 +63,7 @@ Si deseas contribuir a este proyecto, ¡eres bienvenido! Puedes realizar un fork
 
 ## Licencia
 
-Este proyecto está bajo la Licencia ISC. Para más detalles, consulta el archivo [LICENSE](LICENSE).
+Este proyecto está bajo la Licencia ISC.
 
 ---
 
