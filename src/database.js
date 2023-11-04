@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { MONGODB_URI } from "./config.js";
 
 try {
-    const db = await mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    const db = await mongoose.connect("mongodb+srv://root:root@proyectfullstack.sfl7e25.mongodb.net/?retryWrites=true&w=majority");
     console.log("Connected to", db.connection.name);
 } catch (error) {
     console.error(error);
