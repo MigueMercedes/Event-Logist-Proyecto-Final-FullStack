@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { API_URL } from "./config.js";
+import { MONGODB_URI } from "./config.js";
 
 try {
-    const db = await mongoose.connect(API_URL);
+    const db = await mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log("Connected to", db.connection.name);
 } catch (error) {
     console.error(error);
